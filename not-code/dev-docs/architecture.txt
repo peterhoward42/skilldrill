@@ -1,0 +1,48 @@
+
+                                Architecture
+
+                    Taxonomy Web App With Golang Backend
+
+--------------------------------------------------------------------------------
+
+PACKAGES BRAINSTORM
+
+    o  Skeleton
+    o  Data Model
+    o  Commands
+    o  Users And Auth
+    o  Persistence
+    o  View Model
+    o  View Controller (or MVVM?)
+    o  Sessions and UXP state
+    o  CV upload / download
+    o  Runtime file system awareness
+    o  Login UXP
+    o  View model
+    o  HTML and Templates
+    o  Style
+    o  Client side JS
+    o  Backup / Restore
+    o  Notification / email
+    o  Logging
+    o  Non app utils
+    o  Admin functions / priviliges
+    o  Client Server reln
+    o  Concurrency and db
+    o  User separation and state
+    o  URLs and routing
+
+USE CASES
+
+    o  Expand node in tree
+    o  Click on info link from skill
+    o  Edit skill description
+    o  Subscribe to skill
+    o  Login in / out / authenticatate
+    o  Click on home link from skill page
+    o  Navigate to add skill screen
+    o  Add a skill
+    o  Ask to email people
+    o  Upload CV
+    o  Ask for CV download
+    o  Backup and restore

@@ -1,0 +1,248 @@
+
+                                    CLASS DESIGN
+
+
+
+
+-------------------------------------------------------------------------------
+MODEL PACKAGE
+-------------------------------------------------------------------------------
+
+model.TopLevel
+
+    Responsibility: A top-level container that provides a single entity in which
+                    to house the model objects described below. Offers
+                    serialisation to and from JSON format.
+
+    Exposes:        Little
+
+    Implementation: Simple struct.
+                    Serialisation is achieved by recursive delegation.
+
+
+model.Uid
+
+    Responsibility: Is in charge of allocating new UIDs to callers on demand 
+                    per category (e.g. Skill | Person)
+        
+    Exposes:        Issuing service for new objects (issues new UID).
+
+    Implementation: Keeps track of the highest UID used so far for each type of
+                    thing (skill, person etc), and issues new ones by
+                    continuously incrementing these values.
+
+    Notes:          All other things being equal we would prefer to model 
+                    relationships between our objects in memory solely using 
+                    pointers. However we need non-pointer identifiers for 
+                    both serialisation and for URL encoding. So if we
+                    accept that they must exist for these purposes then it is
+                    better to use them to model relationships in memory as well,
+                    because if we introduce pointers as well, then we are
+                    duplicating data, which would be a design smell.
+
+
+model.Skill
+
+    Responsibility: Models a single skill with a name, descriptiption, UID
+                    etc. The definition is not stand-alone. It is in the context 
+                    of its parent category.
+        
+    Exposes:        Public data fields.
+                    Its parent category (UID)
+
+    Implementation: Simple struct.
+                    The decision to make skills hold their own parent linkage
+                    relationship is because the skill's definition is only valid
+                    in the context of the parentage and is in that sense
+                    dependent on the parentage.
+
+
+model.Category
+
+    Responsibility: A Category for skills (or sub categories) to belong to.
+        
+    Exposes:        A description, that is only expected to make sense in the
+                    context it lives in inside the hierachy.
+                    Own UID.  Parent / child UIDs.
+
+    Implementation: Simple struct.
+
+
+model.Person
+
+    Responsibility: Models a pre-registered consumer of the system. In terms of
+                    email address, UID, and set of skill UIDs.
+        
+    Exposes:        All fields.
+
+    Implementation: Simple struct.
+
+
+model.UiState
+
+    Responsibility: Holds a state that the UXP should be in. E.g.
+                    Which nodes of the taxonomy tree are collapsed.
+                    This is in model space - the UXP is an abstraction.
+
+    Exposes:        A state model tbd.
+
+    Implementation  Tbd.
+
+
+model.UiBehaviour
+
+    Responsibility: Owns UXP cause and effect logic. E.g. extrapolation of tree
+                    expand / collapse, and inter-page navigation.
+
+    Exposes:        Helper functions.
+
+    Implementation  tbd.
+
+
+model.PersonsUiState
+
+    Responsibility: Holds separate UiState on a per person basis.
+                    This is in model space - the UXP is an abstraction.
+
+    Exposes:        A map of UiState keyed by person.
+
+    Implementation  Map.
+
+
+model.Api
+
+    Responsibility: Provides the public API for CRUD operations on the models.
+
+    Exposes:        A set of command APIs.
+
+    Implementation  tbd
+
+
+-------------------------------------------------------------------------------
+SERVER PACKAGE
+-------------------------------------------------------------------------------
+
+
+server.Server
+
+    Responsibility: Entry point / main for the server app.
+
+    Exposes:        The main function entry point.
+
+    Implementation  Trad.
+
+
+server.Config
+
+    Responsibility: Holds any global server config required - hiding the details
+                    of how it got specified.
+
+    Exposes:        Look up fields.
+
+    Implementation  tbd.
+
+
+server.Router
+
+    Responsibility: Routes request URLs to handlers.
+
+    Exposes:        A route method.
+
+    Implementation  Probably the golang router as-is.
+
+
+server.UrlCodec
+
+    Responsibility: Knows how encode and decode model space data to and from URL
+                    requests. E.g. some numbering system for skill
+                    identification.
+
+    Exposes:        Encode / Decode methods.
+
+    Implementation  tbd.
+
+
+server.Handlers
+
+    Responsibility: Entry points for routed and decoded requests.
+
+    Exposes:        Set of handling functions.
+
+    Implementation  Will follow a pattern that wraps evaluating and returning a
+                    response with logging and model persist mandates.
+
+server.log.Requests
+
+    Responsibility: Offers to log html requests with automated housekeeping.
+
+    Exposes:        Api
+
+    Implementation  Thin wrapper around Golang's native logger.
+
+
+server.log.Commands
+
+    Responsibility: Offers to log access at semantic level.
+
+    Exposes:        Api
+
+    Implementation  Thin wrapper around Golang's native logger.
+
+
+server.Auth
+
+    Responsibility: Authenticates users somehow.
+
+    Exposes:        tbd
+
+    Implementation  tbd
+
+
+-------------------------------------------------------------------------------
+HTML PACKAGE
+-------------------------------------------------------------------------------
+
+html.pages.PageXXX
+
+    Responsibility: Knows how to create the given html page.
+
+    Exposes:        Page creator / writer.
+
+    Implementation  Will exploit sub modules in this package and of
+                    course templating.
+                    Will hard-code templates in-situ.
+
+
+html.cookie
+
+    Responsibility: Coded for cookies.
+
+    Exposes:        Format / parse functions from/to model space.
+
+    Implementation  tbd.
+
+-------------------------------------------------------------------------------
+DATA PACKAGE
+-------------------------------------------------------------------------------
+
+data.Persist
+
+    Responsibility: An interface for a component that is willing to persist a
+                    given top level model, and (reciprocally) to build one from
+                    persistent storage.
+
+    Exposes:        Save/Retrieve methods.
+
+    Implementation: Implementors will likely have dependency injected serialisers
+                    and reader/writers.
+
+data.Backup
+
+    Responsibility: Observes time intervals (daily?) and when so triggered, is
+                    willing to export a persisted model.
+
+    Exposes:        Nothing; it observes.
+
+    Implementation: tbd
+
+-------------------------------------------------------------------------------

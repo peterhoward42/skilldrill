@@ -1,0 +1,22 @@
+
+                                    Story Brainstorm
+
+-------------------------------------------------------------------------------
+
+o  Bootstrap hello from repo
+o  Hosted equiv with install instructions works
+o  Core models and unit tests
+o  User authentication
+o  Skill page with description edit and opt in and out
+o  Add skill UXP
+o  Test data generator and config option
+o  User state model maintenance
+o  Hierachy tree view with expand collapse
+o  Admin user
+o  Logging
+o  Alerts
+o  CV upload
+o  Search in tree
+o  email these people
+o  CV download
+o  Refactor commands / admin tool

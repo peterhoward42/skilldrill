@@ -1,0 +1,65 @@
+UXP As Text
+--------------------------------------------------------------------------------
+
+LOGIN / AUTHENTICATION
+
+    o  First visit to home URL
+        o  Dedicated screen asks for your altran email address only, then tells
+           you a welcome email been sent with link you must click to get in.
+        o  When you click the link you are taken straight to home page, with
+           logged in as 'fred' content.
+    o  Subsequent visits (from same device) to all URLs let you straight in.
+    o  Put in a log out button somewhere to revert to first visit situation.
+
+TAXY SCREEN
+
+    o  Single menu button in header (see menu)
+    o  Mostly the taxonomy (taxy) as a hierachical table.
+    o  Long vertical scroll.
+    o  Each item has small number of cmd icons
+        o  Count
+        o  More
+        o  You reg here
+    o  More takes you to skill screen
+    o  Taxy also shows distinction between folders and docs
+    o  Folders maybe collapsed and expanded
+    o  Filter button in header
+        o  Filter is always active
+        o  Empty filter is null filter
+        o  When filter not empty - have banner saying including only skills
+           containing these words
+
+SKILL SCREEN
+    o  Single menu button in header (see menu)
+    o  Description text
+    o  Edit description
+    o  Make new taxy entry below this one (baby)
+    o  Tick box for I have this skill
+    o  People who have this skill
+    o  Email these people
+    o  See these peoples' CVs
+    o  Back to taxy screen
+
+MENU
+    o  Upload cv
+    o  Admin functions -> dedicated screen
+    o  Make suggestion
+    o  Login as someone else
+
+ADD SKILL SCREEN
+
+    o  You are adding to blah (or back)
+    o  Read these guidelines below please
+    o  Enter new leaf
+
+ADMIN SCREEN
+    o  Remove a skill
+    o  Move or rename a skill
+    o  Manage admin email addresses
+    o  Subscribe to edit notifications
+    o  Subscribe to model back ups
+    o  Upload backup to replace datastore
+    o  Send message to all subscribers
+
+
+

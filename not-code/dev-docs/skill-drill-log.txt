@@ -1,0 +1,15 @@
+
+                                    Skill Drill Log
+
+-------------------------------------------------------------------------------
+
+*  Define requirements
+*  Design UXP
+*  Design architecture
+*  Design roadmap
+o  Initiate project
+    *  Create github repo
+    *  Clone locally
+    o  Move this and docs into it
+    o  Delete old version of this
+o  Do min bootstrap svr from real repo based on experiment

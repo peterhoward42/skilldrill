@@ -1,0 +1,72 @@
+Skill Drill - Requirements
+
+21st Dec 2014
+---------------------------------------------------------------------------------
+
+EXPLORING TAXONOMY
+
+    o  See as structure
+    o  Discriminate between categories and actual skills
+    o  Search
+    o  With description
+
+IDENTITIES
+
+    o  Altran email addresses
+
+SEEING WHO HAS SKILLS
+
+    o  See who has each skill by name or email and biz unit
+    o  Aggregate up the hierachy
+
+COMMUNICATING WITH SKILL HOLDERS
+
+    o  Easy to email people with a skill
+
+CVS
+
+    o  Engineer can upload cv
+    o  You can see which people have cvs uploaded
+    o  You can download cvs of people with a skill
+
+RIGHTS AND ROLES
+
+    o  Flat for users
+    o  Password protected admin functions
+
+DATA MAINTENANCE
+
+    o  Anyone can add to the taxonomy
+    o  Person can claim or reject skills
+    o  Person can see their own skills
+    o  Admin can move and refactor taxonomies which alerts adder
+
+TAXONOMY QUALITY
+
+    o  Guidelines available
+
+ACCESS UXP
+
+    o  Responsive to device size
+    o  Very simple
+    o  People must only be required to authenticate once on each device
+    o  People must be able to register themselves
+    o  Browser back button must work
+    o  Page revisits must sustain context state
+
+BACK OFFICE
+
+    o  Must create persistent logs of user events
+    o  Admin can subscribe to access event emails
+    o  Dump of data model available
+
+SECURITY AND RESILIENCE
+
+    o  Auto back up of data
+    o  Feature to reinstate backed up data
+
+FUTURE PROOFING
+
+    o  Must be able to alter data model in future whilst preserving existing
+       data
+    o  Easy way to refactor taxon and move people's registration

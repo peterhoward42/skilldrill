@@ -1,0 +1,89 @@
+Dev Ops, Hosting, Naming etc
+----------------------------
+
+Positioning as open source
+
+    It is a web-app for a group of professionals in an organisation to share
+    information about the skills they hold collectively. For example a group of
+    engineers in a company could use it to publish (internally) which particular
+    engineering specialisms are held by which people.
+
+    you can view the hier, search, see which people are registered with each
+    skill, grab email addr of all people with skill x, get zip download of cv of
+    all people with skill x
+
+    everything self service - to remove all maint bottlenecks and resistance
+        users reg selves against skills
+        users create, add, refine skill hier themselves
+            (optional email alerts of changes to admin user)
+        users opt upload cv
+
+    admin user has special rights - like housekeeping taxon, e.g. refactoring the
+    taxon if/when required.
+
+    access only to people with email address at your co - sends once only log in 
+    creds to this addr
+
+    emph on removing many poss obstacles to use to get take up from users
+        phone friendly gui for inst acc
+        one shot auth - then no auth gateways
+
+    v simple deploy on server - one exe IS the server/app
+
+    auto optional backup of data as zip file to email addr
+
+    creates log of user actions - who did what / when, with optionally email
+    alerts also to nom people.
+
+    Techno perspective
+
+        Server written in go / golang. (refs)
+        Because is Go, Builds v easily Linux or Windows into simple statically 
+        linked, single exe.  With no runtime dependencies.
+        Requires no db or third party lib installation - self contained - 
+        data stored server side as single text file.
+        GUI adapts to phone/tab/laptop etc auto courtesy Bootstrap CSS.
+        Trad server side gen html - v light and minimal client side js.
+
+        Carefully designed aiming to be easy to understand to new dev and easy to
+        change / evolve, and to be built from . Quite small. Only n
+        sloc. Full code doc and unit tests.
+
+        Check out sw design / code review here.
+
+    Check out video or sandpit version here / here.
+
+    Check out how to install here.
+
+
+Which licence?
+
+    o  Choice + raison detre = MIT because liberal
+    o  Need for statement thereof in code - put license.txt in root
+
+If hosted at github what can it include?
+
+    Defer
+
+Repo and project naming?
+
+    github.com/peterhoward42/skilldrill/
+        readme.md
+        license.txt
+        package1-dir
+        package2-dir
+        package3-dir
+        not-code
+            data/
+            docs/
+            media/
+
+
+Identities, plus Acknowledging me and Altran
+
+    Put int about me in github
+
+
+What is practical configuration landscape?
+
+    o  Have config package / module and compile everything in

@@ -1,0 +1,80 @@
+
+                                DESIGN EXPLORATION
+
+-------------------------------------------------------------------------------
+
+Back End Model Division
+
+    Skills are concrete. These are what people can have. The tree provides a
+    hiearchy for them to live in as leaf entities. We share a model for
+    formatting and scanning paths and leaves in the tree as concatenated strings.
+
+    Then we have people who have an email stub. The app has a global
+    configuration for the organisation email address. People have skill claims,
+    which are a list of references to skills.
+
+    Then we have an app state which is maintained separately for each user.
+
+Use Case: User Clicks On Tree Expand
+
+    Server side logic. Expand icon is href that url encodes which skill.
+    Implies url decoder with skill url validator.
+    Server has router that chooses response handler. Response handler responsible
+    for dealing with entire request. Delegates in this case to user state model 
+    to keep track of user's interaction state. Also delegates to persister to
+    update persistent storage thus (async).
+
+    Implies knowledge of user id incoming from request. OK, get from cookie.
+
+    Having updated model, asks page maker to generate taxon tree page based on
+    latest model. Then returns updated html as response to request.
+
+    The page maker will need to know:
+        o  Tree like structure
+        o  Node expansion / collapse
+        o  Number of users having each skill
+        o  If this user has skill
+
+    To get the browser to load the refreshed page at an unchanged scroll
+    position, each line in the taxon should have an id attribute, and this can
+    be used as part of the link to stimulate the correct browser scroll.
+
+    There will be tree expand and collapse rules or policies. This could be
+    isolated.
+
+    Implies a collection of user states. Implies a model for one user's state.
+
+Use Case: Click Info Link From Skill
+
+    Link will be href to skill page, with the skill url encoded.
+    Needs to access skills by user or users-skills to see if this user has this
+    skill. The checkbox for I have this skill will be set accordingly.
+    Delegate html generation to page maker.
+
+Use Case: Edit skill description
+
+    The link taking you to the page conveys the skill. Hence the router takes the
+    server to a handler. The handler genrates the html to return which includes a
+    form. The form submit handler conveys the new description. The router takes
+    the server to a change description submit handler. All edits are handled by
+    api calls into the relevant part of the model, AND a persist mandate.
+
+Use Case: Logging
+
+    All accesses are logged to a request logger that includes user name and url.
+    All commands are logged similarly in the same log file but prefixed
+    differently.
+
+    It seems likely that many handlers will follow a pattern that can be used as
+    a gateway - i.e. extract cookie data, do op in memory model, mandate 
+    persist and log, return response.
+
+    Use built in log filename gen or make sys to do. To separate weeks.
+
+Use Case: Backup and restore
+
+    We can have a go-routine launched when the server boots, whose job it is to
+    block waiting for timed intervals, and when these occur, to backup. Use the
+    time package.
+
+global services / SOA ?
