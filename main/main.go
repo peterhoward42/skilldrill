@@ -16,7 +16,7 @@ var htmlTemplate *template.Template
 func main() {
 	htmlTemplate = template.Must(template.New("fred").Parse(htmlSource))
 	http.HandleFunc("/", myHandler)
-	http.ListenAndServe(":9876", nil)
+	http.ListenAndServe(":12571", nil)
 }
 
 //----------------------------------------------------------------------------

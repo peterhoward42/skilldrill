@@ -14,16 +14,12 @@
     *  Delete old version of this
 *  Do min bootstrap svr from real repo based on experiment
     *  Reinstall go from binary distro :-(
-    o  Set up workspace properly
-        *  Set up c/go-ws/bin pkg and src
-        *  put sub dir in src github.com/peterhoward42
-        *  set gopath to c/go-ws
-        o  clone repo to peterhoward42/skilldrill
-        o  does it work?
-        o  ditch old c/repos/go
-        o  does it still work?
+    *  Set up workspace properly and prove
     o  Return to webfaction experiment
-    o  hello world on webfaction
+        *  hello world on webfaction
+        *  finish setup of custom web app on wf
+        o  modify and commit changes needed to port etc
+        o  try clone/build/run
 
 o  Try build from source on lappy to provide for x compile
     *  Uninstall from control panel
@@ -34,6 +30,7 @@ o  Try build from source on lappy to provide for x compile
             *  Install mingw
     o  Get existing code to work from this build
     o  Now try hello world x compile for webfaction arch
+
 o  Remove go from webfaction if x compile works
 
 

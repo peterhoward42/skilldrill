@@ -32,4 +32,6 @@ CUSTOM APP
     o  Set up custom app listening on port in control panel.
     o  Note assigned port number.
     o  In my example case it is: 12571
+    o  Bind to website and domain
+    o  In my case skilldrill.wim42.webfactional.com
 
