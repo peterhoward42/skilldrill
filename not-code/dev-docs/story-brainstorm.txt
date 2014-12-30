@@ -3,9 +3,27 @@
 
 -------------------------------------------------------------------------------
 
-o  Bootstrap hello from repo
+*  Bootstrap hello from repo
 o  Hosted equiv with install instructions works
+    o  First install go on server
+        o  Init notes
+        o  Read: http://jessekallhoff.com/2013/04/04/up-and-running-with-go-on-webfaction/
+        o  Bug cf latest go install instructions
+    o  What mods to work hosted?
+        o  Read webfaction guide
+    o  Do them local
+    o  On server
+        o  Make notes as go
+        o  Clone on cmd line in faction?
+        o  Go installed?
+        o  Go env variable set
+        o  Build ok?
+        o  Run ok?
+        o  Work ok?
+        o  Tidy deploy docco
+        o  Check in
 o  Core models and unit tests
+o  Obvious sub systems, utils, dependencies
 o  User authentication
 o  Skill page with description edit and opt in and out
 o  Add skill UXP

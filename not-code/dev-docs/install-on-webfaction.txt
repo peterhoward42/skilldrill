@@ -1,0 +1,35 @@
+
+                        Installation on Webfaction
+
+--------------------------------------------------------------------------------
+
+ESSENCE
+        o  In essence...
+        o  Install Mercurial and modify our .bash_profile
+        o  Use Mercurial to pull the latest Go source
+        o  Compile the source with passing unit tests!
+        o  Setup your initial GOPATH workspace
+        o  Add a custom Webfaction application to secure an available port
+        o  Add a super simple helloworld.go web application and run it!
+        o  Finally, point a Webfaction website to your new Go web application!
+
+INSTALLING GO LANGUAGE
+
+    o  At time of writing (Dec 2014), you need to install from source...
+    o  Follow: https://golang.org/doc/install/source
+    o  And: 
+    http://jessekallhoff.com/2013/04/04/up-and-running-with-go-on-webfaction/
+
+    Build test problems encountered:
+
+        o  2 (fixable) Test failures...
+        o  See my contribution to webfaction community here:
+            https://community.webfaction.com/questions/...
+            ... 16937/cannot-build-golang-from-source
+
+CUSTOM APP
+
+    o  Set up custom app listening on port in control panel.
+    o  Note assigned port number.
+    o  In my example case it is: 12571
+
