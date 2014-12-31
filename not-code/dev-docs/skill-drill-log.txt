@@ -20,15 +20,19 @@ o  Try build from source on lappy to provide for x compile
     *  Test local go src build
     o  Now try hello world x compile for webfaction arch
         *  Read about x compile
-        o  X compile attempt
+        *  X compile attempt
             *  davecheney script doesn't work because it says for every
                call to something.bash - don't use this, use something.bat
                instead on Windows.
-            o  how about manually?
-                o  What is the procedure? / env vars etc
-        o  Write hello or resurrect
-        o  Copy to web and see if works
-    o  Remove go from webfaction if x compile works
+            *  how about manually?
+                *  What is the procedure? / env vars etc
+        *  X-compile trivial existing server 
+        *  ftp up
+        *  chmod777
+        *  run it
+        *  visit the page
+        *  just works !
+    o  Remove go completely from webfaction if x compile works
 
 
 -------------------------------------------------------------------------------

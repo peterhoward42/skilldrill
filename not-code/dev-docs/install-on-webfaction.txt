@@ -47,4 +47,20 @@ TEST BUILD / RUN SERVER
 
 ALTERNATIVE
 
-    o  Try cross compile on Windows to run on Webfaction
+    o  Try cross compile on Windows to run on Webfaction server
+
+    o  Environment variable requirements
+        o  Values are taken from attempt to build from source on real
+           Webfaction machine
+
+        o  GOOS = linux
+        o  GOARCH = 386
+        o  CGO_ENABLED = 1 // won't compile so changed to 0
+        o  GOARM (not set)
+
+    o  Set these in a dos shell, then run all.bat in same shell.
+    o  Just works!
+    o  Do go install to get progs in sensible places
+    o  ftp file to webfaction
+    o  chmod it 777
+    o  it just works
