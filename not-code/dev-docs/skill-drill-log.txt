@@ -15,9 +15,19 @@
 *  Do min bootstrap svr from real repo based on experiment
 o  Try build from source on lappy to provide for x compile
     *  Get fresh build to work from source
-    o  Set path and env vars to suit
-    o  Test local go src build
+    *  Set path to suit
+    *  Set Go env vars to suit
+    *  Test local go src build
     o  Now try hello world x compile for webfaction arch
+        *  Read about x compile
+        o  X compile attempt
+            *  davecheney script doesn't work because it says for every
+               call to something.bash - don't use this, use something.bat
+               instead on Windows.
+            o  how about manually?
+                o  What is the procedure? / env vars etc
+        o  Write hello or resurrect
+        o  Copy to web and see if works
     o  Remove go from webfaction if x compile works
 
 
