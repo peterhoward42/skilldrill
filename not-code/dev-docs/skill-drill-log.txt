@@ -18,7 +18,7 @@ o  Try build from source on lappy to provide for x compile
     *  Set path to suit
     *  Set Go env vars to suit
     *  Test local go src build
-    o  Now try hello world x compile for webfaction arch
+    *  Now try hello world x compile for webfaction arch
         *  Read about x compile
         *  X compile attempt
             *  davecheney script doesn't work because it says for every
@@ -32,7 +32,10 @@ o  Try build from source on lappy to provide for x compile
         *  run it
         *  visit the page
         *  just works !
-    o  Remove go completely from webfaction if x compile works
+    *  Remove go completely from webfaction if x compile works
+        *  Remove file system from user home
+        *  Remove mods to .bash_profile
+        *  Ensure binary still runs
 
 
 -------------------------------------------------------------------------------
