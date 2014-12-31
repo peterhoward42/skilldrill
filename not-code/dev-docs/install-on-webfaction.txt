@@ -35,3 +35,12 @@ CUSTOM APP
     o  Bind to website and domain
     o  In my case skilldrill.wim42.webfactional.com
 
+
+TEST BUILD / RUN SERVER
+
+    o  Clone the skilldrill github repo on server.
+    o  Build it with Go
+    o  Run the exe created manually
+    o  Point browser to 
+    o  ... skilldrill.wim42.webfactional.com
+    o  Just works !

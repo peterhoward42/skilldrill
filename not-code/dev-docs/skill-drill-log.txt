@@ -18,8 +18,15 @@
     o  Return to webfaction experiment
         *  hello world on webfaction
         *  finish setup of custom web app on wf
-        o  modify and commit changes needed to port etc
-        o  try clone/build/run
+        *  modify and commit changes needed to port etc
+        *  try clone/build/run
+            *  make suitable folder struct on wf
+            *  revise cmd line git
+            *  clone it
+            *  build it
+            *  run it by hand or is there a cron job?
+        o  research cron
+        o  update install doc
 
 o  Try build from source on lappy to provide for x compile
     *  Uninstall from control panel
