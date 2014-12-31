@@ -44,3 +44,7 @@ TEST BUILD / RUN SERVER
     o  Point browser to 
     o  ... skilldrill.wim42.webfactional.com
     o  Just works !
+
+ALTERNATIVE
+
+    o  Try cross compile on Windows to run on Webfaction

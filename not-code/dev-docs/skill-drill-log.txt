@@ -13,38 +13,15 @@
     *  Move this and docs into it
     *  Delete old version of this
 *  Do min bootstrap svr from real repo based on experiment
-    *  Reinstall go from binary distro :-(
-    *  Set up workspace properly and prove
-    o  Return to webfaction experiment
-        *  hello world on webfaction
-        *  finish setup of custom web app on wf
-        *  modify and commit changes needed to port etc
-        *  try clone/build/run
-            *  make suitable folder struct on wf
-            *  revise cmd line git
-            *  clone it
-            *  build it
-            *  run it by hand or is there a cron job?
-        o  research cron
-        o  update install doc
-
 o  Try build from source on lappy to provide for x compile
-    *  Uninstall from control panel
-    *  Make sure no env vars left
-    o  Try install from source
-        o  Compile progrs
-            *  Remove all old compilers and path
-            *  Install mingw
-    o  Get existing code to work from this build
+    *  Get fresh build to work from source
+    o  Set path and env vars to suit
+    o  Test local go src build
     o  Now try hello world x compile for webfaction arch
-
-o  Remove go from webfaction if x compile works
+    o  Remove go from webfaction if x compile works
 
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
--------------------------------------------------------------------------------
-
-
