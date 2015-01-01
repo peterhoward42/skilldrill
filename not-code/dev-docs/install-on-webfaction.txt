@@ -3,29 +3,20 @@
 
 --------------------------------------------------------------------------------
 
+CHOICES
+        o  Could install go on Webfaction and build executables from
+           cloned source repo in situ.
+        o  Or could cross compile for linux/386 from local Windows dev env.
+        o  Tried former - and worked after false start with wrong MingGW.
+        o  See golang-nuts post 16937
+        o  Also tried cross compile and will favour this to anticipate providing
+           viable binaries for multiple platforms once app is mature.
+
 ESSENCE
-        o  In essence...
-        o  Install Mercurial and modify our .bash_profile
-        o  Use Mercurial to pull the latest Go source
-        o  Compile the source with passing unit tests!
-        o  Setup your initial GOPATH workspace
+        o  In essence... (assuming cross compilation)
         o  Add a custom Webfaction application to secure an available port
         o  Add a super simple helloworld.go web application and run it!
         o  Finally, point a Webfaction website to your new Go web application!
-
-INSTALLING GO LANGUAGE
-
-    o  At time of writing (Dec 2014), you need to install from source...
-    o  Follow: https://golang.org/doc/install/source
-    o  And: 
-    http://jessekallhoff.com/2013/04/04/up-and-running-with-go-on-webfaction/
-
-    Build test problems encountered:
-
-        o  2 (fixable) Test failures...
-        o  See my contribution to webfaction community here:
-            https://community.webfaction.com/questions/...
-            ... 16937/cannot-build-golang-from-source
 
 CUSTOM APP
 
@@ -38,16 +29,10 @@ CUSTOM APP
 
 TEST BUILD / RUN SERVER
 
-    o  Clone the skilldrill github repo on server.
-    o  Build it with Go
-    o  Run the exe created manually
+    o  X compile from Windows dev box - see below
     o  Point browser to 
     o  ... skilldrill.wim42.webfactional.com
     o  Just works !
-
-ALTERNATIVE
-
-    o  Try cross compile on Windows to run on Webfaction server
 
     o  Environment variable requirements
         o  Values are taken from attempt to build from source on real

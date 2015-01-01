@@ -13,29 +13,14 @@
     *  Move this and docs into it
     *  Delete old version of this
 *  Do min bootstrap svr from real repo based on experiment
-o  Try build from source on lappy to provide for x compile
-    *  Get fresh build to work from source
-    *  Set path to suit
-    *  Set Go env vars to suit
-    *  Test local go src build
-    *  Now try hello world x compile for webfaction arch
-        *  Read about x compile
-        *  X compile attempt
-            *  davecheney script doesn't work because it says for every
-               call to something.bash - don't use this, use something.bat
-               instead on Windows.
-            *  how about manually?
-                *  What is the procedure? / env vars etc
-        *  X-compile trivial existing server 
-        *  ftp up
-        *  chmod777
-        *  run it
-        *  visit the page
-        *  just works !
+*  Try build from source on lappy to provide for x compile
     *  Remove go completely from webfaction if x compile works
         *  Remove file system from user home
         *  Remove mods to .bash_profile
         *  Ensure binary still runs
+*  Tidy up webfaction document
+o  Choose next target = core models and tests
+    o  Remind from docco of what is what
 
 
 -------------------------------------------------------------------------------
