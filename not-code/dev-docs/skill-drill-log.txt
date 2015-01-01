@@ -20,11 +20,39 @@
         *  Ensure binary still runs
 *  Tidy up webfaction document
 o  Choose next target = core models and tests
-    o  Skill and category
-    o  Ditch UID once got some more code going
+    o  Parts of model
+        *  Get started to shape code
+        *  Consider use cases
+        *  Consider tests
+        o  Test up
+            o  People funcs
+                o  make build simple reusable fn
+                o  dev up build simple to ex most add correct fns and bind
+                   skills
+                o  add some remove checks
+                o  sep swathe of err handling
+        o  Nail comments
+        o  Commit
 
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
+Model use cases
+    o  From user actions
+        o  Register user with skill / deregister
+        o  Edit skill title or desc
+        o  Fmt desc with / without context of hierachy
+        o  Fmt root of desc to aide editing
+        o  List emails of people with skill
+        o  Has this user, this skill
+        o  Enumerate display model Collapse / expand behaviour
+    o  From lifecycle
+        o  Level of node
+        o  Serialise whole model
+        o  Build model from serialised
+    o  From admin
+        o  Rename a skill
+        o  Move skill to diff part of hierachy
 -------------------------------------------------------------------------------
+
