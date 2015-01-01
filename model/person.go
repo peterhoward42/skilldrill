@@ -1,5 +1,5 @@
 package model
 
-type Person struct {
+type person struct {
 	email string
 }

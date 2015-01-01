@@ -1,12 +1,12 @@
 package model
 
-type SkillHoldings struct {
-	skillsOfPerson  map[*Person][]*TreeNode
-	peopleWithSkill map[*TreeNode][]*Person
+type skillHoldings struct {
+	skillsOfPerson  map[*person][]*treeNode
+	peopleWithSkill map[*treeNode][]*person
 }
 
-func NewSkillHoldings() *SkillHoldings {
-	return &SkillHoldings{
-		skillsOfPerson:  map[*Person][]*TreeNode{},
-		peopleWithSkill: map[*TreeNode][]*Person{}}
+func newSkillHoldings() *skillHoldings {
+	return &skillHoldings{
+		skillsOfPerson:  map[*person][]*treeNode{},
+		peopleWithSkill: map[*treeNode][]*person{}}
 }

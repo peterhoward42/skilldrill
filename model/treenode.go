@@ -1,17 +1,21 @@
 package model
 
-type TreeNode struct {
+type treeNode struct {
 	title    string
 	desc     string
-	parent   *TreeNode
-	children []*TreeNode
+	parent   *treeNode
+	children []*treeNode
 }
 
-func NewTreeNode(title string, desc string, parent *TreeNode) *TreeNode {
-	return &TreeNode{
+func newTreeNode(title string, desc string, parent *treeNode) *treeNode {
+	return &treeNode{
 		title:    title,
 		desc:     desc,
 		parent:   parent,
-		children: []*TreeNode{},
+		children: []*treeNode{},
 	}
+}
+
+func (parent *treeNode) addChild(child *treeNode) {
+    parent.children = append(parent.children, child)
 }

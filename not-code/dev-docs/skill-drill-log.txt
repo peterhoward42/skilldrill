@@ -27,8 +27,9 @@ o  Choose next target = core models and tests
         o  Test up
             o  People funcs
                 o  make build simple reusable fn
-                o  dev up build simple to ex most add correct fns and bind
+                o  dev up build simple to ex most add correct fns and bikd
                    skills
+                o  rename node/skilly things
                 o  add some remove checks
                 o  sep swathe of err handling
         o  Nail comments
