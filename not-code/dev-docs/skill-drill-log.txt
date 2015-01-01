@@ -20,36 +20,11 @@
         *  Ensure binary still runs
 *  Tidy up webfaction document
 o  Choose next target = core models and tests
-    *  Do Uid
-    *  Check familiar term
-    *  Design use cases
-    *  Design tests
-    o  Do
-        o  doing
-            o  just offer marshall / unmarshall text as lifecycle
-                , not intermediate
-        o  smash comments
-    o  Checkin
+    o  Skill and category
+    o  Ditch UID once got some more code going
 
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
-Uid Use Cases
-    o  Is-a string
-    o  Is short
-    o  Issue me with one for first call to each key
-    o  Save your state to bytes
-    o  factory from bytes
-
-Uid Test Cases
-
-    o  idiomatic
-        o  deserialise from stored version
-        o  ask for some new ones
-        o  serialise latest state
-    o  get 1 for first call to each
-    o  get 2,3 for subsequent
-    o  is short
-    o  saved state in combi with factory round trips as known const
 -------------------------------------------------------------------------------
