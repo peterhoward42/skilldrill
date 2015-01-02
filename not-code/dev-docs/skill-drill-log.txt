@@ -35,7 +35,11 @@ o  Choose next target = core models and tests
                 *  don't inject uid into adders, make them do it and return val
                 *  question what addn of dupe person is
                 *  add some skill to person bindings
-                o  test existing error handling
+                o  disallow binding of non leaf skill
+                    o  give skills attrib that says leaf or categ at constr
+                    o  disallow binding of categories to people
+                    o  have changed addskill to have 2 return values
+                o  finish testing existing error handling
         o  Nail comments
         o  Commit
 

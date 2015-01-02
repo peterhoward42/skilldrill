@@ -1,17 +1,24 @@
 package model
 
+const (
+	SKILL = iota
+	CATEGORY
+)
+
 type skillNode struct {
 	uid      int64
+	role     int // SKILL | CATEGORY
 	title    string
 	desc     string
 	parent   *skillNode
 	children []*skillNode
 }
 
-func newSkillNode(uid int64, title string, desc string,
+func newSkillNode(uid int64, role int, title string, desc string,
 	parent *skillNode) *skillNode {
 	return &skillNode{
 		uid:      uid,
+		role:     role,
 		title:    title,
 		desc:     desc,
 		parent:   parent,

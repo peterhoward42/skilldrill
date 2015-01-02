@@ -1,6 +1,7 @@
 package model
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -8,13 +9,14 @@ func TestAdditions(t *testing.T) {
 	buildSimpleModel()
 }
 
-func TestQueries(t *testing.T) {
+func TestErrors(t *testing.T) {
 	api := buildSimpleModel()
-	if api.PersonIsKnown("fred.bloggs") == false {
-		t.Errorf("fred bloggs is missing")
+	_, err := api.AddPerson("fred.bloggs")
+	if err == nil {
+		t.Errorf("Should have objected to duplicated addition of fred.")
 	}
-	if api.PersonIsKnown("garbage") == true {
-		t.Errorf("person known false positive")
+	if !strings.Contains(err.Error(), "already exists") {
+		t.Errorf("Error message looks wrong")
 	}
 }
 
@@ -22,11 +24,14 @@ func buildSimpleModel() *Api {
 	api := NewApi()
 	api.AddPerson("fred.bloggs")
 	api.AddPerson("john.smith")
-	var unusedUid int64 = -1 // because we are adding the root node
-	rootId := api.AddSkill("root title", "root description", unusedUid)
-	skillA := api.AddSkill("child A title", "child A description", rootId)
-	skillB := api.AddSkill("child B title", "child B description", rootId)
-	skillC := api.AddSkill("grandchild", "description", skillA)
+	rootId, _ := api.AddSkill(CATEGORY, "root title",
+		"root description", -1)
+	skillA, _ := api.AddSkill(
+		CATEGORY, "A title", "child A description", rootId)
+	skillB, _ := api.AddSkill(
+		CATEGORY, "B title", "child B description", rootId)
+	skillC, _ := api.AddSkill(
+		SKILL, "grandchild", "description", skillA)
 	api.GivePersonSkill("fred.bloggs", skillA)
 
 	_ = skillB

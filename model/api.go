@@ -48,21 +48,34 @@ func (api *Api) PersonIsKnown(email string) bool {
 // API About skills
 //---------------------------------------------------------------------------
 
-func (api *Api) AddSkill(title string, desc string, parentUid int64) (uid int64) {
-	// When the skill tree root is yet to be initialised, we use this
-	// incoming skill to create one, and overwrite the new node's parent field to
-	// be nil
-	uid = api.makeUid()
-	var newNode *skillNode
+// The role parameter should be one of the constants SKILL or CATEGORY.
+// When the skill tree is empty, this skill will be added as the root, and
+// the parentUid parameter is ignored.
+// If you attempt to add children to a node that is not a CATEGORY, an error is
+// produced.
+func (api *Api) AddSkill(role int, title string, desc string,
+	parentUid int64) (uid int64, err error) {
+
+	// Special case when tree is empty
 	if api.skillRoot == nil {
-		newNode = newSkillNode(uid, title, desc, nil)
+		uid = api.makeUid()
+		newNode := newSkillNode(uid, role, title, desc, nil)
+		api.skillFromId[uid] = newNode
 		api.skillRoot = newNode
-	} else {
-		parentNode := api.skillFromId[parentUid]
-		newNode = newSkillNode(uid, title, desc, parentNode)
-		parentNode.addChild(newNode)
+		return
 	}
+	parentNode, ok := api.skillFromId[parentUid]
+	if !ok {
+		err = errors.New("Unknown parent.")
+		return
+	}
+	if parentNode.role != CATEGORY {
+		err = errors.New("Parent must be a category node")
+		return
+	}
+	newNode := newSkillNode(uid, role, title, desc, parentNode)
 	api.skillFromId[uid] = newNode
+	parentNode.addChild(newNode)
 	return
 }
 
