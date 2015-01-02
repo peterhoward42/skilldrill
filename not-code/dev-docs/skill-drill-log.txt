@@ -26,10 +26,12 @@ o  Choose next target = core models and tests
         *  Consider tests
         o  Test up
             o  People funcs
-                o  make build simple reusable fn
+                *  make build simple reusable fn
                 o  dev up build simple to ex most add correct fns and bikd
                    skills
-                o  rename node/skilly things
+                   *  bestow uid on objects on creation
+                   o  return uid from add fns
+                   o  use uid as parent child handles
                 o  add some remove checks
                 o  sep swathe of err handling
         o  Nail comments

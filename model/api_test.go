@@ -22,6 +22,14 @@ func buildSimpleModel() *Api {
 	api := NewApi()
 	api.AddPerson("fred.bloggs")
 	api.AddPerson("john.smith")
-    api.AddSkill("root title", "root description", nil)
+	var unusedUid int64 = -1 // because we are adding the root node
+	rootId := api.AddSkill("root title", "root description", unusedUid)
+	childAId := api.AddSkill("child A title", "child A description", rootId)
+	childBId := api.AddSkill("child B title", "child B description", rootId)
+	grandChildId := api.AddSkill("grand title", "grand description", childAId)
+
+	_ = childBId
+	_ = grandChildId
+
 	return api
 }
