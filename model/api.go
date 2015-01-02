@@ -67,6 +67,20 @@ func (api *Api) AddSkill(title string, desc string, parentUid int64) (uid int64)
 }
 
 //---------------------------------------------------------------------------
+// API About Which Skills People Have
+//---------------------------------------------------------------------------
+
+func (api *Api) GivePersonSkill(email string, skillId int64) error {
+	foundPerson, ok := api.people[email]
+	if !ok {
+		return errors.New("person does not exist")
+	}
+	skill := api.skillFromId[skillId]
+	api.skillHoldings.bind(skill, foundPerson)
+	return nil
+}
+
+//---------------------------------------------------------------------------
 // Not exported
 //---------------------------------------------------------------------------
 

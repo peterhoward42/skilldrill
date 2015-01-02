@@ -27,13 +27,15 @@ o  Choose next target = core models and tests
         o  Test up
             o  People funcs
                 *  make build simple reusable fn
-                o  dev up build simple to ex most add correct fns and bikd
+                *  dev up build simple to ex most add correct fns and bikd
                    skills
                    *  bestow uid on objects on creation
-                   o  return uid from add fns
-                   o  use uid as parent child handles
-                o  add some remove checks
-                o  sep swathe of err handling
+                   *  return uid from add fns
+                   *  use uid as parent child handles
+                *  don't inject uid into adders, make them do it and return val
+                *  question what addn of dupe person is
+                *  add some skill to person bindings
+                o  test existing error handling
         o  Nail comments
         o  Commit
 
