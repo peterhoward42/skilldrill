@@ -7,9 +7,11 @@ files deal with much of the internal workings.
 package model
 
 import (
+    "bytes"
     "encoding/json"
     "fmt"
 	"errors"
+    "os"
 )
 
 // The Api structure is the fundamental type exposed by the skilldrill model
@@ -126,5 +128,10 @@ func (api *Api) encodeRootSkill() {
         fmt.Printf("Marshal returned error: %s", err.Error())
         return
     }
-    fmt.Printf("encoded: =====%s=====", jsonText)
+    var buf bytes.Buffer
+    json.Indent(&buf, jsonText, "...", "\t")
+    json.Indent(&buf, jsonText, "...", "\t")
+    fmt.Printf("About to stream buf\n")
+    buf.WriteTo(os.Stdout)
+    fmt.Printf("Done streaming\n")
 }

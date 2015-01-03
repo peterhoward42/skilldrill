@@ -52,8 +52,9 @@ o  Choose next target = core models and tests
             o  Start test that serialises simple model
                 o  Do just on skiilnode as experiment
                     *  Implement json.Marshaller
-                    o  Try to use encoder maybe incl indent
+                    *  Try to use encoder maybe incl indent
                     o  What comes out?
+                        o  How get newlines and indent?
                     o  Fix up children output
                     o  Test up
                 o  What next
