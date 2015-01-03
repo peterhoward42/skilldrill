@@ -42,15 +42,53 @@ o  Choose next target = core models and tests
                 *  finish testing existing error handling
                     *  parent must be cat
                     *  give skill unknown person
-        o  Nail comments
-        o  Fix bugs
-            o  err should be generated on giveperson skill if skill not known
-            o  err should be generated on giveperson skill if is category
-        o  Commit
+        *  Nail comments
+        *  Fix bugs
+            *  err should be generated on giveperson skill if skill not known
+            *  err should be generated on giveperson skill if is category
+        o  Serialise
+            *  Design output
+            o  Read again techniques to generate
+            o  Start test that serialises simple model
+        o  Add in app state and user states
 
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
+Serialise output
+
+data {
+    fmt_version: 1
+    skills: [
+        {
+            uid: 1000
+            title: foo
+            desc: bar
+            role: CATEGORY
+            parentId: -1
+        },
+        {
+            title: baz
+            desc: fibble
+            role: CATEGORY
+            parentId: 1000
+        }
+    ]
+    people: [
+        {
+            uid: 2000
+            email: fred.bloggs
+        },
+        {
+            uid: 2001
+            email: john.smith
+        }
+    ]
+    skillholdings: {
+        "fred.bloggs": [1000, 1001]
+        "john.smith": [1000, 1001]
+    }
+}
 -------------------------------------------------------------------------------
 Model use cases
     o  From user actions

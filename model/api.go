@@ -93,15 +93,21 @@ func (api *Api) AddSkill(role int, title string, desc string,
 The GivePersonSkill() method adds the given skill into the set of skills the
 model holds for that person.  You are only allowed to give people SKILLS, not
 CATEGORIES.  An error is generated if either the person or skill given are not
-recognized, or you give a person a CATEGORY.
+recognized, or you give a person a CATEGORY rather than a SKILL.
 */
 func (api *Api) GivePersonSkill(email string, skillId int64) error {
 	foundPerson, ok := api.people[email]
 	if !ok {
 		return errors.New("Person does not exist.")
 	}
-	skill := api.skillFromId[skillId]
-	api.skillHoldings.bind(skill, foundPerson)
+    foundSkill, ok := api.skillFromId[skillId]
+	if !ok {
+		return errors.New("Skill does not exist.")
+	}
+    if foundSkill.role == CATEGORY {
+		return errors.New("Cannot give someone a CATEGORY skill.")
+    }
+	api.skillHoldings.bind(foundSkill, foundPerson)
 	return nil
 }
 
