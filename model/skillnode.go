@@ -53,7 +53,7 @@ func (s *skillNode) MarshalJSON() ([]byte, error) {
 		"role":     s.role,
 		"title":    s.title,
 		"desc":     s.desc,
-		"parent":   s.parent.uid,
+		"parent":   "parent goes here todo",
 		"children": "children go here todo",
 	})
 }

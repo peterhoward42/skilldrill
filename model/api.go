@@ -7,6 +7,8 @@ files deal with much of the internal workings.
 package model
 
 import (
+    "encoding/json"
+    "fmt"
 	"errors"
 )
 
@@ -116,4 +118,13 @@ func (api *Api) GivePersonSkill(email string, skillId int64) error {
 func (api *Api) makeUid() int64 {
 	api.nextUid++
 	return api.nextUid
+}
+
+func (api *Api) encodeRootSkill() {
+    jsonText, err := json.Marshal(api.skillRoot)
+    if err != nil {
+        fmt.Printf("Marshal returned error: %s", err.Error())
+        return
+    }
+    fmt.Printf("encoded: =====%s=====", jsonText)
 }

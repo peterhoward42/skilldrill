@@ -51,9 +51,10 @@ o  Choose next target = core models and tests
             *  Read again techniques to generate
             o  Start test that serialises simple model
                 o  Do just on skiilnode as experiment
-                    o  First change fields to be public and regression up
-                    o  Now disbar ptrs from marshal
-                    o  Now call json.marshall on object and fmt what comes out
+                    *  Implement json.Marshaller
+                    o  Try to use encoder maybe incl indent
+                    o  What comes out?
+                    o  Fix up children output
                     o  Test up
                 o  What next
         o  Add in app state and user states

@@ -101,6 +101,15 @@ func TestBestowCategorySkill(t *testing.T) {
 }
 
 //-----------------------------------------------------------------------------
+// Play around with json serialisation
+//-----------------------------------------------------------------------------
+
+func TestPlayJson(t *testing.T) {
+	api := buildSimpleModel()
+    api.encodeRootSkill()
+}
+
+//-----------------------------------------------------------------------------
 // Helper functions
 //-----------------------------------------------------------------------------
 
@@ -123,3 +132,4 @@ func buildSimpleModel() *Api {
 
 	return api
 }
+
