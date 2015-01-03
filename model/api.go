@@ -86,7 +86,7 @@ func (api *Api) AddSkill(role int, title string, desc string,
 func (api *Api) GivePersonSkill(email string, skillId int64) error {
 	foundPerson, ok := api.people[email]
 	if !ok {
-		return errors.New("person does not exist")
+		return errors.New("Person does not exist.")
 	}
 	skill := api.skillFromId[skillId]
 	api.skillHoldings.bind(skill, foundPerson)

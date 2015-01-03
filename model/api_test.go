@@ -5,11 +5,19 @@ import (
 	"testing"
 )
 
+//-----------------------------------------------------------------------------
+// Adding things without stimulating errors
+//-----------------------------------------------------------------------------
+
 func TestAdditions(t *testing.T) {
 	buildSimpleModel()
 }
 
-func TestErrors(t *testing.T) {
+//-----------------------------------------------------------------------------
+// Adding things - delibarately stimulating errors
+//-----------------------------------------------------------------------------
+
+func TestAddPersonErrors(t *testing.T) {
 	api := buildSimpleModel()
 	_, err := api.AddPerson("fred.bloggs")
 	if err == nil {
@@ -19,6 +27,51 @@ func TestErrors(t *testing.T) {
 		t.Errorf("Error message looks wrong")
 	}
 }
+
+func TestAddSkillUnknownParentError(t *testing.T) {
+	api := buildSimpleModel()
+
+	// unknown parent
+	_, err := api.AddSkill(SKILL, "title", "desc", 99999)
+	if err == nil {
+		t.Errorf("Should have objected to unknown parent")
+	}
+	if !strings.Contains(err.Error(), "Unknown parent") {
+		t.Errorf("Error message looks wrong")
+	}
+}
+
+func TestAddSkillToNonCategoryError(t *testing.T) {
+	api := NewApi()
+	rootUid, _ := api.AddSkill(SKILL, "", "", 99999)
+	_, err := api.AddSkill(SKILL, "", "", rootUid)
+	if err == nil {
+		t.Errorf("Should have objected to parent not being category")
+	}
+	if !strings.Contains(err.Error(), "must be a category") {
+		t.Errorf("Error message looks wrong")
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Give a person a skill - delibarately stimulating errors
+//-----------------------------------------------------------------------------
+
+func TestBestowSkillErrors(t *testing.T) {
+	api := NewApi()
+	skill, _ := api.AddSkill(SKILL, "", "", -1)
+	err := api.GivePersonSkill("nosuch.person", skill)
+	if err == nil {
+		t.Errorf("Should have objected to unknown person.")
+	}
+	if !strings.Contains(err.Error(), "Person does not exist") {
+		t.Errorf("Error message looks wrong")
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Helper functions
+//-----------------------------------------------------------------------------
 
 func buildSimpleModel() *Api {
 	api := NewApi()
