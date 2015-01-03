@@ -43,6 +43,9 @@ o  Choose next target = core models and tests
                     *  parent must be cat
                     *  give skill unknown person
         o  Nail comments
+        o  Fix bugs
+            o  err should be generated on giveperson skill if skill not known
+            o  err should be generated on giveperson skill if is category
         o  Commit
 
 

@@ -1,9 +1,12 @@
 package model
 
+// The setOfSkills type provides the contentional SET model for the type
+// skillNode.
 type setOfSkills struct {
 	data map[*skillNode]bool
 }
 
+// Compulsory constructor.
 func newSetOfSkills() *setOfSkills {
 	return &setOfSkills{data: map[*skillNode]bool{}}
 }
