@@ -22,7 +22,7 @@ func TestAddPersonDuplicate(t *testing.T) {
 	_, err := api.AddPerson("fred.bloggs")
 	if err == nil {
 		t.Errorf("Should have objected to duplicated addition of fred.")
-        return
+		return
 	}
 	if !strings.Contains(err.Error(), "already exists") {
 		t.Errorf("Error message looks wrong")
@@ -36,7 +36,7 @@ func TestAddSkillUnknownParent(t *testing.T) {
 	_, err := api.AddSkill(SKILL, "title", "desc", 99999)
 	if err == nil {
 		t.Errorf("Should have objected to unknown parent")
-        return
+		return
 	}
 	if !strings.Contains(err.Error(), "Unknown parent") {
 		t.Errorf("Error message looks wrong")
@@ -49,7 +49,7 @@ func TestAddSkillToNonCategory(t *testing.T) {
 	_, err := api.AddSkill(SKILL, "", "", rootUid)
 	if err == nil {
 		t.Errorf("Should have objected to parent not being category")
-        return
+		return
 	}
 	if !strings.Contains(err.Error(), "must be a category") {
 		t.Errorf("Error message looks wrong")
@@ -66,7 +66,7 @@ func TestBestowSkillToSpuriousPerson(t *testing.T) {
 	err := api.GivePersonSkill("nosuch.person", skill)
 	if err == nil {
 		t.Errorf("Should have objected to unknown person.")
-        return
+		return
 	}
 	if !strings.Contains(err.Error(), "Person does not exist") {
 		t.Errorf("Error message looks wrong")
@@ -79,7 +79,7 @@ func TestBestowSpuriousSkillToPerson(t *testing.T) {
 	err := api.GivePersonSkill("fred.bloggs", 9999)
 	if err == nil {
 		t.Errorf("Should have objected to unknown skill.")
-        return
+		return
 	}
 	if !strings.Contains(err.Error(), "Skill does not exist") {
 		t.Errorf("Error message looks wrong")
@@ -93,7 +93,7 @@ func TestBestowCategorySkill(t *testing.T) {
 	err := api.GivePersonSkill("fred.bloggs", skill)
 	if err == nil {
 		t.Errorf("Should have objected to skill being category.")
-        return
+		return
 	}
 	if !strings.Contains(err.Error(), "Cannot give someone a CATEGORY skill") {
 		t.Errorf("Error message looks wrong")

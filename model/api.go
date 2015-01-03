@@ -100,13 +100,13 @@ func (api *Api) GivePersonSkill(email string, skillId int64) error {
 	if !ok {
 		return errors.New("Person does not exist.")
 	}
-    foundSkill, ok := api.skillFromId[skillId]
+	foundSkill, ok := api.skillFromId[skillId]
 	if !ok {
 		return errors.New("Skill does not exist.")
 	}
-    if foundSkill.role == CATEGORY {
+	if foundSkill.role == CATEGORY {
 		return errors.New("Cannot give someone a CATEGORY skill.")
-    }
+	}
 	api.skillHoldings.bind(foundSkill, foundPerson)
 	return nil
 }

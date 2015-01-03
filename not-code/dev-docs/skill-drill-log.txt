@@ -48,8 +48,14 @@ o  Choose next target = core models and tests
             *  err should be generated on giveperson skill if is category
         o  Serialise
             *  Design output
-            o  Read again techniques to generate
+            *  Read again techniques to generate
             o  Start test that serialises simple model
+                o  Do just on skiilnode as experiment
+                    o  First change fields to be public and regression up
+                    o  Now disbar ptrs from marshal
+                    o  Now call json.marshall on object and fmt what comes out
+                    o  Test up
+                o  What next
         o  Add in app state and user states
 
 
