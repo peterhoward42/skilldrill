@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 )
@@ -101,12 +102,17 @@ func TestBestowCategorySkill(t *testing.T) {
 }
 
 //-----------------------------------------------------------------------------
-// Play around with json serialisation
+// Exercise serialization
 //-----------------------------------------------------------------------------
 
-func TestPlayJson(t *testing.T) {
+func TestSerialize(t *testing.T) {
 	api := buildSimpleModel()
-    api.encodeRootSkill()
+	b, err := api.Serialize()
+	if err != nil {
+		t.Errorf("Serialize failed: %v", err.Error())
+		return
+	}
+	fmt.Printf("Result returned from api serialize follows\n%s", string(b))
 }
 
 //-----------------------------------------------------------------------------
@@ -132,4 +138,3 @@ func buildSimpleModel() *Api {
 
 	return api
 }
-

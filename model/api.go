@@ -119,7 +119,7 @@ which it could be reproduced from later using the sister DeSerialize() method.
 func (api *Api) Serialize() (outBuf []byte, err error) {
 	// Delegate to yaml.Marshal(), but on a struct that is more amenable to it.
 	return yaml.Marshal(&map[string]interface{}{
-		"foo": 42,
+		"skills": newSkillsSerializer(&outBuf, api),
 		"bar": "hello",
 	})
 }

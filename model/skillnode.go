@@ -1,8 +1,6 @@
 package model
 
-import (
-	"encoding/json"
-)
+import ()
 
 // This enumerated type provides a classification for the mutually exclusive
 // role that a skillNode may take.
@@ -43,17 +41,4 @@ func newSkillNode(uid int64, role int, title string, desc string,
 // given parent.
 func (parent *skillNode) addChild(child *skillNode) {
 	parent.children = append(parent.children, child)
-}
-
-// Implement json.Marshaler, because the vanilla one, does not handle
-// non-exported fields.
-func (s *skillNode) MarshalJSON() ([]byte, error) {
-	return json.Marshal(map[string]interface{}{
-		"uid":      s.uid,
-		"role":     s.role,
-		"title":    s.title,
-		"desc":     s.desc,
-		"parent":   "parent goes here todo",
-		"children": "children go here todo",
-	})
 }
