@@ -6,14 +6,14 @@ package model
 // to discover.
 type yamlModel struct {
     api *Api
-    SkillsList *[]yamlSkill
+    SkillsList []*yamlSkill
 }
 
 // Compulsory constructor.
 func newYamlModel(api *Api) (m *yamlModel) {
     m = &yamlModel{
         api: api,
-        SkillsList: &[]yamlSkill{},
+        SkillsList: []*yamlSkill{},
     }
     m.populateSkills()
     return
@@ -30,15 +30,14 @@ type yamlSkill struct {
 
 func (m *yamlModel) populateSkills() {
     for _, skill := range(m.api.skillFromId) {
-        ySkill := &yamlSkill{
-            skill.uid,
-            skill.role,
-            skill.title,
-            skill.desc,
-            skill.parent.uid,
-            skill.childUids(),
-        }
-        append(m.SkillsList, ySkill)
+        m.SkillsList = append(m.SkillsList, &yamlSkill{
+                skill.uid,
+                skill.role,
+                skill.title,
+                skill.desc,
+                skill.parent.uid,
+                skill.childUids(),
+        })
     }
     return
 }

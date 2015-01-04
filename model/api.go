@@ -64,7 +64,7 @@ parameter is ignored.  Errors are generated if you attempt to add a skill to a
 node that is not a CATEGORY, or if the parent skill you provide is not
 recognized.
 */
-func (api *Api) AddSkill(role int, title string, desc string,
+func (api *Api) AddSkill(role string, title string, desc string,
 	parentUid int64) (uid int64, err error) {
 
 	// Special case when tree is empty
