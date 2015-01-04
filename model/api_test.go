@@ -109,7 +109,7 @@ func TestSerialize(t *testing.T) {
 	api := buildSimpleModel()
 	b, err := api.Serialize()
 	if err != nil {
-		t.Errorf("Serialize failed: %v", err.Error())
+		t.Errorf("serialize failed: %v", err.Error())
 		return
 	}
 	fmt.Printf("Result returned from api serialize follows\n%s", string(b))

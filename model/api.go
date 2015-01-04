@@ -112,16 +112,10 @@ func (api *Api) GivePersonSkill(email string, skillId int64) error {
 	return nil
 }
 
-/*
-The Serialize() method serializes the model instance into a stream of bytes from
-which it could be reproduced from later using the sister DeSerialize() method.
-*/
-func (api *Api) Serialize() (outBuf []byte, err error) {
-	// Delegate to yaml.Marshal(), but on a struct that is more amenable to it.
-	return yaml.Marshal(&map[string]interface{}{
-		"skills": newSkillsSerializer(&outBuf, api),
-		"bar": "hello",
-	})
+// Conventional Serialise / Marshal method.
+func (api *Api) Serialize() (out []byte, err error) {
+    out, err = yaml.Marshal(newYamlModel(api))
+    return
 }
 
 // The makeUid() method is a factory for new unique identifiers. They are unique
