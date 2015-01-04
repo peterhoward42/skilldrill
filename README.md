@@ -1,4 +1,4 @@
 skilldrill
 ==========
 
-A web app for a group of professionals to share knowledge of the skills they hold collectively. Written in Go (Golang).
+A web app (written in Go) that shows which people in an organisation have which skills.
