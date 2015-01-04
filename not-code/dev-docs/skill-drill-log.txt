@@ -50,16 +50,11 @@ o  Choose next target = core models and tests
             *  Ditch and start again
             *  Design file format = yaml
             o  Design top down arch
-                o  Try MarshalYAML native
+                *  Try MarshalYAML native
                     *  Get package
-                    o  In test call on api
-                    o  In api estab pattern for 
-                        o  make serialisable vers of self
-                        o  call marshal yaml on it
-                    o  Should then be able to overload similarly on sub fields
-            o  Design interfaces for test
-            o  Start with unit tests
-            o  Work up to integratin test
+                o  Bugs so far
+                    o  Only two skills coming out
+                    o  ids are garbage
             o  Deserialise
         o  Add in app state and user states
 

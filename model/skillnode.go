@@ -5,7 +5,7 @@ import ()
 // This enumerated type provides a classification for the mutually exclusive
 // role that a skillNode may take.
 const (
-	SKILL = "SKL"
+	SKILL    = "SKL"
 	CATEGORY = "CAT"
 )
 
@@ -44,9 +44,9 @@ func (parent *skillNode) addChild(child *skillNode) {
 }
 
 // The method childUids() provides a slice of UIDs of this skill's children.
-func (s *skillNode) childUids() (ids []int64){
-    for _, child := range(s.children) {
-        ids = append(ids, child.uid)
-    }
-    return
+func (s *skillNode) childUids() (ids []int64) {
+	for _, child := range s.children {
+		ids = append(ids, child.uid)
+	}
+	return
 }

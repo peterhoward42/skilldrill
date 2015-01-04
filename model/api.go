@@ -8,7 +8,7 @@ package model
 
 import (
 	"errors"
-    "gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v2"
 )
 
 // The Api structure is the fundamental type exposed by the skilldrill model
@@ -114,8 +114,8 @@ func (api *Api) GivePersonSkill(email string, skillId int64) error {
 
 // Conventional Serialise / Marshal method.
 func (api *Api) Serialize() (out []byte, err error) {
-    out, err = yaml.Marshal(newYamlModel(api))
-    return
+	out, err = yaml.Marshal(newYamlModel(api))
+	return
 }
 
 // The makeUid() method is a factory for new unique identifiers. They are unique
