@@ -7,11 +7,8 @@ files deal with much of the internal workings.
 package model
 
 import (
-    "bytes"
-    "encoding/json"
-    "fmt"
 	"errors"
-    "os"
+    "gopkg.in/yaml.v2"
 )
 
 // The Api structure is the fundamental type exposed by the skilldrill model
@@ -115,23 +112,21 @@ func (api *Api) GivePersonSkill(email string, skillId int64) error {
 	return nil
 }
 
+/*
+The Serialize() method serializes the model instance into a stream of bytes from
+which it could be reproduced from later using the sister DeSerialize() method.
+*/
+func (api *Api) Serialize() (outBuf []byte, err error) {
+	// Delegate to yaml.Marshal(), but on a struct that is more amenable to it.
+	return yaml.Marshal(&map[string]interface{}{
+		"foo": 42,
+		"bar": "hello",
+	})
+}
+
 // The makeUid() method is a factory for new unique identifiers. They are unique
 // only with respect to the instance of the Api object.
 func (api *Api) makeUid() int64 {
 	api.nextUid++
 	return api.nextUid
-}
-
-func (api *Api) encodeRootSkill() {
-    jsonText, err := json.Marshal(api.skillRoot)
-    if err != nil {
-        fmt.Printf("Marshal returned error: %s", err.Error())
-        return
-    }
-    var buf bytes.Buffer
-    json.Indent(&buf, jsonText, "...", "\t")
-    json.Indent(&buf, jsonText, "...", "\t")
-    fmt.Printf("About to stream buf\n")
-    buf.WriteTo(os.Stdout)
-    fmt.Printf("Done streaming\n")
 }
