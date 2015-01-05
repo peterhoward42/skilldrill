@@ -20,33 +20,25 @@ type skillNode struct {
 	role     string // SKILL | CATEGORY
 	title    string
 	desc     string
-	parent   *skillNode
-	children []*skillNode
+	parent int32
+	children []int32
 }
 
 // Compulsory constructor.
-func newSkillNode(uid int64, role string, title string, desc string,
-	parent *skillNode) *skillNode {
+func newSkillNode(uid int32, role string, title string, desc string,
+	parent int32) *skillNode {
 	return &skillNode{
 		uid:      uid,
 		role:     role,
 		title:    title,
 		desc:     desc,
 		parent:   parent,
-		children: []*skillNode{},
+		children: []int32{},
 	}
 }
 
 // The method addChild() adds the given skillNode into the tree as a child of the
 // given parent.
-func (parent *skillNode) addChild(child *skillNode) {
+func (parent *skillNode) addChild(child int32) {
 	parent.children = append(parent.children, child)
-}
-
-// The method childUids() provides a slice of UIDs of this skill's children.
-func (s *skillNode) childUids() (ids []int64) {
-	for _, child := range s.children {
-		ids = append(ids, child.uid)
-	}
-	return
 }

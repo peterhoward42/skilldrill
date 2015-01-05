@@ -12,26 +12,37 @@ import (
 )
 
 // The Api structure is the fundamental type exposed by the skilldrill model
-// package, and provides CRUD interfaces.
+// package, and provides CRUD interfaces to do things like adding skills or
+// people into the model and registering a person as having a particular skill.
+// Each skill/person etc has an int32 unique identifer which are used
+// comprehensively as keys and cross references in the data.
+// All model editing operations should be done via Api calls rather than
+// accessing the internal objects directly, so that the integrity of various
+// supplemental look up tables is preserved.
 type Api struct {
-	skillRoot     *skillNode         // root of taxonomy tree
-	people        map[string]*person // keyed on email
+    // The int32 items in this struct are unique identifiers for the
+    skills        *map[int32]*skillNode
+    people         *map[string]*person // keyed on email
+	skillRoot     int32         // root of taxonomy tree
 	skillHoldings *skillHoldings     // who has what skill?
-	skillFromId   map[int64]*skillNode
-	nextUid       int64
+	nextSkill       int32
+    nextPerson      int32
 }
 
 // The function NewApi() is a (compulsory) constructor for the Api type.
 func NewApi() *Api {
 	return &Api{
-		people:        map[string]*person{},
-		skillHoldings: newSkillHoldings(),
-		skillFromId:   map[int64]*skillNode{},
+        skills: &map[int32]*skillNode{}
+        people: &map[string]*person{}
+        skillRoot: -1
+        skillHoldings: &newSkillHoldings()
+        nextSkill: 1
+        nextPerson: 1
 	}
 }
 
 // The AddPerson() method adds a person to the model in terms of the user name
-// part of their email address. It returns the unique identity it has generated
+// part of their email address. It returns the UID it has generated
 // for the person, and potentially an error value. It is an error to add a person
 // that already exists in the model.
 func (api *Api) AddPerson(email string) (uid int64, err error) {
@@ -40,16 +51,10 @@ func (api *Api) AddPerson(email string) (uid int64, err error) {
 	if existingPerson {
 		return -1, errors.New("person already exists")
 	}
-	uid = api.makeUid()
+	uid = api.nextPerson
+	api.nextPerson++
 	api.people[email] = newPerson(uid, email)
 	return uid, nil
-}
-
-// The PersonIsKnown() method returns true if the given person is already present
-// in the model.
-func (api *Api) PersonIsKnown(email string) bool {
-	_, ok := api.people[email]
-	return ok
 }
 
 /*
@@ -65,28 +70,31 @@ node that is not a CATEGORY, or if the parent skill you provide is not
 recognized.
 */
 func (api *Api) AddSkill(role string, title string, desc string,
-	parentUid int64) (uid int64, err error) {
+	parent int32) (uid int32, err error) {
 
 	// Special case when tree is empty
-	if api.skillRoot == nil {
-		uid = api.makeUid()
-		newNode := newSkillNode(uid, role, title, desc, nil)
-		api.skillFromId[uid] = newNode
-		api.skillRoot = newNode
+	if api.skillRoot == -1 {
+        uid = api.nextSkill
+        api.nextSkill++
+		skill := newSkillNode(uid, role, title, desc, -1)
+		api.skills[uid] = skill
+		api.skillRoot = uid
 		return
 	}
-	parentNode, ok := api.skillFromId[parentUid]
+	parentSkill, ok := api.skills[parent]
 	if !ok {
 		err = errors.New("Unknown parent.")
 		return
 	}
-	if parentNode.role != CATEGORY {
+	if parentSkill.parentNode.role != CATEGORY {
 		err = errors.New("Parent must be a category node")
 		return
 	}
-	newNode := newSkillNode(uid, role, title, desc, parentNode)
-	api.skillFromId[uid] = newNode
-	parentNode.addChild(newNode)
+    uid = api.nextSkill
+    api.nextSkill++
+	newSkill := newSkillNode(uid, role, title, desc, parentSkill.uid)
+	api.skills[uid] = newNode
+	parentNode.addChild(newNode.uid)
 	return
 }
 
@@ -96,31 +104,18 @@ model holds for that person.  You are only allowed to give people SKILLS, not
 CATEGORIES.  An error is generated if either the person or skill given are not
 recognized, or you give a person a CATEGORY rather than a SKILL.
 */
-func (api *Api) GivePersonSkill(email string, skillId int64) error {
+func (api *Api) GivePersonSkill(email string, skillId int32) error {
 	foundPerson, ok := api.people[email]
 	if !ok {
 		return errors.New("Person does not exist.")
 	}
-	foundSkill, ok := api.skillFromId[skillId]
+	foundSkill, ok := api.skills[skillId]
 	if !ok {
 		return errors.New("Skill does not exist.")
 	}
 	if foundSkill.role == CATEGORY {
 		return errors.New("Cannot give someone a CATEGORY skill.")
 	}
-	api.skillHoldings.bind(foundSkill, foundPerson)
+	api.skillHoldings.bind(foundSkill, foundPerson.email)
 	return nil
-}
-
-// Conventional Serialise / Marshal method.
-func (api *Api) Serialize() (out []byte, err error) {
-	out, err = yaml.Marshal(newYamlModel(api))
-	return
-}
-
-// The makeUid() method is a factory for new unique identifiers. They are unique
-// only with respect to the instance of the Api object.
-func (api *Api) makeUid() int64 {
-	api.nextUid++
-	return api.nextUid
 }

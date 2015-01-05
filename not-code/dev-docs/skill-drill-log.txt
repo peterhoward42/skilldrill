@@ -2,50 +2,22 @@
                                     Skill Drill Log
 
 -------------------------------------------------------------------------------
+        o  Timeout - refactor to make main model yaml compatible
+            o  Remove pointer based relationships and use uids instead for
+               data-owning fields. (Retain ptrs non serialized objects) 
+                *  preview mentally
+                *  just hack the internal classes into expected shape
+                    *  implementation modules
+                    o  test module
+                o  resurrect buildable
+                o  resurrect test passes
+            o  Convert serializable fields to exported names
 
-*  Define requirements
-*  Design UXP
-*  Design architecture
-*  Design roadmap
-*  Initiate project
-    *  Create github repo
-    *  Clone locally
-    *  Move this and docs into it
-    *  Delete old version of this
-*  Do min bootstrap svr from real repo based on experiment
-*  Try build from source on lappy to provide for x compile
-    *  Remove go completely from webfaction if x compile works
-        *  Remove file system from user home
-        *  Remove mods to .bash_profile
-        *  Ensure binary still runs
-*  Tidy up webfaction document
-o  Choose next target = core models and tests
-    o  Parts of model
-        *  Get started to shape code
-        *  Consider use cases
-        *  Consider tests
-        o  Test up
-            o  People funcs
-                *  make build simple reusable fn
-                *  dev up build simple to ex most add correct fns and bikd
-                   skills
-                   *  bestow uid on objects on creation
-                   *  return uid from add fns
-                   *  use uid as parent child handles
-                *  don't inject uid into adders, make them do it and return val
-                *  question what addn of dupe person is
-                *  add some skill to person bindings
-                *  disallow binding of non leaf skill
-                    *  give skills attrib that says leaf or categ at constr
-                    *  disallow binding of categories to people
-                    *  have changed addskill to have 2 return values
-                *  finish testing existing error handling
-                    *  parent must be cat
-                    *  give skill unknown person
-        *  Nail comments
-        *  Fix bugs
-            *  err should be generated on giveperson skill if skill not known
-            *  err should be generated on giveperson skill if is category
+
+
+
+
+            o  Refactor serialization to avoid separate data structures
         o  Serialise
             *  Ditch and start again
             *  Design file format = yaml
@@ -56,6 +28,8 @@ o  Choose next target = core models and tests
                     o  Only two skills coming out
                     o  ids are garbage
             o  Deserialise
+        o  Set classes using ptrs as keys? - maybe set of uid?
+        o  unit test for tests
         o  Add in app state and user states
 
 
