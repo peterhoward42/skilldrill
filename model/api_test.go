@@ -1,7 +1,7 @@
 package model
 
 import (
-	//"fmt"
+	"fmt"
 	"strings"
 	"testing"
 )
@@ -11,7 +11,7 @@ import (
 //-----------------------------------------------------------------------------
 
 func TestAdditions(t *testing.T) {
-	buildSimpleModel()
+	buildSimpleModel(t)
 }
 
 //-----------------------------------------------------------------------------
@@ -19,7 +19,7 @@ func TestAdditions(t *testing.T) {
 //-----------------------------------------------------------------------------
 
 func TestAddPersonDuplicate(t *testing.T) {
-	api := buildSimpleModel()
+	api := buildSimpleModel(t)
 	err := api.AddPerson("fred.bloggs")
 	if err == nil {
 		t.Errorf("Should have objected to duplicated addition of fred.")
@@ -31,7 +31,7 @@ func TestAddPersonDuplicate(t *testing.T) {
 }
 
 func TestAddSkillUnknownParent(t *testing.T) {
-	api := buildSimpleModel()
+	api := buildSimpleModel(t)
 
 	// unknown parent
 	_, err := api.AddSkill(SKILL, "title", "desc", 99999)
@@ -106,11 +106,24 @@ func TestBestowCategorySkill(t *testing.T) {
 //-----------------------------------------------------------------------------
 
 func TestModelContent(t *testing.T) {
-	api := buildSimpleModel()
+	api := buildSimpleModel(t)
 	if len(api.Skills) != 4 {
 		t.Errorf("Should be 4 skills")
 		return
 	}
+	if len(api.People) != 2 {
+		t.Errorf("Should be 2 people")
+		return
+    }
+    if api.SkillHoldings == nil {
+		t.Errorf("Skill holdings ptr is not initialised.")
+		return
+    }
+    mapSiz := len(api.SkillHoldings.SkillsOfPerson)
+    if mapSiz != 99 {
+		t.Errorf("SkillsOfPeople map should have 2 keys, but has: %d", mapSiz)
+		return
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -118,7 +131,7 @@ func TestModelContent(t *testing.T) {
 //-----------------------------------------------------------------------------
 
 func TestSerialize(t *testing.T) {
-	api := buildSimpleModel()
+	api := buildSimpleModel(t)
 	_, err := api.Serialize()
 	if err != nil {
 		t.Errorf("serialize failed: %v", err.Error())
@@ -131,7 +144,8 @@ func TestSerialize(t *testing.T) {
 // Helper functions
 //-----------------------------------------------------------------------------
 
-func buildSimpleModel() *Api {
+func buildSimpleModel(t *testing.T) *Api {
+    fmt.Printf("Arr build simple model\n")
 	api := NewApi()
 	api.AddPerson("fred.bloggs")
 	api.AddPerson("john.smith")
@@ -143,10 +157,13 @@ func buildSimpleModel() *Api {
 		CATEGORY, "B title", "child B description", rootId)
 	skillC, _ := api.AddSkill(
 		SKILL, "grandchild", "description", skillA)
-	api.GivePersonSkill("fred.bloggs", skillA)
+    fmt.Printf("Calling give person skill\n")
+	err := api.GivePersonSkill("fred.bloggs", skillC)
+    if err != nil {
+		t.Errorf("GivePersonSkill() failed: %v", err.Error())
+    }
 
 	_ = skillB
-	_ = skillC
 
 	return api
 }

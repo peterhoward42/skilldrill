@@ -29,9 +29,12 @@
                  *  make person amenable
                  o  skillholding
                     o  can't get to recurse
-                        o  put in custom marshal fns
-                            o  looks like holding maps could be empty
+                        *  put in custom marshal fns
+                            *  looks like holding maps could be empty
+                                *  they were - not testing for error, and
+                                   were given category skill to fred
                         o  once get to bottom of it - may not need custom fns
+                            o  try allowing marshal to just go on its own
                  o  version
 
 
