@@ -24,7 +24,7 @@ type Api struct {
 	People        []*person
 	skillFromId   map[int32]*skillNode
 	persFromMail  map[string]*person
-	SkillRoot     int32          // root of taxonomy tree (skill.uid)
+	SkillRoot     int32          // root of taxonomy tree (skill.Uid)
 	SkillHoldings *skillHoldings // who has what skill?
 	nextSkill     int32
 }
@@ -87,15 +87,16 @@ func (api *Api) AddSkill(role string, title string, desc string,
 		err = errors.New("Unknown parent.")
 		return
 	}
-	if parentSkill.role != CATEGORY {
+	if parentSkill.Role != CATEGORY {
 		err = errors.New("Parent must be a category node")
 		return
 	}
 	uid = api.nextSkill
 	api.nextSkill++
-	newSkill := newSkillNode(uid, role, title, desc, parentSkill.uid)
+	newSkill := newSkillNode(uid, role, title, desc, parentSkill.Uid)
+    api.Skills = append(api.Skills, newSkill)
 	api.skillFromId[uid] = newSkill
-	parentSkill.addChild(newSkill.uid)
+	parentSkill.addChild(newSkill.Uid)
 	return
 }
 
@@ -114,10 +115,10 @@ func (api *Api) GivePersonSkill(email string, skillId int32) error {
 	if !ok {
 		return errors.New("Skill does not exist.")
 	}
-	if foundSkill.role == CATEGORY {
+	if foundSkill.Role == CATEGORY {
 		return errors.New("Cannot give someone a CATEGORY skill.")
 	}
-	api.SkillHoldings.bind(foundSkill.uid, foundPerson.email)
+	api.SkillHoldings.bind(foundSkill.Uid, foundPerson.email)
 	return nil
 }
 

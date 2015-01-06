@@ -20,6 +20,12 @@
                *  If so ditch separate conversion
                *  Make sure api comment explains serialisable form
                o  Flesh out serialisation
+                o  make skillnode amenable
+                    o  only outputs one skill?
+                        o  undo bug fix
+                        o  add failing test
+                        o  testup
+                    o  not all parent child relns come out right
 
 
 
