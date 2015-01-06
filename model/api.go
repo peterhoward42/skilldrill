@@ -16,22 +16,28 @@ import (
 // people into the model and registering a person as having a particular skill.
 // All model editing operations should be done via Api calls rather than
 // accessing the internal objects directly, so that the integrity of various
-// supplemental look up tables is preserved.
+// supplemental look up tables is preserved. The design intent is that none of
+// the Api fields are exported, but the reason that some are, is solely to
+// facilitate automated serialization by yaml.Marshal().
 type Api struct {
-	skills        map[int32]*skillNode // keyed on skill.uid
-	people        map[string]*person   // keyed on email
-	skillRoot     int32                // root of taxonomy tree (skill.uid)
-	skillHoldings *skillHoldings       // who has what skill?
+	Skills        []*skillNode
+	People        []*person
+	skillFromId   map[int32]*skillNode
+	persFromMail  map[string]*person
+	SkillRoot     int32          // root of taxonomy tree (skill.uid)
+	SkillHoldings *skillHoldings // who has what skill?
 	nextSkill     int32
 }
 
 // The function NewApi() is a (compulsory) constructor for the Api type.
 func NewApi() *Api {
 	return &Api{
-		skills:        make(map[int32]*skillNode),
-		people:        make(map[string]*person),
-		skillRoot:     -1,
-		skillHoldings: newSkillHoldings(),
+		Skills:        make([]*skillNode, 0),
+		People:        make([]*person, 0),
+		skillFromId:   make(map[int32]*skillNode),
+		persFromMail:  make(map[string]*person),
+		SkillRoot:     -1,
+		SkillHoldings: newSkillHoldings(),
 		nextSkill:     1,
 	}
 }
@@ -41,11 +47,13 @@ func NewApi() *Api {
 // exists in the model.
 func (api *Api) AddPerson(email string) (err error) {
 	// disallow duplicate additions
-	_, existingPerson := api.people[email]
+	_, existingPerson := api.persFromMail[email]
 	if existingPerson {
 		return errors.New("person already exists")
 	}
-	api.people[email] = newPerson(email)
+	person := newPerson(email)
+	api.People = append(api.People, person)
+	api.persFromMail[email] = person
 	return nil
 }
 
@@ -65,15 +73,16 @@ func (api *Api) AddSkill(role string, title string, desc string,
 	parent int32) (uid int32, err error) {
 
 	// Special case when tree is empty
-	if api.skillRoot == -1 {
+	if api.SkillRoot == -1 {
 		uid = api.nextSkill
 		api.nextSkill++
 		skill := newSkillNode(uid, role, title, desc, -1)
-		api.skills[uid] = skill
-		api.skillRoot = uid
+		api.Skills = append(api.Skills, skill)
+		api.skillFromId[uid] = skill
+		api.SkillRoot = uid
 		return
 	}
-	parentSkill, ok := api.skills[parent]
+	parentSkill, ok := api.skillFromId[parent]
 	if !ok {
 		err = errors.New("Unknown parent.")
 		return
@@ -85,7 +94,7 @@ func (api *Api) AddSkill(role string, title string, desc string,
 	uid = api.nextSkill
 	api.nextSkill++
 	newSkill := newSkillNode(uid, role, title, desc, parentSkill.uid)
-	api.skills[uid] = newSkill
+	api.skillFromId[uid] = newSkill
 	parentSkill.addChild(newSkill.uid)
 	return
 }
@@ -97,22 +106,21 @@ CATEGORIES.  An error is generated if either the person or skill given are not
 recognized, or you give a person a CATEGORY rather than a SKILL.
 */
 func (api *Api) GivePersonSkill(email string, skillId int32) error {
-	foundPerson, ok := api.people[email]
+	foundPerson, ok := api.persFromMail[email]
 	if !ok {
 		return errors.New("Person does not exist.")
 	}
-	foundSkill, ok := api.skills[skillId]
+	foundSkill, ok := api.skillFromId[skillId]
 	if !ok {
 		return errors.New("Skill does not exist.")
 	}
 	if foundSkill.role == CATEGORY {
 		return errors.New("Cannot give someone a CATEGORY skill.")
 	}
-	api.skillHoldings.bind(foundSkill.uid, foundPerson.email)
+	api.SkillHoldings.bind(foundSkill.uid, foundPerson.email)
 	return nil
 }
 
 func (api *Api) Serialize() (out []byte, err error) {
-	m := NewModelForYaml(api)
-	return yaml.Marshal(m)
+	return yaml.Marshal(api)
 }
