@@ -8,22 +8,19 @@ package model
 
 import (
 	"errors"
-	//"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v2"
 )
 
 // The Api structure is the fundamental type exposed by the skilldrill model
 // package, and provides CRUD interfaces to do things like adding skills or
 // people into the model and registering a person as having a particular skill.
-// Each skill/person etc has an int32 unique identifer which are used
-// comprehensively as keys and cross references in the data.
 // All model editing operations should be done via Api calls rather than
 // accessing the internal objects directly, so that the integrity of various
 // supplemental look up tables is preserved.
 type Api struct {
-	// The int32 items in this struct are unique identifiers for the
-	skills        map[int32]*skillNode
+	skills        map[int32]*skillNode // keyed on skill.uid
 	people        map[string]*person // keyed on email
-	skillRoot     int32               // root of taxonomy tree
+	skillRoot     int32               // root of taxonomy tree (skill.uid)
 	skillHoldings *skillHoldings      // who has what skill?
 	nextSkill     int32
 }
@@ -117,5 +114,6 @@ func (api *Api) GivePersonSkill(email string, skillId int32) error {
 
 
 func (api *Api) Serialize() (out []byte, err error) {
-    return
+    m := NewModelForYaml(api)
+    return yaml.Marshal(m)
 }
