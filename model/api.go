@@ -19,9 +19,9 @@ import (
 // supplemental look up tables is preserved.
 type Api struct {
 	skills        map[int32]*skillNode // keyed on skill.uid
-	people        map[string]*person // keyed on email
-	skillRoot     int32               // root of taxonomy tree (skill.uid)
-	skillHoldings *skillHoldings      // who has what skill?
+	people        map[string]*person   // keyed on email
+	skillRoot     int32                // root of taxonomy tree (skill.uid)
+	skillHoldings *skillHoldings       // who has what skill?
 	nextSkill     int32
 }
 
@@ -112,8 +112,7 @@ func (api *Api) GivePersonSkill(email string, skillId int32) error {
 	return nil
 }
 
-
 func (api *Api) Serialize() (out []byte, err error) {
-    m := NewModelForYaml(api)
-    return yaml.Marshal(m)
+	m := NewModelForYaml(api)
+	return yaml.Marshal(m)
 }

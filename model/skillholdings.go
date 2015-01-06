@@ -3,8 +3,8 @@ package model
 // The skillHoldings type contains bindings between people and the set of skills
 // they hold.
 type skillHoldings struct {
-	skillsOfPerson  map[string]*setOfInt // email -> skill.Uid
-	peopleWithSkill map[int32]*setOfString  // skill.Uid -> email
+	skillsOfPerson  map[string]*setOfInt   // email -> skill.Uid
+	peopleWithSkill map[int32]*setOfString // skill.Uid -> email
 }
 
 // Compulsory constructor.

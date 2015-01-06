@@ -11,8 +11,14 @@
                     *  test module
                 *  resurrect buildable
                 *  resurrect test passes
-            o  Convert serializable fields to exported names
-            o  Redo serialize thus
+            o  Change primary storage of skills and people to being lists,
+               and then dont need serialise class
+               o  Give api these lists as public attr
+               o  Change api actions to insert new items into list, but also
+                  create lookups - from skill uid and email
+               o  Serialise might now just work if call yaml.marshal on it,
+               o  If so ditch separate conversion
+               o  Make sure api comment explains serialisable form
 
 
 
