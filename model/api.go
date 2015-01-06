@@ -8,7 +8,7 @@ package model
 
 import (
 	"errors"
-	"gopkg.in/yaml.v2"
+	//"gopkg.in/yaml.v2"
 )
 
 // The Api structure is the fundamental type exposed by the skilldrill model
@@ -20,41 +20,36 @@ import (
 // accessing the internal objects directly, so that the integrity of various
 // supplemental look up tables is preserved.
 type Api struct {
-    // The int32 items in this struct are unique identifiers for the
-    skills        *map[int32]*skillNode
-    people         *map[string]*person // keyed on email
-	skillRoot     int32         // root of taxonomy tree
-	skillHoldings *skillHoldings     // who has what skill?
-	nextSkill       int32
-    nextPerson      int32
+	// The int32 items in this struct are unique identifiers for the
+	skills        map[int32]*skillNode
+	people        map[string]*person // keyed on email
+	skillRoot     int32               // root of taxonomy tree
+	skillHoldings *skillHoldings      // who has what skill?
+	nextSkill     int32
 }
 
 // The function NewApi() is a (compulsory) constructor for the Api type.
 func NewApi() *Api {
 	return &Api{
-        skills: &map[int32]*skillNode{}
-        people: &map[string]*person{}
-        skillRoot: -1
-        skillHoldings: &newSkillHoldings()
-        nextSkill: 1
-        nextPerson: 1
+		skills:        make(map[int32]*skillNode),
+		people:        make(map[string]*person),
+		skillRoot:     -1,
+		skillHoldings: newSkillHoldings(),
+		nextSkill:     1,
 	}
 }
 
 // The AddPerson() method adds a person to the model in terms of the user name
-// part of their email address. It returns the UID it has generated
-// for the person, and potentially an error value. It is an error to add a person
-// that already exists in the model.
-func (api *Api) AddPerson(email string) (uid int64, err error) {
+// part of their email address. It is an error to add a person that already
+// exists in the model.
+func (api *Api) AddPerson(email string) (err error) {
 	// disallow duplicate additions
 	_, existingPerson := api.people[email]
 	if existingPerson {
-		return -1, errors.New("person already exists")
+		return errors.New("person already exists")
 	}
-	uid = api.nextPerson
-	api.nextPerson++
-	api.people[email] = newPerson(uid, email)
-	return uid, nil
+	api.people[email] = newPerson(email)
+	return nil
 }
 
 /*
@@ -74,8 +69,8 @@ func (api *Api) AddSkill(role string, title string, desc string,
 
 	// Special case when tree is empty
 	if api.skillRoot == -1 {
-        uid = api.nextSkill
-        api.nextSkill++
+		uid = api.nextSkill
+		api.nextSkill++
 		skill := newSkillNode(uid, role, title, desc, -1)
 		api.skills[uid] = skill
 		api.skillRoot = uid
@@ -86,15 +81,15 @@ func (api *Api) AddSkill(role string, title string, desc string,
 		err = errors.New("Unknown parent.")
 		return
 	}
-	if parentSkill.parentNode.role != CATEGORY {
+	if parentSkill.role != CATEGORY {
 		err = errors.New("Parent must be a category node")
 		return
 	}
-    uid = api.nextSkill
-    api.nextSkill++
+	uid = api.nextSkill
+	api.nextSkill++
 	newSkill := newSkillNode(uid, role, title, desc, parentSkill.uid)
-	api.skills[uid] = newNode
-	parentNode.addChild(newNode.uid)
+	api.skills[uid] = newSkill
+	parentSkill.addChild(newSkill.uid)
 	return
 }
 
@@ -116,6 +111,11 @@ func (api *Api) GivePersonSkill(email string, skillId int32) error {
 	if foundSkill.role == CATEGORY {
 		return errors.New("Cannot give someone a CATEGORY skill.")
 	}
-	api.skillHoldings.bind(foundSkill, foundPerson.email)
+	api.skillHoldings.bind(foundSkill.uid, foundPerson.email)
 	return nil
+}
+
+
+func (api *Api) Serialize() (out []byte, err error) {
+    return
 }

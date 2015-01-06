@@ -8,10 +8,11 @@
                 *  preview mentally
                 *  just hack the internal classes into expected shape
                     *  implementation modules
-                    o  test module
-                o  resurrect buildable
-                o  resurrect test passes
+                    *  test module
+                *  resurrect buildable
+                *  resurrect test passes
             o  Convert serializable fields to exported names
+            o  Redo serialize thus
 
 
 

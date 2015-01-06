@@ -16,11 +16,11 @@ descriptive strings should provide only a qualification for their specialism wit
 respect to their parent category, and should not duplicate this information.
 */
 type skillNode struct {
-	uid      int64
+	uid      int32
 	role     string // SKILL | CATEGORY
 	title    string
 	desc     string
-	parent int32
+	parent   int32
 	children []int32
 }
 

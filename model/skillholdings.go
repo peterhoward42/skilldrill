@@ -4,14 +4,14 @@ package model
 // they hold.
 type skillHoldings struct {
 	skillsOfPerson  map[string]*setOfInt // email -> skill.Uid
-	peopleWithSkill map[int32]*setOfInt    // skill.Uid -> people Uids
+	peopleWithSkill map[int32]*setOfString  // skill.Uid -> email
 }
 
 // Compulsory constructor.
 func newSkillHoldings() *skillHoldings {
 	return &skillHoldings{
 		skillsOfPerson:  map[string]*setOfInt{},
-		peopleWithSkill: map[int32]*setOfInt{},
+		peopleWithSkill: map[int32]*setOfString{},
 	}
 }
 
@@ -27,7 +27,7 @@ func (sh *skillHoldings) bind(skill int32, email string) {
 
 	people, ok := sh.peopleWithSkill[skill]
 	if !ok {
-		people = newSetOfInt()
+		people = newSetOfString()
 		sh.peopleWithSkill[skill] = people
 	}
 	people.add(email)

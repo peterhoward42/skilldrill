@@ -20,7 +20,7 @@ func TestAdditions(t *testing.T) {
 
 func TestAddPersonDuplicate(t *testing.T) {
 	api := buildSimpleModel()
-	_, err := api.AddPerson("fred.bloggs")
+	err := api.AddPerson("fred.bloggs")
 	if err == nil {
 		t.Errorf("Should have objected to duplicated addition of fred.")
 		return
