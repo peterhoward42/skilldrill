@@ -1,7 +1,7 @@
 package model
 
 import (
-	"fmt"
+	//"fmt"
 	"strings"
 	"testing"
 )
@@ -102,17 +102,29 @@ func TestBestowCategorySkill(t *testing.T) {
 }
 
 //-----------------------------------------------------------------------------
+// Sanity test - model building done right
+//-----------------------------------------------------------------------------
+
+func TestModelContent(t *testing.T) {
+	api := buildSimpleModel()
+	if len(api.Skills) != 4 {
+		t.Errorf("Should be 4 skills")
+		return
+	}
+}
+
+//-----------------------------------------------------------------------------
 // Exercise serialization
 //-----------------------------------------------------------------------------
 
 func TestSerialize(t *testing.T) {
 	api := buildSimpleModel()
-	b, err := api.Serialize()
+	_, err := api.Serialize()
 	if err != nil {
 		t.Errorf("serialize failed: %v", err.Error())
 		return
 	}
-	fmt.Printf("Result returned from api serialize follows\n%s", string(b))
+	//fmt.Printf("Result returned from api serialize follows\n%s", string(b))
 }
 
 //-----------------------------------------------------------------------------

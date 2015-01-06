@@ -1,6 +1,6 @@
 package model
 
-// The setOfInt type provides the contentional SET model for integers.
+// The setOfInt type provides the conventional SET model for integers.
 type setOfInt struct {
 	data map[int32]bool
 }
@@ -17,4 +17,11 @@ func (s *setOfInt) contains(val int32) bool {
 
 func (s *setOfInt) add(val int32) {
 	s.data[val] = true
+}
+
+func (set *setOfInt) asSlice() (slice []int32) {
+   for k, _ := range set.data {
+        slice = append(slice, k)
+   }
+   return slice
 }

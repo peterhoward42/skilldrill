@@ -18,3 +18,10 @@ func (set *setOfString) contains(str string) bool {
 func (set *setOfString) add(str string) {
 	set.data[str] = true
 }
+
+func (set *setOfString) asSlice() (slice []string) {
+   for k, _ := range set.data {
+        slice = append(slice, k)
+   }
+   return slice
+}

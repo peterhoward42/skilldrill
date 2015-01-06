@@ -13,9 +13,10 @@ const (
 The skillNode type models a node in the skill hierachy. Only the leaf-level nodes
 are permitted to be SKILLS. The others must have the role CATEGORY. The
 descriptive strings should provide only a qualification for their specialism with
-respect to their parent category, and should not duplicate this information. The
-fields are not intended to be exported, but are, only to support serialization
-with yaml.Marshal.
+respect to their parent category, and should not duplicate this information.
+The design intent is that none of Api fields are exported, but the reason
+that some are, is solely to facilitate automated serialization by
+yaml.Marshal().
 */
 type skillNode struct {
 	Uid      int32

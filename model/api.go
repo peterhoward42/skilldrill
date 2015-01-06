@@ -16,9 +16,10 @@ import (
 // people into the model and registering a person as having a particular skill.
 // All model editing operations should be done via Api calls rather than
 // accessing the internal objects directly, so that the integrity of various
-// supplemental look up tables is preserved. The design intent is that none of
-// the Api fields are exported, but the reason that some are, is solely to
-// facilitate automated serialization by yaml.Marshal().
+// supplemental look up tables is preserved.
+// The design intent is that none of Api fields are exported, but the reason
+// that some are, is solely to facilitate automated serialization by
+// yaml.Marshal().
 type Api struct {
 	Skills        []*skillNode
 	People        []*person
@@ -94,7 +95,7 @@ func (api *Api) AddSkill(role string, title string, desc string,
 	uid = api.nextSkill
 	api.nextSkill++
 	newSkill := newSkillNode(uid, role, title, desc, parentSkill.Uid)
-    api.Skills = append(api.Skills, newSkill)
+	api.Skills = append(api.Skills, newSkill)
 	api.skillFromId[uid] = newSkill
 	parentSkill.addChild(newSkill.Uid)
 	return
@@ -118,7 +119,7 @@ func (api *Api) GivePersonSkill(email string, skillId int32) error {
 	if foundSkill.Role == CATEGORY {
 		return errors.New("Cannot give someone a CATEGORY skill.")
 	}
-	api.SkillHoldings.bind(foundSkill.Uid, foundPerson.email)
+	api.SkillHoldings.bind(foundSkill.Uid, foundPerson.Email)
 	return nil
 }
 
