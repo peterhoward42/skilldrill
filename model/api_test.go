@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 )
@@ -114,16 +113,16 @@ func TestModelContent(t *testing.T) {
 	if len(api.People) != 2 {
 		t.Errorf("Should be 2 people")
 		return
-    }
-    if api.SkillHoldings == nil {
+	}
+	if api.SkillHoldings == nil {
 		t.Errorf("Skill holdings ptr is not initialised.")
 		return
-    }
-    mapSiz := len(api.SkillHoldings.SkillsOfPerson)
-    if mapSiz != 99 {
-		t.Errorf("SkillsOfPeople map should have 2 keys, but has: %d", mapSiz)
+	}
+	mapSiz := len(api.SkillHoldings.SkillsOfPerson)
+	if mapSiz != 1 {
+		t.Errorf("SkillsOfPeople map should have 1 key, but has: %d", mapSiz)
 		return
-    }
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -145,7 +144,6 @@ func TestSerialize(t *testing.T) {
 //-----------------------------------------------------------------------------
 
 func buildSimpleModel(t *testing.T) *Api {
-    fmt.Printf("Arr build simple model\n")
 	api := NewApi()
 	api.AddPerson("fred.bloggs")
 	api.AddPerson("john.smith")
@@ -157,11 +155,10 @@ func buildSimpleModel(t *testing.T) *Api {
 		CATEGORY, "B title", "child B description", rootId)
 	skillC, _ := api.AddSkill(
 		SKILL, "grandchild", "description", skillA)
-    fmt.Printf("Calling give person skill\n")
 	err := api.GivePersonSkill("fred.bloggs", skillC)
-    if err != nil {
+	if err != nil {
 		t.Errorf("GivePersonSkill() failed: %v", err.Error())
-    }
+	}
 
 	_ = skillB
 

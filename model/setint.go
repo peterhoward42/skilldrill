@@ -20,8 +20,8 @@ func (s *setOfInt) add(val int32) {
 }
 
 func (set *setOfInt) asSlice() (slice []int32) {
-   for k, _ := range set.data {
-        slice = append(slice, k)
-   }
-   return slice
+	for k, _ := range set.data {
+		slice = append(slice, k)
+	}
+	return slice
 }

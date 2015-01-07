@@ -8,7 +8,6 @@ package model
 
 import (
 	"errors"
-    "fmt"
 	"gopkg.in/yaml.v2"
 )
 
@@ -48,7 +47,6 @@ func NewApi() *Api {
 // part of their email address. It is an error to add a person that already
 // exists in the model.
 func (api *Api) AddPerson(email string) (err error) {
-    fmt.Printf("Arr add person for %s\n", email)
 	// disallow duplicate additions
 	_, ok := api.persFromMail[email]
 	if ok {
@@ -110,10 +108,7 @@ CATEGORIES.  An error is generated if either the person or skill given are not
 recognized, or you give a person a CATEGORY rather than a SKILL.
 */
 func (api *Api) GivePersonSkill(email string, skillId int32) error {
-    fmt.Printf("arr give person skill for %s, %d\n", email, skillId)
-    fmt.Printf("Size of pers from mail: %v\n", len(api.persFromMail))
 	foundPerson, ok := api.persFromMail[email]
-    fmt.Printf("foundperson %v, ok %v\n", foundPerson, ok)
 	if !ok {
 		return errors.New("Person does not exist.")
 	}
@@ -124,7 +119,6 @@ func (api *Api) GivePersonSkill(email string, skillId int32) error {
 	if foundSkill.Role == CATEGORY {
 		return errors.New("Cannot give someone a CATEGORY skill.")
 	}
-    fmt.Printf("Calling bind.\n")
 	api.SkillHoldings.bind(foundSkill.Uid, foundPerson.Email)
 	return nil
 }

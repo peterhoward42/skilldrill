@@ -1,8 +1,6 @@
 package model
 
-
 import (
-	"fmt"
 )
 
 // The skillHoldings type contains bindings between people and the set of skills
@@ -26,13 +24,12 @@ func newSkillHoldings() *skillHoldings {
 // The method bind() adds the given skill to the set of skills held for the given
 // person. An error is generated if the skill is a CATEGORY.
 func (sh *skillHoldings) bind(skill int32, email string) {
-    fmt.Printf("arr in bind for %v -> %v\n", skill, email)
 	skills, ok := sh.SkillsOfPerson[email]
 	if !ok {
 		skills = newSetOfInt()
 		sh.SkillsOfPerson[email] = skills
 	} else {
-    }
+	}
 
 	skills.add(skill)
 
@@ -45,29 +42,25 @@ func (sh *skillHoldings) bind(skill int32, email string) {
 }
 
 func (holdings *skillHoldings) MarshalYAML() (interface{}, error) {
-	fmt.Printf("marshal fired for skill holdings\n")
 	d := make(map[string]interface{})
 	d["skillsOfPerson"] = holdings.yamlSkillsOfPerson()
 	d["peopleWithSkill"] = holdings.yamlPeopleWithSkill()
 	return d, nil
 }
 
-func (holdings *skillHoldings) yamlSkillsOfPerson() (interface{}) {
-    d := make(map[string][]int32)
-    fmt.Printf("arrived in yamlskillsofperson\n")
-    fmt.Printf("print skillsofpersonmap: %v\n", holdings.SkillsOfPerson)
-    for email,skills := range holdings.SkillsOfPerson {
-        sas := skills.asSlice()
-        fmt.Printf("skills as slice is: %v", sas)
-        d[email] = sas
-    }
-    return d
+func (holdings *skillHoldings) yamlSkillsOfPerson() interface{} {
+	d := make(map[string][]int32)
+	for email, skills := range holdings.SkillsOfPerson {
+		sas := skills.asSlice()
+		d[email] = sas
+	}
+	return d
 }
 
-func (holdings *skillHoldings) yamlPeopleWithSkill() (interface{}) {
-    d := make(map[int32][]string)
-    for skillUid,people := range holdings.PeopleWithSkill {
-        d[skillUid] = people.asSlice()
-    }
-    return d
+func (holdings *skillHoldings) yamlPeopleWithSkill() interface{} {
+	d := make(map[int32][]string)
+	for skillUid, people := range holdings.PeopleWithSkill {
+		d[skillUid] = people.asSlice()
+	}
+	return d
 }

@@ -20,8 +20,8 @@ func (set *setOfString) add(str string) {
 }
 
 func (set *setOfString) asSlice() (slice []string) {
-   for k, _ := range set.data {
-        slice = append(slice, k)
-   }
-   return slice
+	for k, _ := range set.data {
+		slice = append(slice, k)
+	}
+	return slice
 }
