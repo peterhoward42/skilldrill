@@ -33,7 +33,7 @@
                             *  looks like holding maps could be empty
                                 *  they were - not testing for error, and
                                    were given category skill to fred
-                        o  get rid of all those formats
+                        *  get rid of all those formats
                         o  once get to bottom of it - may not need custom fns
                             o  try allowing marshal to just go on its own
                  o  version

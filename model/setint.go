@@ -19,7 +19,11 @@ func (s *setOfInt) add(val int32) {
 	s.data[val] = true
 }
 
-func (set *setOfInt) asSlice() (slice []int32) {
+func (s *setOfInt) MarshalYAML() (interface{}, error) {
+	return s.AsSlice(), nil
+}
+
+func (set *setOfInt) AsSlice() (slice []int32) {
 	for k, _ := range set.data {
 		slice = append(slice, k)
 	}

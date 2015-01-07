@@ -1,7 +1,6 @@
 package model
 
-import (
-)
+import ()
 
 // The skillHoldings type contains bindings between people and the set of skills
 // they hold.
@@ -39,28 +38,4 @@ func (sh *skillHoldings) bind(skill int32, email string) {
 		sh.PeopleWithSkill[skill] = people
 	}
 	people.add(email)
-}
-
-func (holdings *skillHoldings) MarshalYAML() (interface{}, error) {
-	d := make(map[string]interface{})
-	d["skillsOfPerson"] = holdings.yamlSkillsOfPerson()
-	d["peopleWithSkill"] = holdings.yamlPeopleWithSkill()
-	return d, nil
-}
-
-func (holdings *skillHoldings) yamlSkillsOfPerson() interface{} {
-	d := make(map[string][]int32)
-	for email, skills := range holdings.SkillsOfPerson {
-		sas := skills.asSlice()
-		d[email] = sas
-	}
-	return d
-}
-
-func (holdings *skillHoldings) yamlPeopleWithSkill() interface{} {
-	d := make(map[int32][]string)
-	for skillUid, people := range holdings.PeopleWithSkill {
-		d[skillUid] = people.asSlice()
-	}
-	return d
 }

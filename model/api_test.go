@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 )
@@ -131,12 +132,12 @@ func TestModelContent(t *testing.T) {
 
 func TestSerialize(t *testing.T) {
 	api := buildSimpleModel(t)
-	_, err := api.Serialize()
+	b, err := api.Serialize()
 	if err != nil {
 		t.Errorf("serialize failed: %v", err.Error())
 		return
 	}
-	//fmt.Printf("Result returned from api serialize follows\n%s", string(b))
+	fmt.Printf("Result returned from api serialize follows\n%s", string(b))
 }
 
 //-----------------------------------------------------------------------------

@@ -19,7 +19,11 @@ func (set *setOfString) add(str string) {
 	set.data[str] = true
 }
 
-func (set *setOfString) asSlice() (slice []string) {
+func (s *setOfString) MarshalYAML() (interface{}, error) {
+	return s.AsSlice(), nil
+}
+
+func (set *setOfString) AsSlice() (slice []string) {
 	for k, _ := range set.data {
 		slice = append(slice, k)
 	}
