@@ -21,7 +21,7 @@ import (
 // that some are, is solely to facilitate automated serialization by
 // yaml.Marshal().
 type Api struct {
-    SerializeVers int32
+	SerializeVers int32
 	Skills        []*skillNode
 	People        []*person
 	skillFromId   map[int32]*skillNode
@@ -34,7 +34,7 @@ type Api struct {
 // The function NewApi() is a (compulsory) constructor for the Api type.
 func NewApi() *Api {
 	return &Api{
-        SerializeVers: 1,
+		SerializeVers: 1,
 		Skills:        make([]*skillNode, 0),
 		People:        make([]*person, 0),
 		skillFromId:   make(map[int32]*skillNode),
