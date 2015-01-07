@@ -21,25 +21,27 @@ import (
 // that some are, is solely to facilitate automated serialization by
 // yaml.Marshal().
 type Api struct {
+    SerializeVers int32
 	Skills        []*skillNode
 	People        []*person
 	skillFromId   map[int32]*skillNode
 	persFromMail  map[string]*person
 	SkillRoot     int32          // root of taxonomy tree (skill.Uid)
 	SkillHoldings *skillHoldings // who has what skill?
-	nextSkill     int32
+	NextSkill     int32
 }
 
 // The function NewApi() is a (compulsory) constructor for the Api type.
 func NewApi() *Api {
 	return &Api{
+        SerializeVers: 1,
 		Skills:        make([]*skillNode, 0),
 		People:        make([]*person, 0),
 		skillFromId:   make(map[int32]*skillNode),
 		persFromMail:  make(map[string]*person),
 		SkillRoot:     -1,
 		SkillHoldings: newSkillHoldings(),
-		nextSkill:     1,
+		NextSkill:     1,
 	}
 }
 
@@ -75,8 +77,8 @@ func (api *Api) AddSkill(role string, title string, desc string,
 
 	// Special case when tree is empty
 	if api.SkillRoot == -1 {
-		uid = api.nextSkill
-		api.nextSkill++
+		uid = api.NextSkill
+		api.NextSkill++
 		skill := newSkillNode(uid, role, title, desc, -1)
 		api.Skills = append(api.Skills, skill)
 		api.skillFromId[uid] = skill
@@ -92,8 +94,8 @@ func (api *Api) AddSkill(role string, title string, desc string,
 		err = errors.New("Parent must be a category node")
 		return
 	}
-	uid = api.nextSkill
-	api.nextSkill++
+	uid = api.NextSkill
+	api.NextSkill++
 	newSkill := newSkillNode(uid, role, title, desc, parentSkill.Uid)
 	api.Skills = append(api.Skills, newSkill)
 	api.skillFromId[uid] = newSkill

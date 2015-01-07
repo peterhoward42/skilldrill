@@ -2,70 +2,10 @@
                                     Skill Drill Log
 
 -------------------------------------------------------------------------------
-        o  Timeout - refactor to make main model yaml compatible
-            o  Remove pointer based relationships and use uids instead for
-               data-owning fields. (Retain ptrs non serialized objects) 
-                *  preview mentally
-                *  just hack the internal classes into expected shape
-                    *  implementation modules
-                    *  test module
-                *  resurrect buildable
-                *  resurrect test passes
-            o  Change primary storage of skills and people to being lists,
-               and then dont need serialise class
-               *  Give api these lists as public attr
-               *  Change api actions to insert new items into list, but also
-                  create lookups - from skill uid and email
-               *  Serialise might now just work if call yaml.marshal on it,
-               *  If so ditch separate conversion
-               *  Make sure api comment explains serialisable form
-               o  Flesh out serialisation
-                 *  make skillnode amenable
-                    *  only outputs one skill?
-                        *  undo bug fix
-                        *  add failing test
-                        *  testup
-                    *  not all parent child relns come out right
-                 *  make person amenable
-                 o  skillholding
-                    *  can't get to recurse
-                        *  put in custom marshal fns
-                            *  looks like holding maps could be empty
-                                *  they were - not testing for error, and
-                                   were given category skill to fred
-                        *  get rid of all those formats
-                        o  once get to bottom of it - may not need custom fns
-                            o  try allowing marshal to just go on its own
-                 o  version
-
-
-
-
-                    with 'flow'
-                    o  type T struct {
-    F int "a,omitempty"
-    B int
-}
-
-                o  set classes move to lib
-
-
-
-
-
-            o  Refactor serialization to avoid separate data structures
-        o  Serialise
-            *  Ditch and start again
-            *  Design file format = yaml
-            o  Design top down arch
-                *  Try MarshalYAML native
-                    *  Get package
-                o  Bugs so far
-                    o  Only two skills coming out
-                    o  ids are garbage
-            o  Deserialise
-        o  Set classes using ptrs as keys? - maybe set of uid?
-        o  unit test for tests
+        *  Serialise
+        o  set classes move to lib
+        o  Deserialise
+        o  unit test for sets
         o  Add in app state and user states
 
 
