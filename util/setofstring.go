@@ -10,7 +10,7 @@ func NewSetOfString() *SetOfString {
 	return &SetOfString{data: map[string]bool{}}
 }
 
-func (set *SetOfString) contains(str string) bool {
+func (set *SetOfString) Contains(str string) bool {
 	_, ok := set.data[str]
 	return ok
 }

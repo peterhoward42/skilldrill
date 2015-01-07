@@ -10,7 +10,7 @@ func NewSetOfInt() *SetOfInt {
 	return &SetOfInt{data: map[int32]bool{}}
 }
 
-func (s *SetOfInt) contains(val int32) bool {
+func (s *SetOfInt) Contains(val int32) bool {
 	_, ok := s.data[val]
 	return ok
 }

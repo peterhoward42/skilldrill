@@ -3,9 +3,9 @@
 
 -------------------------------------------------------------------------------
         *  Serialise
-        o  set classes move to lib
-        o  Deserialise
+        *  set classes move to lib
         o  unit test for sets
+        o  Deserialise
         o  Add in app state and user states
 
 
