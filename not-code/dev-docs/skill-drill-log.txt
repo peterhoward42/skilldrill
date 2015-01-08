@@ -19,6 +19,12 @@
                             *  make a family as necessary for other tests
                             *  wrap into prev tests
             o  Finish deserialise test workup
+                o  Get deserialise to not generate any errors
+                    o  Work up setofint deserialise and tests
+                        o  Should I be using plain ints? YES
+                            o  Do big s+r for int32
+                            o  sed for windows?
+                    o  Copy pattern for string
         o  Use test assertions in older tests
         o  Play around with go doc including example
         o  Add in app state and user states
