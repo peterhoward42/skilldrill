@@ -51,20 +51,38 @@ func TestDeSerialize(t *testing.T) {
 	}
 	api, err := NewFromSerialized(serialized)
 
-    // Recovered the version ok?
+    versionOK(t, api)
+    skillListOK(t, api)
+    sampleSkillOK(t, api)
+}
+
+func versionOK(t *testing.T, api *Api) {
     if q := api.SerializeVers; q != 1 {
 		t.Errorf("Serialization version wrong: %d, expected 1", q)
 	}
+}
 
-    // Recovered the skills ok?
+func skillListOK(t *testing.T, api *Api) {
     if q := api.Skills; len(q) != 4 {
 		t.Errorf("Skill list size wrong: %d, expected 4", len(q))
 	}
-    if skill := api.Skills[3]; skill.Uid != 4 {
-		t.Errorf("Skill uid wrong: %d, expected 4", skill.Uid)
-	}
-
-
-
-	//fmt.Printf("\nDefault repr of restored: <%v>\n", restored)
 }
+
+func sampleSkillOK(t *testing.T, api *Api) {
+    skill := api.Skills[3];
+
+/*
+    expected := int32(4)
+    if q := skill.Uid; q != expected {
+		t.Errorf("Uid wrong: %v, expected %v", q, expected)
+	}
+    */
+    foo(t, skill.Uid, 5, "Uid")
+}
+
+func foo(t *testing.T, got int32, expected int32, isWrong string) {
+    if got != expected {
+		t.Errorf("%s is wrong: %v, expected: %v", isWrong, got, expected)
+	}
+}
+

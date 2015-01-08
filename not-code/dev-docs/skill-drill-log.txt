@@ -10,8 +10,10 @@
             *  Read up
             o  Do it
                 o  Top down serialize validation
-                    o  Timeout to put in separate test module
+                    *  Timeout to put in separate test module
                     o  Resume skillnode inspection
+                        o  timeout generalise form of test
+                            o  DRY?
         o  Add in app state and user states
 
 
