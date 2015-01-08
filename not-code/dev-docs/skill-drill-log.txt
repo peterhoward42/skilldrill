@@ -13,7 +13,12 @@
                     *  Timeout to put in separate test module
                     o  Resume skillnode inspection
                         o  timeout generalise form of test
-                            o  DRY?
+                            *  DRY?
+                            o  into lib testhelp module
+                            o  tidy err msg with filter
+                            o  make a family as necessary for other tests
+                            o  wrap into prev tests
+        o  Play around with go doc including example
         o  Add in app state and user states
 
 

@@ -1,6 +1,7 @@
 package model
 
 import (
+    "runtime"
 	"strings"
 	"testing"
 )
@@ -70,19 +71,15 @@ func skillListOK(t *testing.T, api *Api) {
 
 func sampleSkillOK(t *testing.T, api *Api) {
     skill := api.Skills[3];
-
-/*
-    expected := int32(4)
-    if q := skill.Uid; q != expected {
-		t.Errorf("Uid wrong: %v, expected %v", q, expected)
-	}
-    */
     foo(t, skill.Uid, 5, "Uid")
 }
 
 func foo(t *testing.T, got int32, expected int32, isWrong string) {
     if got != expected {
+        var buf = make([]byte, 10000) // has to be big enough
+        written := runtime.Stack(buf, false)
 		t.Errorf("%s is wrong: %v, expected: %v", isWrong, got, expected)
+        t.Error(string(buf[0:written]))
 	}
 }
 
