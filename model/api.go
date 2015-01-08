@@ -2,7 +2,8 @@
 The skilldrill model package is a multi-file package that can model a hierachical
 set of skills and a set of people who hold some of those skills. The api.go file
 exposes the Api type, which provides methods for CRUD operations, while the other
-files deal with much of the internal workings.
+files deal with much of the internal workings. The model supports serialization
+and de-serialization using a yaml form.
 */
 package model
 
@@ -31,7 +32,8 @@ type Api struct {
 	NextSkill     int32
 }
 
-// The function NewApi() is a (compulsory) constructor for the Api type.
+// The function NewApi() is a (compulsory) constructor for an initialized, but
+// empty Api struct.
 func NewApi() *Api {
 	return &Api{
 		SerializeVers: 1,
@@ -43,6 +45,14 @@ func NewApi() *Api {
 		SkillHoldings: newSkillHoldings(),
 		NextSkill:     1,
 	}
+}
+
+// The function NewFromSerialized() is a factory for an Api based on
+// content previously serialized using the Api.Serialize() method.
+func NewFromSerialized(in []byte) (api *Api, err error) {
+    api = NewApi()
+    err = yaml.Unmarshal(in, api)
+	return
 }
 
 // The AddPerson() method adds a person to the model in terms of the user name

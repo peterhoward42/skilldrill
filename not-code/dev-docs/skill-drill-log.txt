@@ -4,8 +4,11 @@
 -------------------------------------------------------------------------------
         *  Serialise
         *  set classes move to lib
-        o  unit test for sets
+        *  unit test for sets
         o  Deserialise
+            *  Api for convenience
+            *  Read up
+            o  Do it
         o  Add in app state and user states
 
 
