@@ -50,8 +50,8 @@ func NewApi() *Api {
 // The function NewFromSerialized() is a factory for an Api based on
 // content previously serialized using the Api.Serialize() method.
 func NewFromSerialized(in []byte) (api *Api, err error) {
-    api = NewApi()
-    err = yaml.Unmarshal(in, api)
+	api = NewApi()
+	err = yaml.Unmarshal(in, api)
 	return
 }
 

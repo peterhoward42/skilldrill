@@ -8,16 +8,18 @@
         o  Deserialise
             *  Api for convenience
             *  Read up
-            o  Do it
-                o  Top down serialize validation
+            *  Do it
+                *  Top down serialize validation
                     *  Timeout to put in separate test module
-                    o  Resume skillnode inspection
-                        o  timeout generalise form of test
+                    *  Resume skillnode inspection
+                        *  timeout generalise form of test
                             *  DRY?
-                            o  into lib testhelp module
-                            o  tidy err msg with filter
-                            o  make a family as necessary for other tests
-                            o  wrap into prev tests
+                            *  into lib testhelp module
+                            *  tidy err msg with filter
+                            *  make a family as necessary for other tests
+                            *  wrap into prev tests
+            o  Finish deserialise test workup
+        o  Use test assertions in older tests
         o  Play around with go doc including example
         o  Add in app state and user states
 
