@@ -7,13 +7,13 @@ import (
 )
 
 /*
-The function AssertEqInt32 is a helper function for the golang test package.  It
-is syntax sugar for asserting that a given int32 matches an expected value.  When
+The function AssertEqInt is a helper function for the golang test package.  It
+is syntax sugar for asserting that a given int matches an expected value.  When
 the assertion does not hold, it sends a message to the injected testing.T object
 which includes a simplified stack trace with line numbers. The function parameter
 'thing' gets used in the message generated as a noun for the thing that is wrong.
 */
-func AssertEqInt32(t *testing.T, actual int32, expected int32, thing string) {
+func AssertEqInt(t *testing.T, actual int, expected int, thing string) {
 	if actual == expected {
 		return
 	}
@@ -49,6 +49,21 @@ func AssertNilErr(t *testing.T, err error, thing string) {
 		return
 	}
 	t.Errorf("Error generated: %v", err.Error())
+	t.Error(briefStackTrace())
+}
+
+/*
+The function AssertTrue is a helper function for the golang test package.  It
+is syntax sugar for asserting that a given bool value is true.  When the
+assertion does not hold, it sends a message to the injected testing.T object
+which includes a simplified stack trace with line numbers. The function parameter
+'thing' gets used in the message generated as a noun for the thing that is wrong.
+*/
+func AssertTrue(t *testing.T, shouldBeTrue bool, thing string) {
+	if shouldBeTrue == true {
+		return
+	}
+	t.Errorf("Value is not true: %v", thing)
 	t.Error(briefStackTrace())
 }
 

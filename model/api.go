@@ -22,14 +22,14 @@ import (
 // that some are, is solely to facilitate automated serialization by
 // yaml.Marshal().
 type Api struct {
-	SerializeVers int32
+	SerializeVers int
 	Skills        []*skillNode
 	People        []*person
-	skillFromId   map[int32]*skillNode
+	skillFromId   map[int]*skillNode
 	persFromMail  map[string]*person
-	SkillRoot     int32          // root of taxonomy tree (skill.Uid)
+	SkillRoot     int            // root of taxonomy tree (skill.Uid)
 	SkillHoldings *skillHoldings // who has what skill?
-	NextSkill     int32
+	NextSkill     int
 }
 
 // The function NewApi() is a (compulsory) constructor for an initialized, but
@@ -39,7 +39,7 @@ func NewApi() *Api {
 		SerializeVers: 1,
 		Skills:        make([]*skillNode, 0),
 		People:        make([]*person, 0),
-		skillFromId:   make(map[int32]*skillNode),
+		skillFromId:   make(map[int]*skillNode),
 		persFromMail:  make(map[string]*person),
 		SkillRoot:     -1,
 		SkillHoldings: newSkillHoldings(),
@@ -83,7 +83,7 @@ node that is not a CATEGORY, or if the parent skill you provide is not
 recognized.
 */
 func (api *Api) AddSkill(role string, title string, desc string,
-	parent int32) (uid int32, err error) {
+	parent int) (uid int, err error) {
 
 	// Special case when tree is empty
 	if api.SkillRoot == -1 {
@@ -119,7 +119,7 @@ model holds for that person.  You are only allowed to give people SKILLS, not
 CATEGORIES.  An error is generated if either the person or skill given are not
 recognized, or you give a person a CATEGORY rather than a SKILL.
 */
-func (api *Api) GivePersonSkill(email string, skillId int32) error {
+func (api *Api) GivePersonSkill(email string, skillId int) error {
 	foundPerson, ok := api.persFromMail[email]
 	if !ok {
 		return errors.New("Person does not exist.")

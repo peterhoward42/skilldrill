@@ -10,17 +10,36 @@ func NewSetOfString() *SetOfString {
 	return &SetOfString{data: map[string]bool{}}
 }
 
+// The function Overwrite() replaces the set's content with that of the
+// given slice.
+func (s *SetOfString) Overwrite(newContent []string) {
+	s.data = map[string]bool{}
+	for _, value := range newContent {
+		s.Add(value)
+	}
+}
+
+// The function Add(), adds the given value into the set.
+func (set *SetOfString) Add(str string) {
+	set.data[str] = true
+}
+
+// The function Contains() tests for the presence of the given value in
+// the set.
 func (set *SetOfString) Contains(str string) bool {
 	_, ok := set.data[str]
 	return ok
 }
 
-func (set *SetOfString) Add(str string) {
-	set.data[str] = true
-}
-
 func (s *SetOfString) MarshalYAML() (interface{}, error) {
 	return s.AsSlice(), nil
+}
+
+func (s *SetOfString) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	tmpSlice := make([]string, 0)
+	err := unmarshal(&tmpSlice)
+	s.Overwrite(tmpSlice)
+	return err
 }
 
 func (set *SetOfString) AsSlice() (slice []string) {

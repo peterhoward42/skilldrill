@@ -53,5 +53,5 @@ func TestDeSerialize(t *testing.T) {
 	util.AssertNilErr(t, err, "DeSerialize error")
 
 	// version ?
-	util.AssertEqInt32(t, api.SerializeVers, 1, "Serialize version")
+	util.AssertEqInt(t, api.SerializeVers, 1, "Serialize version")
 }

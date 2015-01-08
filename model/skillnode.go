@@ -19,29 +19,29 @@ that some are, is solely to facilitate automated serialization by
 yaml.Marshal().
 */
 type skillNode struct {
-	Uid      int32
+	Uid      int
 	Role     string // SKILL | CATEGORY
 	Title    string
 	Desc     string
-	Parent   int32
-	Children []int32
+	Parent   int
+	Children []int
 }
 
 // Compulsory constructor.
-func newSkillNode(uid int32, role string, title string, desc string,
-	parent int32) *skillNode {
+func newSkillNode(uid int, role string, title string, desc string,
+	parent int) *skillNode {
 	return &skillNode{
 		Uid:      uid,
 		Role:     role,
 		Title:    title,
 		Desc:     desc,
 		Parent:   parent,
-		Children: []int32{},
+		Children: []int{},
 	}
 }
 
 // The method addChild() adds the given skillNode into the tree as a child of the
 // given parent.
-func (parent *skillNode) addChild(child int32) {
+func (parent *skillNode) addChild(child int) {
 	parent.Children = append(parent.Children, child)
 }
