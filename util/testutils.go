@@ -6,12 +6,13 @@ import (
 	"testing"
 )
 
-// The function AssertEqInt32 is a helper function for the golang test package.
-// It is syntax sugar for asserting that a given int32 matches an expected value.
-// When the assertion does not hold, it sends a message to the injected testing.T
-// object which includes a simplified stack trace with line numbers. The function
-// parameter 'thing' gets used in the message generated as a noun for the thing
-// that is wrong.
+/*
+The function AssertEqInt32 is a helper function for the golang test package.  It
+is syntax sugar for asserting that a given int32 matches an expected value.  When
+the assertion does not hold, it sends a message to the injected testing.T object
+which includes a simplified stack trace with line numbers. The function parameter
+'thing' gets used in the message generated as a noun for the thing that is wrong.
+*/
 func AssertEqInt32(t *testing.T, actual int32, expected int32, thing string) {
 	if actual == expected {
 		return
@@ -20,12 +21,29 @@ func AssertEqInt32(t *testing.T, actual int32, expected int32, thing string) {
 	t.Error(briefStackTrace())
 }
 
-// The function AssertNilErr is a helper function for the golang test package.
-// It is syntax sugar for asserting that a given error value is not nil.
-// When the assertion does not hold, it sends a message to the injected testing.T
-// object which includes a simplified stack trace with line numbers. The function
-// parameter 'thing' gets used in the message generated as a noun for the thing
-// that is wrong.
+/*
+The function AssertStrContains is a helper function for the golang test package.
+It is syntax sugar for asserting that a given string contains a given sub string.
+When the assertion does not hold, it sends a message to the injected testing.T
+object which includes a simplified stack trace with line numbers. The function
+parameter 'thing' gets used in the message generated as a noun for the thing that
+is wrong.
+*/
+func AssertStrContains(t *testing.T, main string, sub string, thing string) {
+	if strings.Contains(main, sub) {
+		return
+	}
+	t.Errorf("This string: <%s> does not contain <%s>", main, sub)
+	t.Error(briefStackTrace())
+}
+
+/*
+The function AssertNilErr is a helper function for the golang test package.  It
+is syntax sugar for asserting that a given error value is not nil.  When the
+assertion does not hold, it sends a message to the injected testing.T object
+which includes a simplified stack trace with line numbers. The function parameter
+'thing' gets used in the message generated as a noun for the thing that is wrong.
+*/
 func AssertNilErr(t *testing.T, err error, thing string) {
 	if err == nil {
 		return

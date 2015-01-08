@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"github.com/peterhoward42/skilldrill/util"
 	"strings"
 	"testing"
@@ -13,10 +14,11 @@ import (
 func TestSerialize(t *testing.T) {
 	api := buildSimpleModel(t)
 	serialized, err := api.Serialize()
-	if err != nil {
-		t.Errorf("serialize failed: %v", err.Error())
-		return
-	}
+	util.AssertNilErr(t, err, "Serialize error")
+
+	fmt.Printf("\nFor reference, serialized content was:...\n%s\n",
+		string(serialized))
+
 	// Perform a sample of smoke tests on content returned.
 	fragments := []string{
 		"skills:",
@@ -37,7 +39,7 @@ func TestSerialize(t *testing.T) {
 	got := string(serialized)
 	for _, fragment := range fragments {
 		if !strings.Contains(got, fragment) {
-			t.Errorf("This string missing from serialized: %s", fragment)
+			util.AssertStrContains(t, got, fragment, "Serialized content")
 		}
 	}
 }
@@ -50,24 +52,6 @@ func TestDeSerialize(t *testing.T) {
 	api, err := NewFromSerialized(serialized)
 	util.AssertNilErr(t, err, "DeSerialize error")
 
-	versionOK(t, api)
-	skillListOK(t, api)
-	sampleSkillOK(t, api)
-}
-
-func versionOK(t *testing.T, api *Api) {
-	if q := api.SerializeVers; q != 1 {
-		t.Errorf("Serialization version wrong: %d, expected 1", q)
-	}
-}
-
-func skillListOK(t *testing.T, api *Api) {
-	if q := api.Skills; len(q) != 4 {
-		t.Errorf("Skill list size wrong: %d, expected 4", len(q))
-	}
-}
-
-func sampleSkillOK(t *testing.T, api *Api) {
-	skill := api.Skills[3]
-	util.AssertEqInt32(t, skill.Uid, 5, "Uid")
+	// version ?
+	util.AssertEqInt32(t, api.SerializeVers, 1, "Serialize version")
 }
