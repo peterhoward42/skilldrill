@@ -6,10 +6,10 @@
         *  set classes move to lib
         *  unit test for sets
         *  Deserialise
-
-        o  Consider interplay and dupe with serialize and api tests
+        *  Consider interplay and dupe with serialize and api tests
+        *  Use test assertions in older tests
+        o  Move to test util or util/testutil package, with maybe lib move too
         o  Add ToLower to model apis and tests to suit
-        o  Use test assertions in older tests
         o  Play around with go doc including example
         o  Add in app state and user states
 

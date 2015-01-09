@@ -7,7 +7,11 @@ import (
 )
 
 //-----------------------------------------------------------------------------
-// Exercise serialization
+// The functions in this module, have two purposes. The first is to ensure that a
+// an Api instance can be serialized and then de-serialized, and in so doing,
+// produce a model that is the same as the original one. The second purpose is to
+// validate the correct operation of the various addition functions in the api.
+// This avoids the latter from being repeated elsewhere.
 //-----------------------------------------------------------------------------
 
 func TestSerialize(t *testing.T) {

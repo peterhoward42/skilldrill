@@ -97,7 +97,7 @@ func AssertStrContains(t *testing.T, main string, sub string, thing string) {
 
 /*
 The function AssertNilErr is a helper function for the golang test package.  It
-is syntax sugar for asserting that a given error value is not nil.  When the
+is syntax sugar for asserting that a given error value is nil.  When the
 assertion does not hold, it sends a message to the injected testing.T object
 which includes a simplified stack trace with line numbers. The function parameter
 'thing' gets used in the message generated as a noun for the thing that is wrong.
@@ -108,6 +108,27 @@ func AssertNilErr(t *testing.T, err error, thing string) {
 	}
 	t.Errorf("Error generated: %v", err.Error())
 	t.Error(briefStackTrace())
+}
+
+/*
+The function AssertErrGenerated is a helper function for the golang test package.
+It is syntax sugar for asserting that a given error value is non-nil and that the
+error message includes the given substring.  When the assertion does not hold, it
+sends a message to the injected testing.T object which includes a simplified
+stack trace with line numbers. The function parameter 'thing' gets used in the
+message generated as a noun for the thing that is wrong.
+*/
+func AssertErrGenerated(t *testing.T, err error, substring string,
+	thing string) {
+	if err == nil {
+		t.Errorf("%s: Error was not generated", thing)
+		t.Error(briefStackTrace())
+	}
+	if !strings.Contains(err.Error(), substring) {
+		t.Errorf("%s: Wrong error content: %s, expected to contain <%s>", thing,
+			err.Error(), substring)
+		t.Error(briefStackTrace())
+	}
 }
 
 /*
@@ -122,6 +143,21 @@ func AssertTrue(t *testing.T, shouldBeTrue bool, thing string) {
 		return
 	}
 	t.Errorf("Value is not true: %v", thing)
+	t.Error(briefStackTrace())
+}
+
+/*
+The function AssertFalse is a helper function for the golang test package.  It
+is syntax sugar for asserting that a given bool value is false.  When the
+assertion does not hold, it sends a message to the injected testing.T object
+which includes a simplified stack trace with line numbers. The function parameter
+'thing' gets used in the message generated as a noun for the thing that is wrong.
+*/
+func AssertFalse(t *testing.T, shouldBeFalse bool, thing string) {
+	if shouldBeFalse == false {
+		return
+	}
+	t.Errorf("Value is not false: %v", thing)
 	t.Error(briefStackTrace())
 }
 

@@ -15,27 +15,18 @@ func TestSetOfString(t *testing.T) {
 
 	// Check count and content
 	count := len(set.data)
-	if count != 3 {
-		t.Errorf("Count wrong %d, expected %d", count, 3)
-	}
-	if !set.Contains("B") {
-		t.Errorf("Should say contains 2 is true")
-	}
-	if set.Contains("garbage") {
-		t.Errorf(`Should say does not contain "garbage"`)
-	}
+    AssertEqInt(t, count, 3, "Count wrong")
+    AssertTrue(t, set.Contains("B"), "Contents of set")
+    AssertFalse(t, set.Contains("Patagonia"), "Contents of set")
 
 	// Check conversion to slice
-	asSlice := set.AsSlice()
-	count = len(asSlice)
-	if count != 3 {
-		t.Errorf("Slice length wrong: %d, expected 3.", count)
-	}
+	size := len(set.AsSlice())
+    AssertEqInt(t, size, 3, "Size of slice")
 
 	// Check overwrite from slice
 	set = NewSetOfString()
-	set.Add("furniture")
-	set.Overwrite([]string{"apple", "pear", "orange"})
+	set.Add("original")
+	set.Overwrite([]string{"A", "B", "C"})
 	AssertEqInt(t, len(set.data), 3, "length of set")
-	AssertTrue(t, set.Contains("pear"), "set contents")
+	AssertTrue(t, set.Contains("B"), "set contents")
 }

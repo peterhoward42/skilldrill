@@ -1,15 +1,20 @@
 package model
 
 import (
-	"strings"
+	"github.com/peterhoward42/skilldrill/util"
 	"testing"
 )
 
 //-----------------------------------------------------------------------------
-// Adding things without stimulating errors
+// The basics - smoke tests.
 //-----------------------------------------------------------------------------
 
-func TestAdditions(t *testing.T) {
+func TestBasics(t *testing.T) {
+	// This exercises the core set of model creation and addition apis, avoiding
+	// error conditions. We do not inspect the model built here, because we
+	// prefer to kill two birds with one stone and avoid duplicating that logic,
+	// by delegating that to a separate serialization test. (See
+	// serialize_test.go)
 	buildSimpleModel(t)
 }
 
@@ -20,40 +25,22 @@ func TestAdditions(t *testing.T) {
 func TestAddPersonDuplicate(t *testing.T) {
 	api := buildSimpleModel(t)
 	err := api.AddPerson("fred.bloggs")
-	if err == nil {
-		t.Errorf("Should have objected to duplicated addition of fred.")
-		return
-	}
-	if !strings.Contains(err.Error(), "already exists") {
-		t.Errorf("Error message looks wrong")
-	}
+	util.AssertErrGenerated(t, err, "already exists", "Build simple model.")
 }
 
 func TestAddSkillUnknownParent(t *testing.T) {
 	api := buildSimpleModel(t)
-
-	// unknown parent
 	_, err := api.AddSkill(SKILL, "title", "desc", 99999)
-	if err == nil {
-		t.Errorf("Should have objected to unknown parent")
-		return
-	}
-	if !strings.Contains(err.Error(), "Unknown parent") {
-		t.Errorf("Error message looks wrong")
-	}
+	util.AssertErrGenerated(t, err, "Unknown parent", 
+        "Adding skill to unknown parent")
 }
 
 func TestAddSkillToNonCategory(t *testing.T) {
 	api := NewApi()
 	rootUid, _ := api.AddSkill(SKILL, "", "", 99999)
 	_, err := api.AddSkill(SKILL, "", "", rootUid)
-	if err == nil {
-		t.Errorf("Should have objected to parent not being category")
-		return
-	}
-	if !strings.Contains(err.Error(), "must be a category") {
-		t.Errorf("Error message looks wrong")
-	}
+	util.AssertErrGenerated(t, err, "must be a category", 
+        "Adding skill to non-category")
 }
 
 //-----------------------------------------------------------------------------
@@ -64,26 +51,16 @@ func TestBestowSkillToSpuriousPerson(t *testing.T) {
 	api := NewApi()
 	skill, _ := api.AddSkill(SKILL, "", "", -1)
 	err := api.GivePersonSkill("nosuch.person", skill)
-	if err == nil {
-		t.Errorf("Should have objected to unknown person.")
-		return
-	}
-	if !strings.Contains(err.Error(), "Person does not exist") {
-		t.Errorf("Error message looks wrong")
-	}
+	util.AssertErrGenerated(t, err, "Person does not exist", 
+        "Bestow skill to unknown person")
 }
 
 func TestBestowSpuriousSkillToPerson(t *testing.T) {
 	api := NewApi()
 	api.AddPerson("fred.bloggs")
 	err := api.GivePersonSkill("fred.bloggs", 9999)
-	if err == nil {
-		t.Errorf("Should have objected to unknown skill.")
-		return
-	}
-	if !strings.Contains(err.Error(), "Skill does not exist") {
-		t.Errorf("Error message looks wrong")
-	}
+	util.AssertErrGenerated(t, err, "Skill does not exist", 
+        "Should object to no such skill")
 }
 
 func TestBestowCategorySkill(t *testing.T) {
@@ -91,38 +68,8 @@ func TestBestowCategorySkill(t *testing.T) {
 	skill, _ := api.AddSkill(CATEGORY, "", "", -1)
 	api.AddPerson("fred.bloggs")
 	err := api.GivePersonSkill("fred.bloggs", skill)
-	if err == nil {
-		t.Errorf("Should have objected to skill being category.")
-		return
-	}
-	if !strings.Contains(err.Error(), "Cannot give someone a CATEGORY skill") {
-		t.Errorf("Error message looks wrong")
-	}
-}
-
-//-----------------------------------------------------------------------------
-// Sanity test - model building done right
-//-----------------------------------------------------------------------------
-
-func TestModelContent(t *testing.T) {
-	api := buildSimpleModel(t)
-	if len(api.Skills) != 4 {
-		t.Errorf("Should be 4 skills")
-		return
-	}
-	if len(api.People) != 2 {
-		t.Errorf("Should be 2 people")
-		return
-	}
-	if api.SkillHoldings == nil {
-		t.Errorf("Skill holdings ptr is not initialised.")
-		return
-	}
-	mapSiz := len(api.SkillHoldings.SkillsOfPerson)
-	if mapSiz != 1 {
-		t.Errorf("SkillsOfPeople map should have 1 key, but has: %d", mapSiz)
-		return
-	}
+	util.AssertErrGenerated(t, err, "Cannot give someone a CATEGORY skill", 
+        "Give someone a category not a skill")
 }
 
 //-----------------------------------------------------------------------------
@@ -142,9 +89,7 @@ func buildSimpleModel(t *testing.T) *Api {
 	skillC, _ := api.AddSkill(
 		SKILL, "grandchild", "description", skillA)
 	err := api.GivePersonSkill("fred.bloggs", skillC)
-	if err != nil {
-		t.Errorf("GivePersonSkill() failed: %v", err.Error())
-	}
+    util.AssertNilErr(t, err, "Give person skill error")
 
 	_ = skillB
 
