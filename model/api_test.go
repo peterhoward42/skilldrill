@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/peterhoward42/skilldrill/util"
+	"github.com/peterhoward42/skilldrill/util/testutil"
 	"testing"
 )
 
@@ -25,22 +25,22 @@ func TestBasics(t *testing.T) {
 func TestAddPersonDuplicate(t *testing.T) {
 	api := buildSimpleModel(t)
 	err := api.AddPerson("fred.bloggs")
-	util.AssertErrGenerated(t, err, "already exists", "Build simple model.")
+	testutil.AssertErrGenerated(t, err, "already exists", "Build simple model.")
 }
 
 func TestAddSkillUnknownParent(t *testing.T) {
 	api := buildSimpleModel(t)
 	_, err := api.AddSkill(SKILL, "title", "desc", 99999)
-	util.AssertErrGenerated(t, err, "Unknown parent", 
-        "Adding skill to unknown parent")
+	testutil.AssertErrGenerated(t, err, "Unknown parent",
+		"Adding skill to unknown parent")
 }
 
 func TestAddSkillToNonCategory(t *testing.T) {
 	api := NewApi()
 	rootUid, _ := api.AddSkill(SKILL, "", "", 99999)
 	_, err := api.AddSkill(SKILL, "", "", rootUid)
-	util.AssertErrGenerated(t, err, "must be a category", 
-        "Adding skill to non-category")
+	testutil.AssertErrGenerated(t, err, "must be a category",
+		"Adding skill to non-category")
 }
 
 //-----------------------------------------------------------------------------
@@ -51,16 +51,16 @@ func TestBestowSkillToSpuriousPerson(t *testing.T) {
 	api := NewApi()
 	skill, _ := api.AddSkill(SKILL, "", "", -1)
 	err := api.GivePersonSkill("nosuch.person", skill)
-	util.AssertErrGenerated(t, err, "Person does not exist", 
-        "Bestow skill to unknown person")
+	testutil.AssertErrGenerated(t, err, "Person does not exist",
+		"Bestow skill to unknown person")
 }
 
 func TestBestowSpuriousSkillToPerson(t *testing.T) {
 	api := NewApi()
 	api.AddPerson("fred.bloggs")
 	err := api.GivePersonSkill("fred.bloggs", 9999)
-	util.AssertErrGenerated(t, err, "Skill does not exist", 
-        "Should object to no such skill")
+	testutil.AssertErrGenerated(t, err, "Skill does not exist",
+		"Should object to no such skill")
 }
 
 func TestBestowCategorySkill(t *testing.T) {
@@ -68,8 +68,8 @@ func TestBestowCategorySkill(t *testing.T) {
 	skill, _ := api.AddSkill(CATEGORY, "", "", -1)
 	api.AddPerson("fred.bloggs")
 	err := api.GivePersonSkill("fred.bloggs", skill)
-	util.AssertErrGenerated(t, err, "Cannot give someone a CATEGORY skill", 
-        "Give someone a category not a skill")
+	testutil.AssertErrGenerated(t, err, "Cannot give someone a CATEGORY skill",
+		"Give someone a category not a skill")
 }
 
 //-----------------------------------------------------------------------------
@@ -89,7 +89,7 @@ func buildSimpleModel(t *testing.T) *Api {
 	skillC, _ := api.AddSkill(
 		SKILL, "grandchild", "description", skillA)
 	err := api.GivePersonSkill("fred.bloggs", skillC)
-    util.AssertNilErr(t, err, "Give person skill error")
+	testutil.AssertNilErr(t, err, "Give person skill error")
 
 	_ = skillB
 

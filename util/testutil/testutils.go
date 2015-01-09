@@ -1,4 +1,4 @@
-package util
+package testutil
 
 import (
 	"gopkg.in/yaml.v2"

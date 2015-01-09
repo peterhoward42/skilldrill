@@ -1,4 +1,4 @@
-package util
+package sets
 
 // The SetOfString type provides the conventional SET model for strings.
 type SetOfString struct {

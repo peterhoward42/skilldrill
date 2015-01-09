@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/peterhoward42/skilldrill/util"
+	"github.com/peterhoward42/skilldrill/util/sets"
 )
 
 // The skillHoldings type contains bindings between people and the set of skills
@@ -10,15 +10,15 @@ import (
 // that some are, is solely to facilitate automated serialization by
 // yaml.Marshal().
 type skillHoldings struct {
-	SkillsOfPerson  map[string]*util.SetOfInt // email -> skill.Uid
-	PeopleWithSkill map[int]*util.SetOfString // skill.Uid -> email
+	SkillsOfPerson  map[string]*sets.SetOfInt // email -> skill.Uid
+	PeopleWithSkill map[int]*sets.SetOfString // skill.Uid -> email
 }
 
 // Compulsory constructor.
 func newSkillHoldings() *skillHoldings {
 	return &skillHoldings{
-		SkillsOfPerson:  map[string]*util.SetOfInt{},
-		PeopleWithSkill: map[int]*util.SetOfString{},
+		SkillsOfPerson:  map[string]*sets.SetOfInt{},
+		PeopleWithSkill: map[int]*sets.SetOfString{},
 	}
 }
 
@@ -27,7 +27,7 @@ func newSkillHoldings() *skillHoldings {
 func (sh *skillHoldings) bind(skill int, email string) {
 	skills, ok := sh.SkillsOfPerson[email]
 	if !ok {
-		skills = util.NewSetOfInt()
+		skills = sets.NewSetOfInt()
 		sh.SkillsOfPerson[email] = skills
 	} else {
 	}
@@ -36,7 +36,7 @@ func (sh *skillHoldings) bind(skill int, email string) {
 
 	people, ok := sh.PeopleWithSkill[skill]
 	if !ok {
-		people = util.NewSetOfString()
+		people = sets.NewSetOfString()
 		sh.PeopleWithSkill[skill] = people
 	}
 	people.Add(email)

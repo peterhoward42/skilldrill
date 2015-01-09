@@ -1,4 +1,4 @@
-package util
+package sets
 
 // The SetOfInt type provides the conventional SET model for integers.
 type SetOfInt struct {

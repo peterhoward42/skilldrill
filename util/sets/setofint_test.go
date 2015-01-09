@@ -1,6 +1,7 @@
-package util
+package sets
 
 import (
+	"github.com/peterhoward42/skilldrill/util/testutil"
 	"testing"
 )
 
@@ -15,18 +16,18 @@ func TestSetOfInt(t *testing.T) {
 
 	// Check count and content
 	count := len(set.data)
-    AssertEqInt(t, count, 3, "Count wrong")
-    AssertTrue(t, set.Contains(2), "Contents of set")
-    AssertFalse(t, set.Contains(999), "Contents of set")
+	testutil.AssertEqInt(t, count, 3, "Count wrong")
+	testutil.AssertTrue(t, set.Contains(2), "Contents of set")
+	testutil.AssertFalse(t, set.Contains(999), "Contents of set")
 
 	// Check conversion to slice
 	size := len(set.AsSlice())
-    AssertEqInt(t, size, 3, "Size of slice")
+	testutil.AssertEqInt(t, size, 3, "Size of slice")
 
 	// Check overwrite from slice
 	set = NewSetOfInt()
 	set.Add(99)
 	set.Overwrite([]int{1, 2, 3})
-	AssertEqInt(t, len(set.data), 3, "length of set")
-	AssertTrue(t, set.Contains(1), "set contents")
+	testutil.AssertEqInt(t, len(set.data), 3, "length of set")
+	testutil.AssertTrue(t, set.Contains(1), "set contents")
 }
