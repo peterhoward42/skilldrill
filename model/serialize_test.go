@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"github.com/peterhoward42/skilldrill/util"
 	"strings"
 	"testing"
@@ -15,9 +14,6 @@ func TestSerialize(t *testing.T) {
 	api := buildSimpleModel(t)
 	serialized, err := api.Serialize()
 	util.AssertNilErr(t, err, "Serialize error")
-
-	fmt.Printf("\nFor reference, serialized content was:...\n%s\n",
-		string(serialized))
 
 	// Perform a sample of smoke tests on content returned.
 	fragments := []string{
@@ -59,6 +55,10 @@ func TestDeSerialize(t *testing.T) {
 	checkSkills(t, api)
 	checkPeople(t, api)
 	checkSkillFromId(t, api)
+	checkPersFromMail(t, api)
+	util.AssertEqInt(t, api.SkillRoot, 1, "Skill Root")
+	checkSkillHoldings(t, api)
+	util.AssertEqInt(t, api.NextSkill, 5, "Next skill")
 }
 
 func checkSkills(t *testing.T, api *Api) {
@@ -88,4 +88,18 @@ func checkSkillFromId(t *testing.T, api *Api) {
 	util.AssertEqInt(t, skill.Uid, 1, "Skill id.")
 	skill = api.skillFromId[2]
 	util.AssertEqInt(t, skill.Uid, 2, "Skill id.")
+}
+
+func checkPersFromMail(t *testing.T, api *Api) {
+	pp := api.persFromMail["john.smith"]
+	util.AssertEqString(t, pp.Email, "john.smith", "Email.")
+}
+
+func checkSkillHoldings(t *testing.T, api *Api) {
+	skillset := api.SkillHoldings.SkillsOfPerson["fred.bloggs"].AsSlice()
+	util.AssertEqSliceInt(t, skillset, []int{4}, "Skills of person.")
+
+	people := api.SkillHoldings.PeopleWithSkill[4].AsSlice()
+	util.AssertEqSliceString(t, people, []string{"fred.bloggs"},
+		"People with skill.")
 }
