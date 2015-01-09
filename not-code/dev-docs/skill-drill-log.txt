@@ -25,6 +25,7 @@
                             *  Do big s+r for int32
                     *  Copy pattern for string
                 o  Inspection tests on data structures for deserialise
+                o  Add ToLower to model apis and tests to suit
         o  Use test assertions in older tests
         o  Play around with go doc including example
         o  Add in app state and user states

@@ -132,7 +132,7 @@ func TestModelContent(t *testing.T) {
 func buildSimpleModel(t *testing.T) *Api {
 	api := NewApi()
 	api.AddPerson("fred.bloggs")
-	api.AddPerson("john.smith")
+	api.AddPerson("john.Smith") // deliberate inclusion of upper case
 	rootId, _ := api.AddSkill(CATEGORY, "root title",
 		"root description", -1)
 	skillA, _ := api.AddSkill(

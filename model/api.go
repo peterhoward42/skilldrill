@@ -10,6 +10,7 @@ package model
 import (
 	"errors"
 	"gopkg.in/yaml.v2"
+	"strings"
 )
 
 // The Api structure is the fundamental type exposed by the skilldrill model
@@ -52,18 +53,23 @@ func NewApi() *Api {
 func NewFromSerialized(in []byte) (api *Api, err error) {
 	api = NewApi()
 	err = yaml.Unmarshal(in, api)
+	if err != nil {
+		return
+	}
+	api.finishBuildFromDeSerialize()
 	return
 }
 
 // The AddPerson() method adds a person to the model in terms of the user name
 // part of their email address. It is an error to add a person that already
-// exists in the model.
+// exists in the model. The email address is coerced to lowercase.
 func (api *Api) AddPerson(email string) (err error) {
 	// disallow duplicate additions
 	_, ok := api.persFromMail[email]
 	if ok {
 		return errors.New("Person already exists")
 	}
+	email = strings.ToLower(email)
 	incomer := newPerson(email)
 	api.People = append(api.People, incomer)
 	api.persFromMail[email] = incomer
@@ -135,6 +141,26 @@ func (api *Api) GivePersonSkill(email string, skillId int) error {
 	return nil
 }
 
+/*
+The function Serialize() makes a machine-readable representation of the Api
+object and packages it into a slice of bytes. See also NewFromSerialized().
+*/
 func (api *Api) Serialize() (out []byte, err error) {
 	return yaml.Marshal(api)
+}
+
+/*
+The function finishBuildFromDeSerialize() takes the state of an Api object that
+has been partly initialized from de-serialization, and builds the supplemental
+fields required. These are mainly look up tables for convenience and speed.
+*/
+func (api *Api) finishBuildFromDeSerialize() {
+	for _, skill := range api.Skills {
+		uid := skill.Uid
+		api.skillFromId[uid] = skill
+	}
+	for _, person := range api.People {
+		email := person.Email
+		api.persFromMail[email] = person
+	}
 }

@@ -1,6 +1,7 @@
 package util
 
 import (
+	"gopkg.in/yaml.v2"
 	"runtime"
 	"strings"
 	"testing"
@@ -18,6 +19,42 @@ func AssertEqInt(t *testing.T, actual int, expected int, thing string) {
 		return
 	}
 	t.Errorf("%s is wrong: %v, expected: %v", thing, actual, expected)
+	t.Error(briefStackTrace())
+}
+
+/*
+The function AssertEqString is a helper function for the golang test package.  It
+is syntax sugar for asserting that a given string matches an expected value.  When
+the assertion does not hold, it sends a message to the injected testing.T object
+which includes a simplified stack trace with line numbers. The function parameter
+'thing' gets used in the message generated as a noun for the thing that is wrong.
+*/
+func AssertEqString(t *testing.T, actual string, expected string, thing string) {
+	if actual == expected {
+		return
+	}
+	t.Errorf("%s is wrong: %v, expected: %v", thing, actual, expected)
+	t.Error(briefStackTrace())
+}
+
+/*
+The function AssertEqSliceInt() is a helper function for the golang test package.
+It is syntax sugar for asserting that a given slice of integers matches an
+expected value.  When the assertion does not hold, it sends a message to the
+injected testing.T object which includes a simplified stack trace with line
+numbers. The function parameter 'thing' gets used in the message generated as a
+noun for the thing that is wrong.
+*/
+func AssertEqSliceInt(t *testing.T, actual []int, expected []int, thing string) {
+    act, _ := yaml.Marshal(actual)
+    actualStr := string(act)
+    exp, _ := yaml.Marshal(expected)
+    expectedStr := string(exp)
+
+	if actualStr == expectedStr {
+		return
+	}
+	t.Errorf("%s is wrong: %v, expected: %v", thing, actualStr, expectedStr)
 	t.Error(briefStackTrace())
 }
 
