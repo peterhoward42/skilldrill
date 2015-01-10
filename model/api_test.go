@@ -72,6 +72,16 @@ func TestBestowCategorySkill(t *testing.T) {
 		"Give someone a category not a skill")
 }
 
+func TestEmailsAreLowerCased(t *testing.T) {
+	api := NewApi()
+	skill, _ := api.AddSkill(SKILL, "", "", -1)
+	api.AddPerson("fred.bloggs")
+    // Note email address differs with upper case to that used to register
+    // the person.
+	err := api.GivePersonSkill("fred.Bloggs", skill)
+	testutil.AssertNilErr(t, err, "Using uppercase in email.")
+}
+
 //-----------------------------------------------------------------------------
 // Helper functions
 //-----------------------------------------------------------------------------
@@ -79,7 +89,7 @@ func TestBestowCategorySkill(t *testing.T) {
 func buildSimpleModel(t *testing.T) *Api {
 	api := NewApi()
 	api.AddPerson("fred.bloggs")
-	api.AddPerson("john.Smith") // deliberate inclusion of upper case
+	api.AddPerson("john.Smith") // deliberate inclusion of upper case letter
 	rootId, _ := api.AddSkill(CATEGORY, "root title",
 		"root description", -1)
 	skillA, _ := api.AddSkill(

@@ -8,8 +8,9 @@
         *  Deserialise
         *  Consider interplay and dupe with serialize and api tests
         *  Use test assertions in older tests
-        o  Move to test util or util/testutil package, with maybe lib move too
-        o  Add ToLower to model apis and tests to suit
+        *  Move to test util or util/testutil package, with maybe lib move too
+        *  Find how to fmt all or test all
+        o  Lower case email
         o  Play around with go doc including example
         o  Add in app state and user states
 

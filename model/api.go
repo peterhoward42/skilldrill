@@ -65,11 +65,11 @@ func NewFromSerialized(in []byte) (api *Api, err error) {
 // exists in the model. The email address is coerced to lowercase.
 func (api *Api) AddPerson(email string) (err error) {
 	// disallow duplicate additions
+    email = strings.ToLower(email)
 	_, ok := api.persFromMail[email]
 	if ok {
 		return errors.New("Person already exists")
 	}
-	email = strings.ToLower(email)
 	incomer := newPerson(email)
 	api.People = append(api.People, incomer)
 	api.persFromMail[email] = incomer
@@ -123,9 +123,11 @@ func (api *Api) AddSkill(role string, title string, desc string,
 The GivePersonSkill() method adds the given skill into the set of skills the
 model holds for that person.  You are only allowed to give people SKILLS, not
 CATEGORIES.  An error is generated if either the person or skill given are not
-recognized, or you give a person a CATEGORY rather than a SKILL.
+recognized, or you give a person a CATEGORY rather than a SKILL. The email you
+provide is lower-cased before it is used.
 */
 func (api *Api) GivePersonSkill(email string, skillId int) error {
+    email = strings.ToLower(email)
 	foundPerson, ok := api.persFromMail[email]
 	if !ok {
 		return errors.New("Person does not exist.")

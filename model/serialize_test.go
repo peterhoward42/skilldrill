@@ -84,6 +84,8 @@ func checkPeople(t *testing.T, api *Api) {
 	n := len(api.People)
 	testutil.AssertEqInt(t, n, 2, "Number of people")
 	john := api.People[1]
+    // This also checks that emails added that include uppercase letters,
+    // are coerced to lower case by the AddXXX methods.
 	testutil.AssertEqString(t, john.Email, "john.smith", "Person name.")
 }
 
