@@ -90,18 +90,16 @@ func buildSimpleModel(t *testing.T) *Api {
 	api := NewApi()
 	api.AddPerson("fred.bloggs")
 	api.AddPerson("john.Smith") // deliberate inclusion of upper case letter
-	rootId, _ := api.AddSkill(CATEGORY, "root title",
-		"root description", -1)
-	skillA, _ := api.AddSkill(
-		CATEGORY, "A title", "child A description", rootId)
-	skillB, _ := api.AddSkill(
-		CATEGORY, "B title", "child B description", rootId)
-	skillC, _ := api.AddSkill(
-		SKILL, "grandchild", "description", skillA)
-	err := api.GivePersonSkill("fred.bloggs", skillC)
-	testutil.AssertNilErr(t, err, "Give person skill error")
+	skillA, _ := api.AddSkill(CATEGORY, "A title", "A description", -1)
+	skillAA, _ := api.AddSkill(CATEGORY, "AA", "AA description", skillA)
+	skillAB, _ := api.AddSkill(CATEGORY, "AB", "AB description", skillA)
+	skillAAA, _ := api.AddSkill(SKILL, "AAA", "AAA description", skillAA)
+	api.GivePersonSkill("fred.bloggs", skillAAA)
 
-	_ = skillB
+    err := api.CollapseSkill("fred.bloggs", skillAA)
+	testutil.AssertNilErr(t, err, "CollapseSkill during dev only")
+
+    _ = skillAB
 
 	return api
 }

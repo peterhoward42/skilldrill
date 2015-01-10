@@ -74,8 +74,8 @@ func checkSkills(t *testing.T, api *Api) {
 	skill := api.Skills[0]
 	testutil.AssertEqInt(t, skill.Uid, 1, "Skill id.")
 	testutil.AssertEqString(t, skill.Role, CATEGORY, "Role.")
-	testutil.AssertEqString(t, skill.Title, "root title", "Title.")
-	testutil.AssertEqString(t, skill.Desc, "root description", "Description.")
+	testutil.AssertEqString(t, skill.Title, "A title", "Title.")
+	testutil.AssertEqString(t, skill.Desc, "A description", "Description.")
 	testutil.AssertEqInt(t, skill.Parent, -1, "Parent")
 	testutil.AssertEqSliceInt(t, skill.Children, []int{2, 3}, "Children.")
 }
