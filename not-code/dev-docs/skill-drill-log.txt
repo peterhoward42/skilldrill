@@ -12,14 +12,8 @@
         *  Find how to fmt all or test all
         *  Lower case email
         *  Add in app state and user states
-        o  Api to edit skill desc and title
-            *  Test for unknown skill and entries too long.
-            *  Test changed correctly content.
-            *  Look again at repeated boiler plate in api fns
-                *  Try with edit skill title
-                *  If works use univ, checking names carefully
-            o  Can use same tweak method on api test boiler plate?
-            o  Merge set skill title and desc
+        *  Api to edit skill desc and title
+        o  Api to get desc / title with / without context or just that of parent.
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -27,7 +21,7 @@
 Model use cases
     o  From user actions
         *  Register user with skill / deregister
-        o  Edit skill title or desc
+        *  Edit skill title or desc
         o  Fmt desc with / without context of hierachy
         o  Fmt root of desc to aide editing
         o  List emails of people with skill

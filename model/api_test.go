@@ -2,7 +2,7 @@ package model
 
 import (
 	"github.com/peterhoward42/skilldrill/util/testutil"
-    "strings"
+	"strings"
 	"testing"
 )
 
@@ -93,8 +93,8 @@ func TestSkillEditsErrors(t *testing.T) {
 
 	err := api.SetSkillTitle(skill, "New Title")
 	testutil.AssertNilErr(t, err, "Setting skill title.")
-    testutil.AssertEqString(t, api.skillFromId[skill].Title, "New Title", 
-        "Setting skill title")
+	testutil.AssertEqString(t, api.skillFromId[skill].Title, "New Title",
+		"Setting skill title")
 
 	err = api.SetSkillTitle(999, "who cares")
 	testutil.AssertErrGenerated(t, err, UnknownSkill, "Set skill title.")
@@ -103,8 +103,8 @@ func TestSkillEditsErrors(t *testing.T) {
 
 	err = api.SetSkillDesc(skill, "New Desc")
 	testutil.AssertNilErr(t, err, "Setting skill desc.")
-    testutil.AssertEqString(t, api.skillFromId[skill].Desc, "New Desc", 
-        "Setting skill desc")
+	testutil.AssertEqString(t, api.skillFromId[skill].Desc, "New Desc",
+		"Setting skill desc")
 
 	err = api.SetSkillDesc(999, "New Desc")
 	testutil.AssertErrGenerated(t, err, UnknownSkill, "Set skill desc.")
@@ -145,4 +145,3 @@ func buildSimpleModel(t *testing.T) *Api {
 
 	return api
 }
-

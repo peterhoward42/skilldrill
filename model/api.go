@@ -131,15 +131,15 @@ The SetSkillTitle() method replaces the given skill's title with the text
 given. Can generate the following errors: SkillUnknown error, TooLong.
 */
 func (api *Api) SetSkillTitle(skillId int, newTitle string) (err error) {
-    if err = api.tweakParams(nil, &skillId); err != nil {
-        return
-    }
+	if err = api.tweakParams(nil, &skillId); err != nil {
+		return
+	}
 	skill := api.skillFromId[skillId]
-    if len(newTitle) > MaxSkillTitle {
+	if len(newTitle) > MaxSkillTitle {
 		err = errors.New(TooLong)
 		return
-    }
-    skill.Title = newTitle
+	}
+	skill.Title = newTitle
 	return
 }
 
@@ -148,15 +148,15 @@ The SetSkillDesc() method replaces the given skill's description with the text
 given. Can generate the following errors: SkillUnknown error, TooLong.
 */
 func (api *Api) SetSkillDesc(skillId int, newDesc string) (err error) {
-    if err = api.tweakParams(nil, &skillId); err != nil {
-        return
-    }
-    if len(newDesc) > MaxSkillDesc {
+	if err = api.tweakParams(nil, &skillId); err != nil {
+		return
+	}
+	if len(newDesc) > MaxSkillDesc {
 		err = errors.New(TooLong)
 		return
-    }
+	}
 	skill := api.skillFromId[skillId]
-    skill.Desc = newDesc
+	skill.Desc = newDesc
 	return
 }
 
@@ -168,17 +168,17 @@ recognized, or you give a person a Category rather than a Skill. The email you
 provide is lower-cased before it is used.
 */
 func (api *Api) GivePersonSkill(email string, skillId int) (err error) {
-    if err = api.tweakParams(&email, &skillId); err != nil {
-        return
-    }
-    foundSkill := api.skillFromId[skillId]
+	if err = api.tweakParams(&email, &skillId); err != nil {
+		return
+	}
+	foundSkill := api.skillFromId[skillId]
 	if foundSkill.Role == Category {
 		err = errors.New(CategoryDisallowed)
-        return
+		return
 	}
-    foundPerson := api.persFromMail[email]
+	foundPerson := api.persFromMail[email]
 	api.SkillHoldings.bind(foundSkill.Uid, foundPerson.Email)
-	return 
+	return
 }
 
 /*
@@ -188,10 +188,10 @@ of skills hierachy. Errors are generated when either the person or the skill is
 not recognized.
 */
 func (api *Api) CollapseSkill(email string, skillId int) (err error) {
-    if err = api.tweakParams(&email, &skillId); err != nil {
-        return
-    }
-    foundSkill := api.skillFromId[skillId]
+	if err = api.tweakParams(&email, &skillId); err != nil {
+		return
+	}
+	foundSkill := api.skillFromId[skillId]
 	api.UiStates[email].collapseNode(foundSkill)
 	return
 }
@@ -227,19 +227,19 @@ one known to the model, and the skillUid is legitimate. It can return either
 of the errors: UnknownPerson or UnknownSkill.
 */
 func (api *Api) tweakParams(email *string, skillId *int) (err error) {
-    if email != nil {
-        // coerce caller's email to lower case
-        *email = strings.ToLower(*email)
-        _, ok := api.persFromMail[*email]
-        if !ok {
-            return errors.New(UnknownPerson)
-        }
-    }
-    if skillId != nil {
-        _, ok := api.skillFromId[*skillId]
-        if !ok {
-            return errors.New(UnknownSkill)
-        }
-    }
-    return
+	if email != nil {
+		// coerce caller's email to lower case
+		*email = strings.ToLower(*email)
+		_, ok := api.persFromMail[*email]
+		if !ok {
+			return errors.New(UnknownPerson)
+		}
+	}
+	if skillId != nil {
+		_, ok := api.skillFromId[*skillId]
+		if !ok {
+			return errors.New(UnknownSkill)
+		}
+	}
+	return
 }
