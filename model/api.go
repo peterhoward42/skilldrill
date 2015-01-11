@@ -23,28 +23,32 @@ import (
 // that some are, is solely to facilitate automated serialization by
 // yaml.Marshal().
 type Api struct {
-	SerializeVers int
-	Skills        []*skillNode
-	People        []*person
-	skillFromId   map[int]*skillNode
-	persFromMail  map[string]*person
-	SkillRoot     int            // root of taxonomy tree (skill.Uid)
-	SkillHoldings *skillHoldings // who has what skill?
-	NextSkill     int
+	SerializeVers  int
+	Skills         []*skillNode
+	People         []*person
+	SkillRoot      int            // root of taxonomy tree (skill.Uid)
+	SkillHoldings  *skillHoldings // who has what skill?
+	NextSkill      int
+	UiStates       map[string]*uiState
+	// Supplemental, (duplicate) data for quick lookups
+	skillFromId  map[int]*skillNode
+	persFromMail map[string]*person
 }
 
 // The function NewApi() is a (compulsory) constructor for an initialized, but
 // empty Api struct.
 func NewApi() *Api {
 	return &Api{
-		SerializeVers: 1,
-		Skills:        make([]*skillNode, 0),
-		People:        make([]*person, 0),
-		skillFromId:   make(map[int]*skillNode),
-		persFromMail:  make(map[string]*person),
-		SkillRoot:     -1,
-		SkillHoldings: newSkillHoldings(),
-		NextSkill:     1,
+		SerializeVers:  1,
+		Skills:         make([]*skillNode, 0),
+		People:         make([]*person, 0),
+		SkillRoot:      -1,
+		SkillHoldings:  newSkillHoldings(),
+		NextSkill:      1,
+		UiStates:       make(map[string]*uiState),
+		// Supplemental fields
+		skillFromId:  make(map[int]*skillNode),
+		persFromMail: make(map[string]*person),
 	}
 }
 
@@ -65,14 +69,15 @@ func NewFromSerialized(in []byte) (api *Api, err error) {
 // exists in the model. The email address is coerced to lowercase.
 func (api *Api) AddPerson(email string) (err error) {
 	// disallow duplicate additions
-    email = strings.ToLower(email)
+	email = strings.ToLower(email)
 	_, ok := api.persFromMail[email]
 	if ok {
-		return errors.New("Person already exists")
+		return errors.New(PersonExists)
 	}
 	incomer := newPerson(email)
 	api.People = append(api.People, incomer)
 	api.persFromMail[email] = incomer
+    api.UiStates[email] = newUiState()
 	return nil
 }
 
@@ -82,10 +87,10 @@ specify the skill in terms of description and title strings. These strings shoul
 describe how they additionally qualify their context in the hierachy, and should
 not duplicate context information.  You specify the tree location by providing
 the Uid of the parent skill, and the new Uid for the added skill is returned.
-The role parameter should be one of the constants SKILL or CATEGORY.  When the
+The role parameter should be one of the constants Skill or Category.  When the
 skill tree is empty, this skill will be added as the root, and the parentUid
 parameter is ignored.  Errors are generated if you attempt to add a skill to a
-node that is not a CATEGORY, or if the parent skill you provide is not
+node that is not a Category, or if the parent skill you provide is not
 recognized.
 */
 func (api *Api) AddSkill(role string, title string, desc string,
@@ -103,11 +108,11 @@ func (api *Api) AddSkill(role string, title string, desc string,
 	}
 	parentSkill, ok := api.skillFromId[parent]
 	if !ok {
-		err = errors.New("Unknown parent.")
+		err = errors.New(UnknownParent)
 		return
 	}
-	if parentSkill.Role != CATEGORY {
-		err = errors.New("Parent must be a category node")
+	if parentSkill.Role != Category {
+		err = errors.New(ParentNotCategory)
 		return
 	}
 	uid = api.NextSkill
@@ -121,25 +126,45 @@ func (api *Api) AddSkill(role string, title string, desc string,
 
 /*
 The GivePersonSkill() method adds the given skill into the set of skills the
-model holds for that person.  You are only allowed to give people SKILLS, not
+model holds for that person.  You are only allowed to give people Skill, not
 CATEGORIES.  An error is generated if either the person or skill given are not
-recognized, or you give a person a CATEGORY rather than a SKILL. The email you
+recognized, or you give a person a Category rather than a Skill. The email you
 provide is lower-cased before it is used.
 */
 func (api *Api) GivePersonSkill(email string, skillId int) error {
-    email = strings.ToLower(email)
+	email = strings.ToLower(email)
 	foundPerson, ok := api.persFromMail[email]
 	if !ok {
-		return errors.New("Person does not exist.")
+		return errors.New(UnknownPerson)
 	}
 	foundSkill, ok := api.skillFromId[skillId]
 	if !ok {
-		return errors.New("Skill does not exist.")
+		return errors.New(UnknownSkill)
 	}
-	if foundSkill.Role == CATEGORY {
-		return errors.New("Cannot give someone a CATEGORY skill.")
+	if foundSkill.Role == Category {
+		return errors.New(CategoryDisallowed)
 	}
 	api.SkillHoldings.bind(foundSkill.Uid, foundPerson.Email)
+	return nil
+}
+
+/*
+The CollapseSkill() method operates on the part of the model that represents the
+abstracted user experience. In this case to collapse a node in the tree display
+of skills hierachy. Errors are generated when either the person or the skill is
+not recognized.
+*/
+func (api *Api) CollapseSkill(email string, skillId int) error {
+	email = strings.ToLower(email)
+	_, ok := api.persFromMail[email]
+	if !ok {
+		return errors.New(UnknownPerson)
+	}
+	foundSkill, ok := api.skillFromId[skillId]
+	if !ok {
+		return errors.New(UnknownSkill)
+	}
+	api.UiStates[email].collapseNode(foundSkill)
 	return nil
 }
 
