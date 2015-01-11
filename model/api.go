@@ -127,6 +127,42 @@ func (api *Api) AddSkill(role string, title string, desc string,
 }
 
 /*
+The SetSkillTitle() method replaces the given skill's title with the text
+given. Can generate the following errors: SkillUnknown error, TooLong.
+*/
+func (api *Api) SetSkillTitle(skillId int, newTitle string) (err error) {
+	skill, ok := api.skillFromId[skillId]
+	if !ok {
+		err = errors.New(UnknownSkill)
+		return
+	}
+    if len(newTitle) > MaxSkillTitle {
+		err = errors.New(TooLong)
+		return
+    }
+    skill.Title = newTitle
+	return
+}
+
+/*
+The SetSkillDesc() method replaces the given skill's description with the text
+given. Can generate the following errors: SkillUnknown error, TooLong.
+*/
+func (api *Api) SetSkillDesc(skillId int, newDesc string) (err error) {
+	skill, ok := api.skillFromId[skillId]
+	if !ok {
+		err = errors.New(UnknownSkill)
+		return
+	}
+    if len(newDesc) > MaxSkillDesc {
+		err = errors.New(TooLong)
+		return
+    }
+    skill.Desc = newDesc
+	return
+}
+
+/*
 The GivePersonSkill() method adds the given skill into the set of skills the
 model holds for that person.  You are only allowed to give people Skill, not
 CATEGORIES.  An error is generated if either the person or skill given are not

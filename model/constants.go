@@ -7,13 +7,20 @@ const (
 	Category = "CAT"
 )
 
+// These constants specify the maximum length allowed for various fields.
+const (
+    MaxSkillTitle int = 30
+    MaxSkillDesc int = 400
+)
+
 // These constants provide a set of human-readable error message strings, with
 // machine-readable names.
 const (
-	PersonExists       = "Person exists."
-	UnknownParent      = "Unknown parent."
+	CategoryDisallowed = "Cannot give someone a CATEGORY skill."
 	ParentNotCategory  = "Parent must be a category node."
+	PersonExists       = "Person exists."
+    TooLong            = "String is too long."
+	UnknownParent      = "Unknown parent."
 	UnknownPerson      = "Person does not exist."
 	UnknownSkill       = "Skill does not exist."
-	CategoryDisallowed = "Cannot give someone a CATEGORY skill."
 )

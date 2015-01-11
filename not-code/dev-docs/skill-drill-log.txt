@@ -12,13 +12,18 @@
         *  Find how to fmt all or test all
         *  Lower case email
         *  Add in app state and user states
+        o  Api to edit skill desc and title
+            *  Test for unknown skill and entries too long.
+            *  Test changed correctly content.
+            o  Look again at repeated boiler plate in api fns
+            o  Merge set skill title and desc
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 Model use cases
     o  From user actions
-        o  Register user with skill / deregister
+        *  Register user with skill / deregister
         o  Edit skill title or desc
         o  Fmt desc with / without context of hierachy
         o  Fmt root of desc to aide editing

@@ -2,6 +2,7 @@ package model
 
 import (
 	"github.com/peterhoward42/skilldrill/util/testutil"
+    "strings"
 	"testing"
 )
 
@@ -83,6 +84,35 @@ func TestEmailsAreLowerCased(t *testing.T) {
 }
 
 //-----------------------------------------------------------------------------
+// Edit skill title and description - with and without errors
+//-----------------------------------------------------------------------------
+
+func TestSkillEditsErrors(t *testing.T) {
+	api := NewApi()
+	skill, _ := api.AddSkill(Skill, "Orig Title", "Orig desc.", -1)
+
+	err := api.SetSkillTitle(skill, "New Title")
+	testutil.AssertNilErr(t, err, "Setting skill title.")
+    testutil.AssertEqString(t, api.skillFromId[skill].Title, "New Title", 
+        "Setting skill title")
+
+	err = api.SetSkillTitle(999, "who cares")
+	testutil.AssertErrGenerated(t, err, UnknownSkill, "Set skill title.")
+	err = api.SetSkillTitle(skill, strings.Repeat("X", 40))
+	testutil.AssertErrGenerated(t, err, TooLong, "Setting skill title.")
+
+	err = api.SetSkillDesc(skill, "New Desc")
+	testutil.AssertNilErr(t, err, "Setting skill desc.")
+    testutil.AssertEqString(t, api.skillFromId[skill].Desc, "New Desc", 
+        "Setting skill desc")
+
+	err = api.SetSkillDesc(999, "New Desc")
+	testutil.AssertErrGenerated(t, err, UnknownSkill, "Set skill desc.")
+	err = api.SetSkillDesc(skill, strings.Repeat("X", 500))
+	testutil.AssertErrGenerated(t, err, TooLong, "Setting skill desc.")
+}
+
+//-----------------------------------------------------------------------------
 // Operate virtualized UXP stimulating errors
 //-----------------------------------------------------------------------------
 
@@ -115,3 +145,4 @@ func buildSimpleModel(t *testing.T) *Api {
 
 	return api
 }
+
