@@ -131,11 +131,10 @@ The SetSkillTitle() method replaces the given skill's title with the text
 given. Can generate the following errors: SkillUnknown error, TooLong.
 */
 func (api *Api) SetSkillTitle(skillId int, newTitle string) (err error) {
-	skill, ok := api.skillFromId[skillId]
-	if !ok {
-		err = errors.New(UnknownSkill)
-		return
-	}
+    if err = api.tweakParams(nil, &skillId); err != nil {
+        return
+    }
+	skill := api.skillFromId[skillId]
     if len(newTitle) > MaxSkillTitle {
 		err = errors.New(TooLong)
 		return
@@ -228,4 +227,28 @@ func (api *Api) finishBuildFromDeSerialize() {
 		email := person.Email
 		api.persFromMail[email] = person
 	}
+}
+
+/*
+The method tweakParams(), receives either or both of an email and a skill Uid,
+and coerces the email when given into lowercase, and then ensures the email is
+one known to the model, and the skillUid is legitimate. It can return either
+of the errors: UnknownPerson or UnknownSkill.
+*/
+func (api *Api) tweakParams(email *string, skillId *int) (err error) {
+    if email != nil {
+        // coerce caller's email to lower case
+        *email = strings.ToLower(*email)
+        _, ok := api.persFromMail[*email]
+        if !ok {
+            return errors.New(UnknownPerson)
+        }
+    }
+    if skillId != nil {
+        _, ok := api.skillFromId[*skillId]
+        if !ok {
+            return errors.New(UnknownSkill)
+        }
+    }
+    return
 }

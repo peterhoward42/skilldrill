@@ -16,6 +16,8 @@
             *  Test for unknown skill and entries too long.
             *  Test changed correctly content.
             o  Look again at repeated boiler plate in api fns
+                *  Try with edit skill title
+                o  If works use univ, checking names carefully
             o  Merge set skill title and desc
 
 -------------------------------------------------------------------------------
