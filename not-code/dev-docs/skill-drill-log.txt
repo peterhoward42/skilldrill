@@ -15,9 +15,10 @@
         o  Api to edit skill desc and title
             *  Test for unknown skill and entries too long.
             *  Test changed correctly content.
-            o  Look again at repeated boiler plate in api fns
+            *  Look again at repeated boiler plate in api fns
                 *  Try with edit skill title
-                o  If works use univ, checking names carefully
+                *  If works use univ, checking names carefully
+            o  Can use same tweak method on api test boiler plate?
             o  Merge set skill title and desc
 
 -------------------------------------------------------------------------------

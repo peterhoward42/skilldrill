@@ -148,15 +148,14 @@ The SetSkillDesc() method replaces the given skill's description with the text
 given. Can generate the following errors: SkillUnknown error, TooLong.
 */
 func (api *Api) SetSkillDesc(skillId int, newDesc string) (err error) {
-	skill, ok := api.skillFromId[skillId]
-	if !ok {
-		err = errors.New(UnknownSkill)
-		return
-	}
+    if err = api.tweakParams(nil, &skillId); err != nil {
+        return
+    }
     if len(newDesc) > MaxSkillDesc {
 		err = errors.New(TooLong)
 		return
     }
+	skill := api.skillFromId[skillId]
     skill.Desc = newDesc
 	return
 }
@@ -168,21 +167,18 @@ CATEGORIES.  An error is generated if either the person or skill given are not
 recognized, or you give a person a Category rather than a Skill. The email you
 provide is lower-cased before it is used.
 */
-func (api *Api) GivePersonSkill(email string, skillId int) error {
-	email = strings.ToLower(email)
-	foundPerson, ok := api.persFromMail[email]
-	if !ok {
-		return errors.New(UnknownPerson)
-	}
-	foundSkill, ok := api.skillFromId[skillId]
-	if !ok {
-		return errors.New(UnknownSkill)
-	}
+func (api *Api) GivePersonSkill(email string, skillId int) (err error) {
+    if err = api.tweakParams(&email, &skillId); err != nil {
+        return
+    }
+    foundSkill := api.skillFromId[skillId]
 	if foundSkill.Role == Category {
-		return errors.New(CategoryDisallowed)
+		err = errors.New(CategoryDisallowed)
+        return
 	}
+    foundPerson := api.persFromMail[email]
 	api.SkillHoldings.bind(foundSkill.Uid, foundPerson.Email)
-	return nil
+	return 
 }
 
 /*
@@ -191,18 +187,13 @@ abstracted user experience. In this case to collapse a node in the tree display
 of skills hierachy. Errors are generated when either the person or the skill is
 not recognized.
 */
-func (api *Api) CollapseSkill(email string, skillId int) error {
-	email = strings.ToLower(email)
-	_, ok := api.persFromMail[email]
-	if !ok {
-		return errors.New(UnknownPerson)
-	}
-	foundSkill, ok := api.skillFromId[skillId]
-	if !ok {
-		return errors.New(UnknownSkill)
-	}
+func (api *Api) CollapseSkill(email string, skillId int) (err error) {
+    if err = api.tweakParams(&email, &skillId); err != nil {
+        return
+    }
+    foundSkill := api.skillFromId[skillId]
 	api.UiStates[email].collapseNode(foundSkill)
-	return nil
+	return
 }
 
 /*

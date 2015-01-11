@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"github.com/peterhoward42/skilldrill/util/testutil"
 	"strings"
 	"testing"
@@ -49,7 +48,7 @@ func TestDeSerialize(t *testing.T) {
 	orig := buildSimpleModel(t)
 	serialized, err := orig.Serialize()
 	testutil.AssertNilErr(t, err, "Serialize error")
-	fmt.Printf("\nSerialized data is:\n%s", string(serialized))
+	//fmt.Printf("\nSerialized data is:\n%s", string(serialized))
 
 	// Ensure de-serialize does not generate errors in of itself.
 	api, err := NewFromSerialized(serialized)
