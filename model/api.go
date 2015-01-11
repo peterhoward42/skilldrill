@@ -1,9 +1,10 @@
 /*
 The skilldrill model package is a multi-file package that can model a hierachical
-set of skills and a set of people who hold some of those skills. The api.go file
-exposes the Api type, which provides methods for CRUD operations, while the other
-files deal with much of the internal workings. The model supports serialization
-and de-serialization using a yaml form.
+set of skills, a set of people who hold some of those skills, and abstracted user
+experience states for each person. The api.go file exposes the Api type, which
+provides methods for CRUD operations, while the other files deal with much of the
+internal workings. The model supports serialization and de-serialization using 
+yaml.
 */
 package model
 
@@ -13,15 +14,16 @@ import (
 	"strings"
 )
 
-// The Api structure is the fundamental type exposed by the skilldrill model
-// package, and provides CRUD interfaces to do things like adding skills or
-// people into the model and registering a person as having a particular skill.
-// All model editing operations should be done via Api calls rather than
-// accessing the internal objects directly, so that the integrity of various
-// supplemental look up tables is preserved.
-// The design intent is that none of Api fields are exported, but the reason
-// that some are, is solely to facilitate automated serialization by
-// yaml.Marshal().
+/*
+The Api structure is the fundamental type exposed by the skilldrill model
+package, and provides CRUD interfaces to do things like adding skills or people
+into the model and registering a person as having a particular skill.  All model
+editing operations should be done via Api calls rather than accessing the
+internal objects directly, so that the integrity of various supplemental look up
+tables is preserved.  The design intent is that none of Api fields are exported,
+but the reason that some are, is solely to facilitate automated serialization by
+yaml.Marshal().
+*/
 type Api struct {
 	SerializeVers  int
 	Skills         []*skillNode
