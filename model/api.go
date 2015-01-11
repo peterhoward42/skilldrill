@@ -3,7 +3,7 @@ The skilldrill model package is a multi-file package that can model a hierachica
 set of skills, a set of people who hold some of those skills, and abstracted user
 experience states for each person. The api.go file exposes the Api type, which
 provides methods for CRUD operations, while the other files deal with much of the
-internal workings. The model supports serialization and de-serialization using 
+internal workings. The model supports serialization and de-serialization using
 yaml.
 */
 package model
@@ -25,13 +25,13 @@ but the reason that some are, is solely to facilitate automated serialization by
 yaml.Marshal().
 */
 type Api struct {
-	SerializeVers  int
-	Skills         []*skillNode
-	People         []*person
-	SkillRoot      int            // root of taxonomy tree (skill.Uid)
-	SkillHoldings  *skillHoldings // who has what skill?
-	NextSkill      int
-	UiStates       map[string]*uiState
+	SerializeVers int
+	Skills        []*skillNode
+	People        []*person
+	SkillRoot     int            // root of taxonomy tree (skill.Uid)
+	SkillHoldings *skillHoldings // who has what skill?
+	NextSkill     int
+	UiStates      map[string]*uiState
 	// Supplemental, (duplicate) data for quick lookups
 	skillFromId  map[int]*skillNode
 	persFromMail map[string]*person
@@ -41,13 +41,13 @@ type Api struct {
 // empty Api struct.
 func NewApi() *Api {
 	return &Api{
-		SerializeVers:  1,
-		Skills:         make([]*skillNode, 0),
-		People:         make([]*person, 0),
-		SkillRoot:      -1,
-		SkillHoldings:  newSkillHoldings(),
-		NextSkill:      1,
-		UiStates:       make(map[string]*uiState),
+		SerializeVers: 1,
+		Skills:        make([]*skillNode, 0),
+		People:        make([]*person, 0),
+		SkillRoot:     -1,
+		SkillHoldings: newSkillHoldings(),
+		NextSkill:     1,
+		UiStates:      make(map[string]*uiState),
 		// Supplemental fields
 		skillFromId:  make(map[int]*skillNode),
 		persFromMail: make(map[string]*person),
@@ -79,7 +79,7 @@ func (api *Api) AddPerson(email string) (err error) {
 	incomer := newPerson(email)
 	api.People = append(api.People, incomer)
 	api.persFromMail[email] = incomer
-    api.UiStates[email] = newUiState()
+	api.UiStates[email] = newUiState()
 	return nil
 }
 

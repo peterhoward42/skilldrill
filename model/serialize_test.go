@@ -1,7 +1,7 @@
 package model
 
 import (
-    "fmt"
+	"fmt"
 	"github.com/peterhoward42/skilldrill/util/testutil"
 	"strings"
 	"testing"
@@ -49,7 +49,7 @@ func TestDeSerialize(t *testing.T) {
 	orig := buildSimpleModel(t)
 	serialized, err := orig.Serialize()
 	testutil.AssertNilErr(t, err, "Serialize error")
-    fmt.Printf("\nSerialized data is:\n%s", string(serialized))
+	fmt.Printf("\nSerialized data is:\n%s", string(serialized))
 
 	// Ensure de-serialize does not generate errors in of itself.
 	api, err := NewFromSerialized(serialized)
@@ -65,7 +65,7 @@ func TestDeSerialize(t *testing.T) {
 	testutil.AssertEqInt(t, api.SkillRoot, 1, "Skill Root")
 	checkSkillHoldings(t, api)
 	testutil.AssertEqInt(t, api.NextSkill, 5, "Next skill")
-    checkUiState(t, api)
+	checkUiState(t, api)
 }
 
 func checkSkills(t *testing.T, api *Api) {
@@ -114,10 +114,10 @@ func checkSkillHoldings(t *testing.T, api *Api) {
 }
 
 func checkUiState(t *testing.T, api *Api) {
-    uiState := api.UiStates["fred.bloggs"]
-    testutil.AssertEqSliceInt(t, uiState.CollapsedNodes.AsSlice(),
-        []int{2}, "Node should be collapsed")
-    uiState = api.UiStates["john.smith"]
-    testutil.AssertEqSliceInt(t, uiState.CollapsedNodes.AsSlice(),
-        []int{}, "Node should be collapsed")
+	uiState := api.UiStates["fred.bloggs"]
+	testutil.AssertEqSliceInt(t, uiState.CollapsedNodes.AsSlice(),
+		[]int{2}, "Node should be collapsed")
+	uiState = api.UiStates["john.smith"]
+	testutil.AssertEqSliceInt(t, uiState.CollapsedNodes.AsSlice(),
+		[]int{}, "Node should be collapsed")
 }

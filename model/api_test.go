@@ -83,6 +83,18 @@ func TestEmailsAreLowerCased(t *testing.T) {
 }
 
 //-----------------------------------------------------------------------------
+// Operate virtualized UXP stimulating errors
+//-----------------------------------------------------------------------------
+
+func TestCollapseSkillErrors(t *testing.T) {
+	api := buildSimpleModel(t)
+	err := api.CollapseSkill("fred.bloggs", 9999)
+	testutil.AssertErrGenerated(t, err, UnknownSkill, "Collapse node.")
+	err = api.CollapseSkill("nosuchemail", 1)
+	testutil.AssertErrGenerated(t, err, UnknownPerson, "Collapse node.")
+}
+
+//-----------------------------------------------------------------------------
 // Helper functions
 //-----------------------------------------------------------------------------
 

@@ -11,29 +11,7 @@
         *  Move to test util or util/testutil package, with maybe lib move too
         *  Find how to fmt all or test all
         *  Lower case email
-        o  Add in app state and user states
-            *  Decide on naming
-                *  UiState
-            *  Rename nodes to make hierachy easier to see
-            *  Anticipate api requirements
-                *  expose set api
-            *  Test up 
-                *  satisfy serialization first 
-                    *  make api call in make simple model
-                    *  make err msgs exported constants, comment them and use 
-                       them in tests
-                       *  code to consts
-                       *  Use consts in tests
-                       *  tests pass
-                    *  populate api method for real
-                        *  when you add a person you must init a state for them
-                    *  how test serialize?
-                        *  ensure that node is collapsed in what comes back from
-                           deserialize
-                o  what is left?
-                    o  stimulate errors in tests when collapsing unknown skills
-                       or for unknown people
-
+        *  Add in app state and user states
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
