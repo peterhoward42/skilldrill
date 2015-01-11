@@ -1,6 +1,7 @@
 package model
 
 import (
+    "fmt"
 	"github.com/peterhoward42/skilldrill/util/testutil"
 	"strings"
 	"testing"
@@ -48,6 +49,7 @@ func TestDeSerialize(t *testing.T) {
 	orig := buildSimpleModel(t)
 	serialized, err := orig.Serialize()
 	testutil.AssertNilErr(t, err, "Serialize error")
+    fmt.Printf("\nSerialized data is:\n%s", string(serialized))
 
 	// Ensure de-serialize does not generate errors in of itself.
 	api, err := NewFromSerialized(serialized)
@@ -63,6 +65,7 @@ func TestDeSerialize(t *testing.T) {
 	testutil.AssertEqInt(t, api.SkillRoot, 1, "Skill Root")
 	checkSkillHoldings(t, api)
 	testutil.AssertEqInt(t, api.NextSkill, 5, "Next skill")
+    checkUiState(t, api)
 }
 
 func checkSkills(t *testing.T, api *Api) {
@@ -73,7 +76,7 @@ func checkSkills(t *testing.T, api *Api) {
 	// Content of one of the skills
 	skill := api.Skills[0]
 	testutil.AssertEqInt(t, skill.Uid, 1, "Skill id.")
-	testutil.AssertEqString(t, skill.Role, CATEGORY, "Role.")
+	testutil.AssertEqString(t, skill.Role, Category, "Role.")
 	testutil.AssertEqString(t, skill.Title, "A title", "Title.")
 	testutil.AssertEqString(t, skill.Desc, "A description", "Description.")
 	testutil.AssertEqInt(t, skill.Parent, -1, "Parent")
@@ -84,8 +87,8 @@ func checkPeople(t *testing.T, api *Api) {
 	n := len(api.People)
 	testutil.AssertEqInt(t, n, 2, "Number of people")
 	john := api.People[1]
-    // This also checks that emails added that include uppercase letters,
-    // are coerced to lower case by the AddXXX methods.
+	// This also checks that emails added that include uppercase letters,
+	// are coerced to lower case by the AddXXX methods.
 	testutil.AssertEqString(t, john.Email, "john.smith", "Person name.")
 }
 
@@ -108,4 +111,13 @@ func checkSkillHoldings(t *testing.T, api *Api) {
 	people := api.SkillHoldings.PeopleWithSkill[4].AsSlice()
 	testutil.AssertEqSliceString(t, people, []string{"fred.bloggs"},
 		"People with skill.")
+}
+
+func checkUiState(t *testing.T, api *Api) {
+    uiState := api.UiStates["fred.bloggs"]
+    testutil.AssertEqSliceInt(t, uiState.CollapsedNodes.AsSlice(),
+        []int{2}, "Node should be collapsed")
+    uiState = api.UiStates["john.smith"]
+    testutil.AssertEqSliceInt(t, uiState.CollapsedNodes.AsSlice(),
+        []int{}, "Node should be collapsed")
 }

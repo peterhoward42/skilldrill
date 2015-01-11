@@ -2,13 +2,6 @@ package model
 
 import ()
 
-// This enumerated type provides a classification for the mutually exclusive
-// role that a skillNode may take.
-const (
-	SKILL    = "SKL"
-	CATEGORY = "CAT"
-)
-
 /*
 The skillNode type models a node in the skill hierachy. Only the leaf-level nodes
 are permitted to be SKILLS. The others must have the role CATEGORY. The

@@ -17,12 +17,22 @@
             *  Rename nodes to make hierachy easier to see
             *  Anticipate api requirements
                 *  expose set api
-            o  Test up 
-                o  satisfy serialization first 
-                    o  make api call in make simple model
-                    o  make err msgs exported constants, comment them and use 
+            *  Test up 
+                *  satisfy serialization first 
+                    *  make api call in make simple model
+                    *  make err msgs exported constants, comment them and use 
                        them in tests
+                       *  code to consts
+                       *  Use consts in tests
+                       *  tests pass
+                    *  populate api method for real
+                        *  when you add a person you must init a state for them
+                    *  how test serialize?
+                        *  ensure that node is collapsed in what comes back from
+                           deserialize
                 o  what is left?
+                    o  stimulate errors in tests when collapsing unknown skills
+                       or for unknown people
 
 
 -------------------------------------------------------------------------------
