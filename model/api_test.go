@@ -113,6 +113,29 @@ func TestSkillEditsErrors(t *testing.T) {
 }
 
 //-----------------------------------------------------------------------------
+// Exercise Queries
+//-----------------------------------------------------------------------------
+
+func TestSkillQueries(t *testing.T) {
+	api := buildSimpleModel(t)
+	title, desc, descInContext, contextAlone, err := api.SkillWording(4)
+
+	// Proper use
+	testutil.AssertNilErr(t, err, "Skill wording getter")
+	testutil.AssertStrContains(t, title, "AAA", "Skill wording getter")
+	testutil.AssertStrContains(t, desc, "AAA desc", "Skill wording getter")
+	testutil.AssertStrContains(t, descInContext,
+		"A description>>>AA description>>>AAA description",
+		"Skill wording getter")
+	testutil.AssertStrContains(t, contextAlone,
+		"A description>>>AA description", "Skill wording getter")
+
+	// Illega skill id
+	_, _, _, _, err = api.SkillWording(999)
+	testutil.AssertErrGenerated(t, err, UnknownSkill, "Skill wording getter")
+}
+
+//-----------------------------------------------------------------------------
 // Operate virtualized UXP stimulating errors
 //-----------------------------------------------------------------------------
 

@@ -13,7 +13,10 @@
         *  Lower case email
         *  Add in app state and user states
         *  Api to edit skill desc and title
-        o  Api to get desc / title with / without context or just that of parent.
+        *  Api to get desc / title with / without context or just that of parent.
+            *  Api tests written and pass
+            o  Comments and sep tests for skill tree ops?
+            o  Tree ops lineage test needed?
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------

@@ -197,6 +197,24 @@ func (api *Api) CollapseSkill(email string, skillId int) (err error) {
 }
 
 /*
+The method SkillWording() returns the title and description of the given skill.
+The description is provided in three different forms: The description in
+isolation of the skill node, this same description tacked on to the end of a
+description of the ancestry, and this ancestry part isolated. Can generate the
+UnknownSkill error.
+*/
+func (api *Api) SkillWording(skillId int) (title string, desc string,
+	descInContext string, contextAlone string, err error) {
+	if err = api.tweakParams(nil, &skillId); err != nil {
+		return
+	}
+	foundSkill := api.skillFromId[skillId]
+	treeOps := &skillTreeOps{api}
+	title, desc, descInContext, contextAlone = treeOps.skillWording(foundSkill)
+	return
+}
+
+/*
 The function Serialize() makes a machine-readable representation of the Api
 object and packages it into a slice of bytes. See also NewFromSerialized().
 */

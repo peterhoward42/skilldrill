@@ -1,0 +1,54 @@
+package model
+
+import (
+	"strings"
+)
+
+/*
+The skillTreeOps type is a place for algorithmic functions to live that depend on
+traversing parent child relationships in the skills taxonomy tree. The aim is to
+prevent any other parts of the model software from having to engage with this
+topic.
+*/
+type skillTreeOps struct {
+	api *Api
+}
+
+/*
+The skillWording() method is capable of assembling a description for a skillNode
+that is based on its child-parent ancestry. In other words it can synthesise a
+description that describes the skill completely and autonomuously, by
+contatenating the skill node descriptions, working up the tree. It provides for
+convenience also the skill Node title and the aggregate description broken into
+pieces. The <desc> return value is from the leaf node alone. The <descInContext>
+return value is the aggregated description. While the <contextAlone> is the
+description drawn from the skill node's parent (recursively).
+*/
+func (treeOps *skillTreeOps) skillWording(skill *skillNode) (title string,
+	desc string, descInContext string, contextAlone string) {
+	nodes := []*skillNode{}
+	treeOps.lineageOf(skill, &nodes)
+	descriptions := []string{}
+	for _, node := range nodes {
+		descriptions = append(descriptions, node.Desc)
+	}
+	title = skill.Title
+	desc = skill.Desc
+	descInContext = strings.Join(descriptions, ">>>")
+	contextAlone = strings.Join(descriptions[:len(descriptions)-1], ">>>")
+	return
+}
+
+/*
+The lineageOf() method provides the list of skillNodes that comprise the
+parent chain from the given skill up to the root of the tree. Root first.
+*/
+func (treeOps *skillTreeOps) lineageOf(skill *skillNode,
+	lineage *[]*skillNode) {
+	// recurse to add parent lineage first
+	if skill.Parent != -1 {
+		treeOps.lineageOf(treeOps.api.skillFromId[skill.Parent], lineage)
+	}
+	// now add me
+	*lineage = append(*lineage, skill)
+}
