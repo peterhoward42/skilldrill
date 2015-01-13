@@ -71,7 +71,5 @@ func (treeOps *skillTreeOps) enumerateTree(collapsedNodes *sets.SetOfInt) (
 }
 
 // Recursive helper for EnumerateTree() method.
-func (treeOps *skillTreeOps) enumerateNode(node *skillNode,
-	collapsedNodes *sets.SetOfInt, curDepth int,
-	skills *[]int, depths *[]int) {
+func (treeOps *skillTreeOps) enumerateNode(curNode *skillNode, collapsedNodes *sets.SetOfInt, curDepth int, skills *[]int, depths *[]int) {
 }

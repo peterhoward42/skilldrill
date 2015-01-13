@@ -16,7 +16,13 @@
         *  Api to get desc / title with / without context or just that of parent.
         *  List emails of people with skill
         *  Has this user, this skill
+        o  Timeout to ensure children in tree are in a sequence, and that they
+           are kept in alpha order
         o  Skills seq from tree excl collapsed, with hier level
+            o  Basics in place
+            o  Get simple slices as expected
+            o  Ensure collapsed treats children as should
+            o  Ensure alpha order is working
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
