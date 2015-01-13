@@ -16,6 +16,7 @@
         *  Api to get desc / title with / without context or just that of parent.
         *  List emails of people with skill
         *  Has this user, this skill
+        o  Skills seq from tree excl collapsed, with hier level
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -27,12 +28,12 @@ Model use cases
         *  Fmt desc with / without context of hierachy
         *  Fmt root of desc to aide editing
         *  List emails of people with skill
-        o  Has this user, this skill
+        *  Has this user, this skill
         o  Enumerate display model Collapse / expand behaviour
     o  From lifecycle
         o  Level of node
-        o  Serialise whole model
-        o  Build model from serialised
+        *  Serialise whole model
+        *  Build model from serialised
     o  From admin
         o  Rename a skill
         o  Move skill to diff part of hierachy

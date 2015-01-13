@@ -258,6 +258,23 @@ func (api *Api) PersonHasSkill(email string, skillId int) (
 }
 
 /*
+The method EnumerateTree() provides a list of skill Uids in the order they should
+appear when displaying the tree. It is person-specific, and omits the nodes that
+have been collapsed (using CollapseSkill()) - including their children. Can
+generate the UnknownPerson error.
+*/
+func (api *Api) EnumerateTree(email string) (skills []int,
+	depths []int, err error) {
+	if err = api.tweakParams(&email, nil); err != nil {
+		return
+	}
+	treeOps := &skillTreeOps{api}
+	collapsedNodes := api.UiStates[email].CollapsedNodes
+	skills, depths = treeOps.enumerateTree(collapsedNodes)
+	return
+}
+
+/*
 The function Serialize() makes a machine-readable representation of the Api
 object and packages it into a slice of bytes. See also NewFromSerialized().
 */

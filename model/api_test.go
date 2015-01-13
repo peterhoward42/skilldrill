@@ -175,6 +175,17 @@ func TestHasPersonSkillQuery(t *testing.T) {
 		"People with skill getter")
 }
 
+func TestEnumerateTree(t *testing.T) {
+	api := buildSimpleModel(t)
+	skills, depths, err := api.EnumerateTree("fred.bloggs")
+	testutil.AssertNilErr(t, err, "Tree enumerator")
+	testutil.AssertEqSliceInt(t, skills, []int{999}, "Tree enumerator")
+	testutil.AssertEqSliceInt(t, depths, []int{999}, "Tree enumerator")
+
+	skills, depths, err = api.EnumerateTree("nosuch person")
+	testutil.AssertErrGenerated(t, err, UnknownPerson, "Tree enumerator")
+}
+
 //-----------------------------------------------------------------------------
 // Operate virtualized UXP - stimulating errors
 //-----------------------------------------------------------------------------

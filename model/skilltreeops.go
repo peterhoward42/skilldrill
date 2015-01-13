@@ -1,6 +1,7 @@
 package model
 
 import (
+	"github.com/peterhoward42/skilldrill/util/sets"
 	"strings"
 )
 
@@ -51,4 +52,26 @@ func (treeOps *skillTreeOps) lineageOf(skill *skillNode,
 	}
 	// now add me
 	*lineage = append(*lineage, skill)
+}
+
+/*
+The method enumerateTree() provides a list of skill Uids in the order they should
+appear when displaying the tree. It is person-specific, and omits the nodes that
+have been collapsed (using CollapseSkill()) - including their children.
+*/
+func (treeOps *skillTreeOps) enumerateTree(collapsedNodes *sets.SetOfInt) (
+	skills []int, depths []int) {
+	curNode := treeOps.api.skillFromId[treeOps.api.SkillRoot]
+	skills = []int{}
+	depths = []int{}
+	curDepth := 0
+	// Recursive
+	treeOps.enumerateNode(curNode, collapsedNodes, curDepth, &skills, &depths)
+	return
+}
+
+// Recursive helper for EnumerateTree() method.
+func (treeOps *skillTreeOps) enumerateNode(node *skillNode,
+	collapsedNodes *sets.SetOfInt, curDepth int,
+	skills *[]int, depths *[]int) {
 }
