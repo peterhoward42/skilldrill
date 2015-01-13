@@ -142,23 +142,13 @@ func AssertTrue(t *testing.T, shouldBeTrue bool, thing string) {
 	if shouldBeTrue == true {
 		return
 	}
-	t.Errorf("Value is not true: %v", thing)
+	t.Errorf("Boolean wrong: %v", thing)
 	t.Error(briefStackTrace())
 }
 
-/*
-The function AssertFalse is a helper function for the golang test package.  It
-is syntax sugar for asserting that a given bool value is false.  When the
-assertion does not hold, it sends a message to the injected testing.T object
-which includes a simplified stack trace with line numbers. The function parameter
-'thing' gets used in the message generated as a noun for the thing that is wrong.
-*/
 func AssertFalse(t *testing.T, shouldBeFalse bool, thing string) {
-	if shouldBeFalse == false {
-		return
-	}
-	t.Errorf("Value is not false: %v", thing)
-	t.Error(briefStackTrace())
+    shouldBeTrue := !shouldBeFalse
+    AssertTrue(t, shouldBeTrue, thing)
 }
 
 // The function briefStackTrace() generates a stack trace and then reduces the

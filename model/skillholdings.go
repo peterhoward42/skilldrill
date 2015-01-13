@@ -22,22 +22,31 @@ func newSkillHoldings() *skillHoldings {
 	}
 }
 
+// The registerSkill() method makes the given skill uid known to the object. It is
+// harmless to call it when the skill has already been registered.
+func (sh *skillHoldings) registerSkill(skillId int) {
+	if _, ok := sh.PeopleWithSkill[skillId]; ok {
+		return
+	}
+	sh.PeopleWithSkill[skillId] = sets.NewSetOfString()
+}
+
+// The registerPerson() method makes the given person email known to the object.
+// It is harmless to call it when the email has already been registered.
+func (sh *skillHoldings) registerPerson(email string) {
+	if _, ok := sh.SkillsOfPerson[email]; ok {
+		return
+	}
+	sh.SkillsOfPerson[email] = sets.NewSetOfInt()
+}
+
 // The method bind() adds the given skill to the set of skills held for the given
-// person. An error is generated if the skill is a CATEGORY.
-func (sh *skillHoldings) bind(skill int, email string) {
-	skills, ok := sh.SkillsOfPerson[email]
-	if !ok {
-		skills = sets.NewSetOfInt()
-		sh.SkillsOfPerson[email] = skills
-	} else {
-	}
+// person. The skill and the person are automatically registered if they have not
+// been previously.  An error is generated if the skill is a CATEGORY.
+func (sh *skillHoldings) bind(skill int, person string) {
+	sh.registerSkill(skill)
+	sh.registerPerson(person)
 
-	skills.Add(skill)
-
-	people, ok := sh.PeopleWithSkill[skill]
-	if !ok {
-		people = sets.NewSetOfString()
-		sh.PeopleWithSkill[skill] = people
-	}
-	people.Add(email)
+	sh.SkillsOfPerson[person].Add(skill)
+	sh.PeopleWithSkill[skill].Add(person)
 }

@@ -79,6 +79,7 @@ func (api *Api) AddPerson(email string) (err error) {
 	incomer := newPerson(email)
 	api.People = append(api.People, incomer)
 	api.persFromMail[email] = incomer
+	api.SkillHoldings.registerPerson(email)
 	api.UiStates[email] = newUiState()
 	return nil
 }
@@ -106,6 +107,7 @@ func (api *Api) AddSkill(role string, title string, desc string,
 		api.Skills = append(api.Skills, skill)
 		api.skillFromId[uid] = skill
 		api.SkillRoot = uid
+		api.SkillHoldings.registerSkill(uid)
 		return
 	}
 	parentSkill, ok := api.skillFromId[parent]
@@ -122,6 +124,7 @@ func (api *Api) AddSkill(role string, title string, desc string,
 	newSkill := newSkillNode(uid, role, title, desc, parentSkill.Uid)
 	api.Skills = append(api.Skills, newSkill)
 	api.skillFromId[uid] = newSkill
+	api.SkillHoldings.registerSkill(newSkill.Uid)
 	parentSkill.addChild(newSkill.Uid)
 	return
 }
@@ -228,6 +231,29 @@ func (api *Api) PeopleWithSkill(skillId int) (emails []string, err error) {
 		return
 	}
 	emails = api.SkillHoldings.PeopleWithSkill[skillId].AsSlice()
+	return
+}
+
+/*
+The method PersonHasSkill() returns true if the given person is registered as
+having the given skill.  Can generate the following errors: UnknownSkill,
+UnknownPerson, CategoryDisallowed.
+*/
+func (api *Api) PersonHasSkill(email string, skillId int) (
+	hasSkill bool, err error) {
+	if err = api.tweakParams(&email, &skillId); err != nil {
+		return
+	}
+	if api.skillFromId[skillId].Role == Category {
+		err = errors.New(CategoryDisallowed)
+		return
+	}
+	sh := api.SkillHoldings
+	sop := sh.SkillsOfPerson
+	set := sop[email]
+	present := set.Contains(skillId)
+	_ = present
+	hasSkill = api.SkillHoldings.SkillsOfPerson[email].Contains(skillId)
 	return
 }
 

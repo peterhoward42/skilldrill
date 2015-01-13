@@ -89,9 +89,10 @@ func TestEmailsAreLowerCased(t *testing.T) {
 
 func TestSkillEditsErrors(t *testing.T) {
 	api := NewApi()
-	skill, _ := api.AddSkill(Skill, "Orig Title", "Orig desc.", -1)
+	skill, err := api.AddSkill(Skill, "Orig Title", "Orig desc.", -1)
+	testutil.AssertNilErr(t, err, "Adding skill")
 
-	err := api.SetSkillTitle(skill, "New Title")
+	err = api.SetSkillTitle(skill, "New Title")
 	testutil.AssertNilErr(t, err, "Setting skill title.")
 	testutil.AssertEqString(t, api.skillFromId[skill].Title, "New Title",
 		"Setting skill title")
@@ -148,8 +149,30 @@ func TestPeopleWithSkillQuery(t *testing.T) {
 	emails, err = api.PeopleWithSkill(1)
 	testutil.AssertErrGenerated(t, err, CategoryDisallowed,
 		"People with skill getter")
+}
 
-	// add category skill
+func TestHasPersonSkillQuery(t *testing.T) {
+	api := buildSimpleModel(t)
+
+	// Proper usage
+	hasSkill, err := api.PersonHasSkill("fred.bloggs", 4)
+	testutil.AssertNilErr(t, err, "Person has skill getter")
+	testutil.AssertTrue(t, hasSkill, "Person has skill getter")
+
+	hasSkill, err = api.PersonHasSkill("john.smith", 4)
+	testutil.AssertNilErr(t, err, "Person has skill getter")
+	testutil.AssertFalse(t, hasSkill, "Person has skill getter")
+
+	// Error generation
+	hasSkill, err = api.PersonHasSkill("no such person", 4)
+	testutil.AssertErrGenerated(t, err, UnknownPerson, "People with skill getter")
+
+	hasSkill, err = api.PersonHasSkill("fred.bloggs", 999)
+	testutil.AssertErrGenerated(t, err, UnknownSkill, "People with skill getter")
+
+	hasSkill, err = api.PersonHasSkill("fred.bloggs", 1)
+	testutil.AssertErrGenerated(t, err, CategoryDisallowed,
+		"People with skill getter")
 }
 
 //-----------------------------------------------------------------------------

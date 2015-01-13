@@ -14,7 +14,8 @@
         *  Add in app state and user states
         *  Api to edit skill desc and title
         *  Api to get desc / title with / without context or just that of parent.
-        o  List emails of people with skill
+        *  List emails of people with skill
+        *  Has this user, this skill
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -25,7 +26,7 @@ Model use cases
         *  Edit skill title or desc
         *  Fmt desc with / without context of hierachy
         *  Fmt root of desc to aide editing
-        o  List emails of people with skill
+        *  List emails of people with skill
         o  Has this user, this skill
         o  Enumerate display model Collapse / expand behaviour
     o  From lifecycle
