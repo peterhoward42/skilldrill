@@ -2,6 +2,7 @@ package model
 
 import (
 	"github.com/peterhoward42/skilldrill/util/testutil"
+    "sort"
 	"strings"
 	"testing"
 )
@@ -42,6 +43,23 @@ func TestAddSkillToNonCategory(t *testing.T) {
 	_, err := api.AddSkill(Skill, "", "", rootUid)
 	testutil.AssertErrGenerated(t, err, ParentNotCategory,
 		"Adding skill to non-category")
+}
+
+//-----------------------------------------------------------------------------
+// Adding things - checking interventions in the Api layer
+//-----------------------------------------------------------------------------
+
+func TestChildrenOrderedAlphabetically(t *testing.T) {
+    // Ensure the children of a parent in common, are kept in alphabetical 
+    // order when they are added (deliberately) no so.
+	api := buildSimpleModel(t)
+    childIds := api.Skills[1].Children
+    titles := []string{}
+    for _, child := range childIds {
+        titles = append(titles, api.skillFromId[child].Title)
+    }
+    testutil.AssertTrue(t, sort.StringsAreSorted(titles), 
+        "Children are not sorted.")
 }
 
 //-----------------------------------------------------------------------------
@@ -212,8 +230,11 @@ func buildSimpleModel(t *testing.T) *Api {
 	api.AddPerson("fred.bloggs")
 	api.AddPerson("john.Smith") // deliberate inclusion of upper case letter
 	skillA, _ := api.AddSkill(Category, "A title", "A description", -1)
-	skillAA, _ := api.AddSkill(Category, "AA", "AA description", skillA)
+    // Note AB and AA are added to a parent in common, in an order that makes 
+    // their enumeration in the order that they are added, NOT in alphabetical 
+    // order.
 	skillAB, _ := api.AddSkill(Category, "AB", "AB description", skillA)
+	skillAA, _ := api.AddSkill(Category, "AA", "AA description", skillA)
 	skillAAA, _ := api.AddSkill(Skill, "AAA", "AAA description", skillAA)
 	api.GivePersonSkill("fred.bloggs", skillAAA)
 

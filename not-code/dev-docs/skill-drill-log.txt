@@ -18,6 +18,14 @@
         *  Has this user, this skill
         o  Timeout to ensure children in tree are in a sequence, and that they
            are kept in alpha order
+            *  Are children a slice already? = yes
+            *  Does build simple disrupt alpha order?, no
+                *  Change it so that it does disrupt and fix up existing tests
+            o  Test that checks for alpha order should fail
+                o  Doesn't fail?
+            o  Satisfy
+        o  Timeout to provide skill from title when unambig and use over
+            o  Use Must idiom and keep in test module
         o  Skills seq from tree excl collapsed, with hier level
             o  Basics in place
             o  Get simple slices as expected
