@@ -118,9 +118,9 @@ func TestSkillEditsErrors(t *testing.T) {
 
 func TestSkillQueries(t *testing.T) {
 	api := buildSimpleModel(t)
-	title, desc, descInContext, contextAlone, err := api.SkillWording(4)
 
 	// Proper use
+	title, desc, descInContext, contextAlone, err := api.SkillWording(4)
 	testutil.AssertNilErr(t, err, "Skill wording getter")
 	testutil.AssertStrContains(t, title, "AAA", "Skill wording getter")
 	testutil.AssertStrContains(t, desc, "AAA desc", "Skill wording getter")
@@ -130,13 +130,30 @@ func TestSkillQueries(t *testing.T) {
 	testutil.AssertStrContains(t, contextAlone,
 		"A description>>>AA description", "Skill wording getter")
 
-	// Illega skill id
+	// Illegal skill id
 	_, _, _, _, err = api.SkillWording(999)
 	testutil.AssertErrGenerated(t, err, UnknownSkill, "Skill wording getter")
 }
 
+func TestPeopleWithSkillQuery(t *testing.T) {
+	api := buildSimpleModel(t)
+	emails, err := api.PeopleWithSkill(4)
+	testutil.AssertNilErr(t, err, "People with skill getter")
+	testutil.AssertEqSliceString(t, emails, []string{"fred.bloggs"},
+		"People with skill getter")
+
+	emails, err = api.PeopleWithSkill(999)
+	testutil.AssertErrGenerated(t, err, UnknownSkill, "People with skill getter")
+
+	emails, err = api.PeopleWithSkill(1)
+	testutil.AssertErrGenerated(t, err, CategoryDisallowed,
+		"People with skill getter")
+
+	// add category skill
+}
+
 //-----------------------------------------------------------------------------
-// Operate virtualized UXP stimulating errors
+// Operate virtualized UXP - stimulating errors
 //-----------------------------------------------------------------------------
 
 func TestCollapseSkillErrors(t *testing.T) {
@@ -152,6 +169,8 @@ func TestCollapseSkillErrors(t *testing.T) {
 //-----------------------------------------------------------------------------
 
 func buildSimpleModel(t *testing.T) *Api {
+	// Don't change this ! - many tests are dependent on its behaviour and the
+	// UIDs generated for the skills added.
 	api := NewApi()
 	api.AddPerson("fred.bloggs")
 	api.AddPerson("john.Smith") // deliberate inclusion of upper case letter

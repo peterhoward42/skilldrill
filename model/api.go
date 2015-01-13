@@ -215,6 +215,23 @@ func (api *Api) SkillWording(skillId int) (title string, desc string,
 }
 
 /*
+The method PeopleWithSkill() provides a list of the people (email address) who
+hold the given skill. Can generate the following errors: UnknownSkill,
+CategoryDisallowed.
+*/
+func (api *Api) PeopleWithSkill(skillId int) (emails []string, err error) {
+	if err = api.tweakParams(nil, &skillId); err != nil {
+		return
+	}
+	if api.skillFromId[skillId].Role == Category {
+		err = errors.New(CategoryDisallowed)
+		return
+	}
+	emails = api.SkillHoldings.PeopleWithSkill[skillId].AsSlice()
+	return
+}
+
+/*
 The function Serialize() makes a machine-readable representation of the Api
 object and packages it into a slice of bytes. See also NewFromSerialized().
 */
