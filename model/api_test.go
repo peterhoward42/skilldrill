@@ -1,7 +1,7 @@
 package model
 
 import (
-    "fmt"
+	"fmt"
 	"github.com/peterhoward42/skilldrill/util/testutil"
 	"sort"
 	"strings"
@@ -59,7 +59,7 @@ func TestChildrenOrderedAlphabetically(t *testing.T) {
 	for _, child := range childIds {
 		titles = append(titles, api.skillFromId[child].Title)
 	}
-    fmt.Printf("\ntitles retrieved in test: %v\n", titles)
+	fmt.Printf("\ntitles retrieved in test: %v\n", titles)
 	testutil.AssertTrue(t, sort.StringsAreSorted(titles),
 		"Children are not sorted.")
 }
@@ -199,14 +199,11 @@ func TestEnumerateTree(t *testing.T) {
 	api := buildSimpleModel(t)
 	skills, depths, err := api.EnumerateTree("fred.bloggs")
 	testutil.AssertNilErr(t, err, "Tree enumerator")
-	_, _ = skills, depths
-	/*
-		testutil.AssertEqSliceInt(t, skills, []int{999}, "Tree enumerator")
-		testutil.AssertEqSliceInt(t, depths, []int{999}, "Tree enumerator")
+	testutil.AssertEqSliceInt(t, skills, []int{1, 3, 2}, "Tree enumerator")
+	testutil.AssertEqSliceInt(t, depths, []int{0, 1, 1}, "Tree enumerator")
 
-		skills, depths, err = api.EnumerateTree("nosuch person")
-		testutil.AssertErrGenerated(t, err, UnknownPerson, "Tree enumerator")
-	*/
+	skills, depths, err = api.EnumerateTree("nosuch person")
+	testutil.AssertErrGenerated(t, err, UnknownPerson, "Tree enumerator")
 }
 
 //-----------------------------------------------------------------------------

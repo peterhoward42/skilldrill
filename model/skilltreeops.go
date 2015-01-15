@@ -6,24 +6,25 @@ import (
 )
 
 /*
-The skillTreeOps type is a place for algorithmic functions to live that depend on
-traversing parent child relationships in the skills taxonomy tree. The aim is to
-prevent any other parts of the model software from having to engage with this
-topic.
+The skillTreeOps type is a place for algorithmic functions to live that depend
+on traversing parent child relationships in the skills taxonomy tree. The aim
+is to prevent any other parts of the model software from having to engage with
+this topic.
 */
 type skillTreeOps struct {
 	api *Api
 }
 
 /*
-The skillWording() method is capable of assembling a description for a skillNode
-that is based on its child-parent ancestry. In other words it can synthesise a
-description that describes the skill completely and autonomuously, by
-contatenating the skill node descriptions, working up the tree. It provides for
-convenience also the skill Node title and the aggregate description broken into
-pieces. The <desc> return value is from the leaf node alone. The <descInContext>
-return value is the aggregated description. While the <contextAlone> is the
-description drawn from the skill node's parent (recursively).
+The skillWording() method is capable of assembling a description for a
+skillNode that is based on its child-parent ancestry. In other words it can
+synthesise a description that describes the skill completely and autonomuously,
+by contatenating the skill node descriptions, working up the tree. It provides
+for convenience also the skill Node title and the aggregate description broken
+into pieces. The <desc> return value is from the leaf node alone. The
+<descInContext> return value is the aggregated description. While the
+<contextAlone> is the description drawn from the skill node's parent
+(recursively).
 */
 func (treeOps *skillTreeOps) skillWording(skill *skillNode) (title string,
 	desc string, descInContext string, contextAlone string) {
@@ -74,4 +75,19 @@ func (treeOps *skillTreeOps) enumerateTree(collapsedNodes *sets.SetOfInt) (
 // Recursive helper for EnumerateTree() method.
 func (treeOps *skillTreeOps) enumerateNode(curNode *skillNode,
 	collapsedNodes *sets.SetOfInt, curDepth int, skills *[]int, depths *[]int) {
+	// Me first
+	*skills = append(*skills, curNode.Uid)
+	*depths = append(*depths, curDepth)
+
+	// If I am collapsed, do not continue to recurse into my children
+	if collapsedNodes.Contains(curNode.Uid) {
+		return
+	}
+	// Otherwise, do
+	childDepth := curDepth + 1
+	for _, child := range curNode.Children {
+		treeOps.enumerateNode(treeOps.api.skillFromId[child], collapsedNodes,
+			childDepth, skills, depths)
+	}
+	return
 }

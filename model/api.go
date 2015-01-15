@@ -257,10 +257,10 @@ func (api *Api) PersonHasSkill(email string, skillId int) (
 }
 
 /*
-The method EnumerateTree() provides a list of skill Uids in the order they should
-appear when displaying the tree. It is person-specific, and omits the nodes that
-have been collapsed (using CollapseSkill()) - including their children. Can
-generate the UnknownPerson error.
+The method EnumerateTree() provides a list of skill Uids in the order they
+should appear when displaying the tree. It is person-specific, and omits the
+nodes that have been collapsed (using CollapseSkill()) - including their
+children. Can generate the UnknownPerson error.
 */
 func (api *Api) EnumerateTree(email string) (skills []int,
 	depths []int, err error) {

@@ -16,23 +16,10 @@
         *  Api to get desc / title with / without context or just that of parent.
         *  List emails of people with skill
         *  Has this user, this skill
-        o  Timeout to ensure children in tree are in a sequence, and that they
+        *  Timeout to ensure children in tree are in a sequence, and that they
            are kept in alpha order
-            *  Are children a slice already? = yes
-            *  Does build simple disrupt alpha order?, no
-                *  Change it so that it does disrupt and fix up existing tests
-            *  Test that checks for alpha order should fail
-                *  Doesn't fail? (does now)
-            o  Satisfy order test
-                *  Upgrade addSkill in api and addChild in skill.
-                o  Test pass?
-        o  Timeout to provide skill from title when unambig and use over
-            o  Use Must idiom and keep in test module
-        o  Skills seq from tree excl collapsed, with hier level
-            o  Basics in place
-            o  Get simple slices as expected
-            o  Ensure collapsed treats children as should
-            o  Ensure alpha order is working
+        *  Skills seq from tree excl collapsed, with hier level
+        o  Places that use append - look for init size
         o  People who have skill should be alphabetical
 
 -------------------------------------------------------------------------------
