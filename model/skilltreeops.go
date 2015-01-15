@@ -55,9 +55,10 @@ func (treeOps *skillTreeOps) lineageOf(skill *skillNode,
 }
 
 /*
-The method enumerateTree() provides a list of skill Uids in the order they should
-appear when displaying the tree. It is person-specific, and omits the nodes that
-have been collapsed (using CollapseSkill()) - including their children.
+The method enumerateTree() provides a list of skill Uids in the order they
+should appear when displaying the tree. It is person-specific, and omits the
+nodes that have been collapsed (using CollapseSkill()) - including their
+children.
 */
 func (treeOps *skillTreeOps) enumerateTree(collapsedNodes *sets.SetOfInt) (
 	skills []int, depths []int) {
@@ -71,5 +72,6 @@ func (treeOps *skillTreeOps) enumerateTree(collapsedNodes *sets.SetOfInt) (
 }
 
 // Recursive helper for EnumerateTree() method.
-func (treeOps *skillTreeOps) enumerateNode(curNode *skillNode, collapsedNodes *sets.SetOfInt, curDepth int, skills *[]int, depths *[]int) {
+func (treeOps *skillTreeOps) enumerateNode(curNode *skillNode,
+	collapsedNodes *sets.SetOfInt, curDepth int, skills *[]int, depths *[]int) {
 }

@@ -21,9 +21,11 @@
             *  Are children a slice already? = yes
             *  Does build simple disrupt alpha order?, no
                 *  Change it so that it does disrupt and fix up existing tests
-            o  Test that checks for alpha order should fail
-                o  Doesn't fail?
-            o  Satisfy
+            *  Test that checks for alpha order should fail
+                *  Doesn't fail? (does now)
+            o  Satisfy order test
+                *  Upgrade addSkill in api and addChild in skill.
+                o  Test pass?
         o  Timeout to provide skill from title when unambig and use over
             o  Use Must idiom and keep in test module
         o  Skills seq from tree excl collapsed, with hier level
@@ -31,6 +33,7 @@
             o  Get simple slices as expected
             o  Ensure collapsed treats children as should
             o  Ensure alpha order is working
+        o  People who have skill should be alphabetical
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -56,4 +59,25 @@ State for one user
     o  Which skill nodes are collapsed is sufficient setofint
     o  States for all users - one of these in map per email
 -------------------------------------------------------------------------------
+
+/*
+The method sortChildrenByTitle() does an in-place sort of the given node's
+children - in alphabetical order of title.
+*/
+func (parent *skillNode) sortChildrenByTitle() {
+	origPositions := map[string]int{}
+	titles := []string{}
+	for idx, skillId := range parent.children {
+        skill := api.
+		title := skill.Title
+		origPositions[title] = idx
+		titles = append(titles, title)
+	}
+	sortedTitles := sort.Strings(titles)
+	for _, title := range sortedTitles {
+		origPosn := origPositions[title]
+		sorted = append(sorted, unsorted[origPosn].Title)
+	}
+	return
+}
 -------------------------------------------------------------------------------

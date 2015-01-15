@@ -1,7 +1,7 @@
 package model
 
 import (
-    "fmt"
+	"fmt"
 	"github.com/peterhoward42/skilldrill/util/testutil"
 	"strings"
 	"testing"

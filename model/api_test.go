@@ -2,7 +2,7 @@ package model
 
 import (
 	"github.com/peterhoward42/skilldrill/util/testutil"
-    "sort"
+	"sort"
 	"strings"
 	"testing"
 )
@@ -50,16 +50,16 @@ func TestAddSkillToNonCategory(t *testing.T) {
 //-----------------------------------------------------------------------------
 
 func TestChildrenOrderedAlphabetically(t *testing.T) {
-    // Ensure the children of a parent in common, are kept in alphabetical 
-    // order when they are added (deliberately) no so.
+	// Ensure the children of a parent in common, are kept in alphabetical
+	// order when they are added (deliberately) no so.
 	api := buildSimpleModel(t)
-    childIds := api.Skills[1].Children
-    titles := []string{}
-    for _, child := range childIds {
-        titles = append(titles, api.skillFromId[child].Title)
-    }
-    testutil.AssertTrue(t, sort.StringsAreSorted(titles), 
-        "Children are not sorted.")
+	childIds := api.skillFromId[1].Children
+	titles := []string{}
+	for _, child := range childIds {
+		titles = append(titles, api.skillFromId[child].Title)
+	}
+	testutil.AssertTrue(t, sort.StringsAreSorted(titles),
+		"Children are not sorted.")
 }
 
 //-----------------------------------------------------------------------------
@@ -197,14 +197,14 @@ func TestEnumerateTree(t *testing.T) {
 	api := buildSimpleModel(t)
 	skills, depths, err := api.EnumerateTree("fred.bloggs")
 	testutil.AssertNilErr(t, err, "Tree enumerator")
-    _, _ = skills, depths
-    /*
-	testutil.AssertEqSliceInt(t, skills, []int{999}, "Tree enumerator")
-	testutil.AssertEqSliceInt(t, depths, []int{999}, "Tree enumerator")
+	_, _ = skills, depths
+	/*
+		testutil.AssertEqSliceInt(t, skills, []int{999}, "Tree enumerator")
+		testutil.AssertEqSliceInt(t, depths, []int{999}, "Tree enumerator")
 
-	skills, depths, err = api.EnumerateTree("nosuch person")
-	testutil.AssertErrGenerated(t, err, UnknownPerson, "Tree enumerator")
-    */
+		skills, depths, err = api.EnumerateTree("nosuch person")
+		testutil.AssertErrGenerated(t, err, UnknownPerson, "Tree enumerator")
+	*/
 }
 
 //-----------------------------------------------------------------------------
@@ -230,9 +230,9 @@ func buildSimpleModel(t *testing.T) *Api {
 	api.AddPerson("fred.bloggs")
 	api.AddPerson("john.Smith") // deliberate inclusion of upper case letter
 	skillA, _ := api.AddSkill(Category, "A title", "A description", -1)
-    // Note AB and AA are added to a parent in common, in an order that makes 
-    // their enumeration in the order that they are added, NOT in alphabetical 
-    // order.
+	// Note AB and AA are added to a parent in common, in an order that makes
+	// their enumeration in the order that they are added, NOT in alphabetical
+	// order.
 	skillAB, _ := api.AddSkill(Category, "AB", "AB description", skillA)
 	skillAA, _ := api.AddSkill(Category, "AA", "AA description", skillA)
 	skillAAA, _ := api.AddSkill(Skill, "AAA", "AAA description", skillAA)
