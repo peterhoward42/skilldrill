@@ -80,7 +80,10 @@ func checkSkills(t *testing.T, api *Api) {
 	testutil.AssertEqString(t, skill.Title, "A title", "Title.")
 	testutil.AssertEqString(t, skill.Desc, "A description", "Description.")
 	testutil.AssertEqInt(t, skill.Parent, -1, "Parent")
-	testutil.AssertEqSliceInt(t, skill.Children, []int{2, 3}, "Children.")
+    // The order of the children 3 -> 2 below matters, because it signifies
+    // that the model when built overruled the order in which the children
+    // were added and imposed ordering by title.
+	testutil.AssertEqSliceInt(t, skill.Children, []int{3, 2}, "Children.")
 }
 
 func checkPeople(t *testing.T, api *Api) {

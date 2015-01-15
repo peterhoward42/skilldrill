@@ -1,6 +1,7 @@
 package model
 
 import (
+    "fmt"
 	"github.com/peterhoward42/skilldrill/util/testutil"
 	"sort"
 	"strings"
@@ -58,6 +59,7 @@ func TestChildrenOrderedAlphabetically(t *testing.T) {
 	for _, child := range childIds {
 		titles = append(titles, api.skillFromId[child].Title)
 	}
+    fmt.Printf("\ntitles retrieved in test: %v\n", titles)
 	testutil.AssertTrue(t, sort.StringsAreSorted(titles),
 		"Children are not sorted.")
 }
