@@ -5,10 +5,10 @@ import (
 )
 
 /*
-The uiState() type is the model that represents a state that the abstracted user
-experience can be in. For example, which of the nodes in the skills tree are
-collapsed.  The design intent is that none of Api fields are exported, but the
-reason that some are, is solely to facilitate automated serialization by
+The uiState() type is the model that represents a state that the abstracted
+user experience can be in. For example, which of the nodes in the skills tree
+are collapsed.  The design intent is that none of Api fields are exported, but
+the reason that some are, is solely to facilitate automated serialization by
 yaml.Marshal().
 */
 type uiState struct {

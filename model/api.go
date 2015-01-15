@@ -1,9 +1,10 @@
 /*
-The skilldrill model package is a multi-file package that can model a hierachical
-set of skills, a set of people who hold some of those skills, and abstracted user
-experience states for each person. The api.go file exposes the Api type, which
-provides methods for CRUD operations, while the other files deal with much of the
-internal workings. The model supports serialization and de-serialization using
+The skilldrill model package is a multi-file package that can model a
+hierachical set of skills, a set of people who hold some of those skills, and
+abstracted user experience states for each person. The api.go file exposes the
+Api type, which provides methods for CRUD operations, while the other files
+deal with much of the internal workings. The model supports serialization and
+de-serialization using
 yaml.
 */
 package model
@@ -17,12 +18,12 @@ import (
 /*
 The Api structure is the fundamental type exposed by the skilldrill model
 package, and provides CRUD interfaces to do things like adding skills or people
-into the model and registering a person as having a particular skill.  All model
-editing operations should be done via Api calls rather than accessing the
-internal objects directly, so that the integrity of various supplemental look up
-tables is preserved.  The design intent is that none of Api fields are exported,
-but the reason that some are, is solely to facilitate automated serialization by
-yaml.Marshal().
+into the model and registering a person as having a particular skill.  All
+model editing operations should be done via Api calls rather than accessing the
+internal objects directly, so that the integrity of various supplemental look
+up tables is preserved.  The design intent is that none of Api fields are
+exported, but the reason that some are, is solely to facilitate automated
+serialization by yaml.Marshal().
 */
 type Api struct {
 	SerializeVers int
@@ -184,10 +185,10 @@ func (api *Api) GivePersonSkill(email string, skillId int) (err error) {
 }
 
 /*
-The CollapseSkill() method operates on the part of the model that represents the
-abstracted user experience. In this case to collapse a node in the tree display
-of skills hierachy. Errors are generated when either the person or the skill is
-not recognized.
+The CollapseSkill() method operates on the part of the model that represents
+the abstracted user experience. In this case to collapse a node in the tree
+display of skills hierachy. Errors are generated when either the person or the
+skill is not recognized.
 */
 func (api *Api) CollapseSkill(email string, skillId int) (err error) {
 	if err = api.tweakParams(&email, &skillId); err != nil {

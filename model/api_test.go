@@ -12,12 +12,13 @@ import (
 // The basics - smoke tests.
 //-----------------------------------------------------------------------------
 
+/*
+This exercises the core set of model creation and addition apis, avoiding error
+conditions. We do not inspect the model built here, because we prefer to kill
+two birds with one stone and avoid duplicating that logic, by delegating that
+to a separate serialization test. (See serialize_test.go)
+*/
 func TestBasics(t *testing.T) {
-	// This exercises the core set of model creation and addition apis, avoiding
-	// error conditions. We do not inspect the model built here, because we
-	// prefer to kill two birds with one stone and avoid duplicating that logic,
-	// by delegating that to a separate serialization test. (See
-	// serialize_test.go)
 	buildSimpleModel(t)
 }
 
@@ -164,7 +165,8 @@ func TestPeopleWithSkillQuery(t *testing.T) {
 		"People with skill getter")
 
 	emails, err = api.PeopleWithSkill(999)
-	testutil.AssertErrGenerated(t, err, UnknownSkill, "People with skill getter")
+	testutil.AssertErrGenerated(t, err, UnknownSkill,
+		"People with skill getter")
 
 	emails, err = api.PeopleWithSkill(1)
 	testutil.AssertErrGenerated(t, err, CategoryDisallowed,
@@ -185,10 +187,12 @@ func TestHasPersonSkillQuery(t *testing.T) {
 
 	// Error generation
 	hasSkill, err = api.PersonHasSkill("no such person", 4)
-	testutil.AssertErrGenerated(t, err, UnknownPerson, "People with skill getter")
+	testutil.AssertErrGenerated(t, err, UnknownPerson,
+		"People with skill getter")
 
 	hasSkill, err = api.PersonHasSkill("fred.bloggs", 999)
-	testutil.AssertErrGenerated(t, err, UnknownSkill, "People with skill getter")
+	testutil.AssertErrGenerated(t, err, UnknownSkill,
+		"People with skill getter")
 
 	hasSkill, err = api.PersonHasSkill("fred.bloggs", 1)
 	testutil.AssertErrGenerated(t, err, CategoryDisallowed,

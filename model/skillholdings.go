@@ -4,11 +4,12 @@ import (
 	"github.com/peterhoward42/skilldrill/util/sets"
 )
 
-// The skillHoldings type contains bindings between people and the set of skills
-// they hold.
-// The design intent is that none of fields are exported, but the reason
-// that some are, is solely to facilitate automated serialization by
-// yaml.Marshal().
+/*
+The skillHoldings type contains bindings between people and the set of skills
+they hold.  The design intent is that none of fields are exported, but the
+reason that some are, is solely to facilitate automated serialization by
+yaml.Marshal().
+*/
 type skillHoldings struct {
 	SkillsOfPerson  map[string]*sets.SetOfInt // email -> skill.Uid
 	PeopleWithSkill map[int]*sets.SetOfString // skill.Uid -> email
@@ -22,8 +23,10 @@ func newSkillHoldings() *skillHoldings {
 	}
 }
 
-// The registerSkill() method makes the given skill uid known to the object. It is
-// harmless to call it when the skill has already been registered.
+/*
+The registerSkill() method makes the given skill uid known to the object. It is
+harmless to call it when the skill has already been registered.
+*/
 func (sh *skillHoldings) registerSkill(skillId int) {
 	if _, ok := sh.PeopleWithSkill[skillId]; ok {
 		return
@@ -40,9 +43,11 @@ func (sh *skillHoldings) registerPerson(email string) {
 	sh.SkillsOfPerson[email] = sets.NewSetOfInt()
 }
 
-// The method bind() adds the given skill to the set of skills held for the given
-// person. The skill and the person are automatically registered if they have not
-// been previously.  An error is generated if the skill is a CATEGORY.
+/*
+The method bind() adds the given skill to the set of skills held for the given
+person. The skill and the person are automatically registered if they have not
+been previously.  An error is generated if the skill is a CATEGORY.
+*/
 func (sh *skillHoldings) bind(skill int, person string) {
 	sh.registerSkill(skill)
 	sh.registerPerson(person)

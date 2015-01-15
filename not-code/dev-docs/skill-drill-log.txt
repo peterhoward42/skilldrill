@@ -20,6 +20,11 @@
            are kept in alpha order
         *  Skills seq from tree excl collapsed, with hier level
         o  Places that use append - look for init size
+            o  Modify:
+                o  skill node add child
+                o  skillwording method
+                o  lineage() close by
+                o  sets guid size
         o  People who have skill should be alphabetical
 
 -------------------------------------------------------------------------------
