@@ -66,6 +66,20 @@ func (skill *skillNode) addChild(newChild int) {
 	}
 }
 
+/*
+The method removeChild() removes the given skill uid from the list held of this
+node's children - whilst maintaining their alphabetical order.
+*/
+func (skill *skillNode) removeChild(toRemove int) {
+	replacement := []int{}
+	for _, uid := range skill.Children {
+		if uid != toRemove {
+			replacement = append(replacement, uid)
+		}
+	}
+	skill.Children = replacement
+}
+
 type titleMapper interface {
 	titleFromId(skillUid int) (title string)
 }

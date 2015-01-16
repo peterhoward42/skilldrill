@@ -17,6 +17,7 @@ const (
 // machine-readable names.
 const (
 	CategoryDisallowed = "Cannot give someone a CATEGORY skill."
+	IllegalWithRoot    = "Cannot be done with root skill."
 	ParentNotCategory  = "Parent must be a category node."
 	PersonExists       = "Person exists."
 	TooLong            = "String is too long."

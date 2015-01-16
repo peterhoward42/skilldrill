@@ -67,6 +67,10 @@ func NewFromSerialized(in []byte) (api *Api, err error) {
 	return
 }
 
+//--------------------------------------------------------------------------
+// Methods For Adding things to the model
+//--------------------------------------------------------------------------
+
 // The AddPerson() method adds a person to the model in terms of the user name
 // part of their email address. It is an error to add a person that already
 // exists in the model. The email address is coerced to lowercase.
@@ -130,40 +134,6 @@ func (api *Api) AddSkill(role string, title string, desc string,
 }
 
 /*
-The SetSkillTitle() method replaces the given skill's title with the text
-given. Can generate the following errors: SkillUnknown error, TooLong.
-*/
-func (api *Api) SetSkillTitle(skillId int, newTitle string) (err error) {
-	if err = api.tweakParams(nil, &skillId); err != nil {
-		return
-	}
-	skill := api.skillFromId[skillId]
-	if len(newTitle) > MaxSkillTitle {
-		err = errors.New(TooLong)
-		return
-	}
-	skill.Title = newTitle
-	return
-}
-
-/*
-The SetSkillDesc() method replaces the given skill's description with the text
-given. Can generate the following errors: SkillUnknown error, TooLong.
-*/
-func (api *Api) SetSkillDesc(skillId int, newDesc string) (err error) {
-	if err = api.tweakParams(nil, &skillId); err != nil {
-		return
-	}
-	if len(newDesc) > MaxSkillDesc {
-		err = errors.New(TooLong)
-		return
-	}
-	skill := api.skillFromId[skillId]
-	skill.Desc = newDesc
-	return
-}
-
-/*
 The GivePersonSkill() method adds the given skill into the set of skills the
 model holds for that person.  You are only allowed to give people Skill, not
 CATEGORIES.  An error is generated if either the person or skill given are not
@@ -184,6 +154,10 @@ func (api *Api) GivePersonSkill(email string, skillId int) (err error) {
 	return
 }
 
+//--------------------------------------------------------------------------
+// Methods For Editing the UXP State
+//--------------------------------------------------------------------------
+
 /*
 The CollapseSkill() method operates on the part of the model that represents
 the abstracted user experience. In this case to collapse a node in the tree
@@ -199,6 +173,9 @@ func (api *Api) CollapseSkill(email string, skillId int) (err error) {
 	return
 }
 
+//--------------------------------------------------------------------------
+// Getter Style Methods
+//--------------------------------------------------------------------------
 /*
 The method SkillWording() returns the title and description of the given skill.
 The description is provided in three different forms: The description in
@@ -274,6 +251,42 @@ func (api *Api) EnumerateTree(email string) (skills []int,
 	return
 }
 
+//--------------------------------------------------------------------------
+// Methods That Change Existing Content
+//--------------------------------------------------------------------------
+
+/*
+The method ReParentSkill() moves a skill node and all its children to a
+different position in the tree. The new parent given must be a skill node with
+the CATEGORY role. The following errors can be generated: UnknownSkill,
+IllegalWithRoot, and ParentNotCategory.
+*/
+func (api *Api) RepParentSkill(toMove int, newParent int) (err error) {
+	if err = api.tweakParams(nil, &toMove); err != nil {
+		return
+	}
+	if err = api.tweakParams(nil, &newParent); err != nil {
+		return
+	}
+	if toMove == api.SkillRoot {
+		return errors.New(IllegalWithRoot)
+	}
+	childSkill := api.skillFromId[toMove]
+	oldParentSkill := api.skillFromId[childSkill.Parent]
+	newParentSkill := api.skillFromId[newParent]
+
+	if newParentSkill.Role != Category {
+		return errors.New(ParentNotCategory)
+	}
+	oldParentSkill.RemoveChild(toMove)
+	newParentSkill.AddChild(toMove)
+	childSkill.Parent = newParent
+}
+
+//--------------------------------------------------------------------------
+// Serialize Methods
+//--------------------------------------------------------------------------
+
 /*
 The function Serialize() makes a machine-readable representation of the Api
 object and packages it into a slice of bytes. See also NewFromSerialized().
@@ -297,6 +310,10 @@ func (api *Api) finishBuildFromDeSerialize() {
 		api.persFromMail[email] = person
 	}
 }
+
+//--------------------------------------------------------------------------
+// Module Private Methods
+//--------------------------------------------------------------------------
 
 /*
 The method tweakParams(), receives either or both of an email and a skill Uid,
@@ -325,4 +342,38 @@ func (api *Api) tweakParams(email *string, skillId *int) (err error) {
 // The method titleFromId() exists to satisfy the titleMapper interface.
 func (api *Api) titleFromId(skillUid int) (title string) {
 	return api.skillFromId[skillUid].Title
+}
+
+/*
+The SetSkillTitle() method replaces the given skill's title with the text
+given. Can generate the following errors: SkillUnknown error, TooLong.
+*/
+func (api *Api) SetSkillTitle(skillId int, newTitle string) (err error) {
+	if err = api.tweakParams(nil, &skillId); err != nil {
+		return
+	}
+	skill := api.skillFromId[skillId]
+	if len(newTitle) > MaxSkillTitle {
+		err = errors.New(TooLong)
+		return
+	}
+	skill.Title = newTitle
+	return
+}
+
+/*
+The SetSkillDesc() method replaces the given skill's description with the text
+given. Can generate the following errors: SkillUnknown error, TooLong.
+*/
+func (api *Api) SetSkillDesc(skillId int, newDesc string) (err error) {
+	if err = api.tweakParams(nil, &skillId); err != nil {
+		return
+	}
+	if len(newDesc) > MaxSkillDesc {
+		err = errors.New(TooLong)
+		return
+	}
+	skill := api.skillFromId[skillId]
+	skill.Desc = newDesc
+	return
 }

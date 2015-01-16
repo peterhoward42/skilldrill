@@ -19,33 +19,39 @@
         *  Timeout to ensure children in tree are in a sequence, and that they
            are kept in alpha order
         *  Skills seq from tree excl collapsed, with hier level
+        o  Move skill to diff part of hierachy
+            o  Anticipate with test
+            o  Test up
+            o  Case of add / rm child?
+        o  Remove a skill / person
         o  Places that use append - look for init size
+            o  Tried first example, but crashes on out of range exception.
+               Come back to later.
             o  Modify:
                 o  skill node add child
                 o  skillwording method
                 o  lineage() close by
                 o  sets guid size
-        o  People who have skill should be alphabetical
+        o  Some api fns orphaned at end of module
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 Model use cases
-    o  From user actions
+    *  From user actions
         *  Register user with skill / deregister
         *  Edit skill title or desc
         *  Fmt desc with / without context of hierachy
         *  Fmt root of desc to aide editing
         *  List emails of people with skill
         *  Has this user, this skill
-        o  Enumerate display model Collapse / expand behaviour
-    o  From lifecycle
-        o  Level of node
+        *  Enumerate display model Collapse / expand behaviour
+    *  From lifecycle
         *  Serialise whole model
         *  Build model from serialised
     o  From admin
-        o  Rename a skill
         o  Move skill to diff part of hierachy
+        o  Rename a skill
 -------------------------------------------------------------------------------
 State for one user
     o  Which skill nodes are collapsed is sufficient setofint

@@ -105,7 +105,7 @@ func TestEmailsAreLowerCased(t *testing.T) {
 }
 
 //-----------------------------------------------------------------------------
-// Edit skill title and description - with and without errors
+// Editing operations with and without errors
 //-----------------------------------------------------------------------------
 
 func TestSkillEditsErrors(t *testing.T) {
@@ -132,6 +132,28 @@ func TestSkillEditsErrors(t *testing.T) {
 	testutil.AssertErrGenerated(t, err, UnknownSkill, "Set skill desc.")
 	err = api.SetSkillDesc(skill, strings.Repeat("X", 500))
 	testutil.AssertErrGenerated(t, err, TooLong, "Setting skill desc.")
+}
+
+func TestMoveSkillInTree(t *testing.T) {
+	api := buildSimpleModel(t)
+	err := api.ReParentSkill(4, 1)
+	testutil.AssertNilErr(t, err, "Re parenting skill")
+	testutil.AssertEqSliceInt(t, api.skillFromId[1].Children,
+		[]int{2, 4}, "Re parenting skill")
+	testutil.AssertEqInt(t, api.skillFromId[4].Parent, 1,
+		"Re parenting skill")
+
+	err = api.ReParentSkill(4, 999)
+	testutil.AssertErrGenerated(t, err, UnknownSkill, "Re parenting skill")
+	err = api.ReParentSkill(999, 1)
+	testutil.AssertErrGenerated(t, err, UnknownSkill, "Re parenting skill")
+
+	err = api.ReParentSkill(1, 4)
+	testutil.AssertErrGenerated(t, err, IllegalWithRoot, "Re parenting skill")
+
+	api = buildSimpleModel(t)
+	err = api.ReParentSkill(3, 4)
+	testutil.AssertErrGenerated(t, err, ParentNotCategory, "Re parenting skill")
 }
 
 //-----------------------------------------------------------------------------
