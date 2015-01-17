@@ -266,9 +266,9 @@ func buildSimpleModel(t *testing.T) *Api {
 	err := api.CollapseSkill("fred.bloggs", skillAA)
 	testutil.AssertNilErr(t, err, "CollapseSkill during dev only")
 
-    //              A(1)
-    //        AA(3)      AB(2)
-    // AAA(4)
+	//              A(1)
+	//        AA(3)      AB(2)
+	// AAA(4)
 
 	_ = skillAB
 

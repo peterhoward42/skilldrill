@@ -1,3 +1,9 @@
+/*
+The package sets, provides types to model a set of integers, a set of strings
+etc. In addition to the core operations of adding members and testing for the
+presence of a given member, the sets implement the yaml package's Marshaler and
+UnMarshaller interfaces - so that sets may conveniently be serialized.
+*/
 package sets
 
 // The SetOfInt type provides the conventional SET model for integers.

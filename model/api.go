@@ -281,7 +281,7 @@ func (api *Api) ReParentSkill(toMove int, newParent int) (err error) {
 	oldParentSkill.removeChild(toMove)
 	newParentSkill.addChild(toMove)
 	childSkill.Parent = newParent
-    return
+	return
 }
 
 //--------------------------------------------------------------------------

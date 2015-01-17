@@ -1,3 +1,16 @@
+/*
+The testutil package contains a few helper functions and wrappers that work
+with Golang's test package. Most of the functions have names similar in form to
+for example AssertEqInt(). This example takes an expected integer argument and
+a received integer argument and ensures they are equal. This family of
+functions effectivelymoves the boiler plate code of if statements away from
+test functions and into this library. The test function consumers need only
+call one of these functions in fire-and-forget mode. The functions include in
+their output to the testing.T object, a simplified stack trace so that it is
+easy to find the consuming function that has stimulated the failed test. The
+functions take an argument called 'thing'. This is printed as part of the test
+failure diagnostics message.
+*/
 package testutil
 
 import (
@@ -7,13 +20,6 @@ import (
 	"testing"
 )
 
-/*
-The function AssertEqInt is a helper function for the golang test package.  It
-is syntax sugar for asserting that a given int matches an expected value.  When
-the assertion does not hold, it sends a message to the injected testing.T object
-which includes a simplified stack trace with line numbers. The function parameter
-'thing' gets used in the message generated as a noun for the thing that is wrong.
-*/
 func AssertEqInt(t *testing.T, actual int, expected int, thing string) {
 	if actual == expected {
 		return
@@ -22,13 +28,6 @@ func AssertEqInt(t *testing.T, actual int, expected int, thing string) {
 	t.Error(briefStackTrace())
 }
 
-/*
-The function AssertEqString is a helper function for the golang test package.  It
-is syntax sugar for asserting that a given string matches an expected value.  When
-the assertion does not hold, it sends a message to the injected testing.T object
-which includes a simplified stack trace with line numbers. The function parameter
-'thing' gets used in the message generated as a noun for the thing that is wrong.
-*/
 func AssertEqString(t *testing.T, actual string, expected string, thing string) {
 	if actual == expected {
 		return
@@ -37,14 +36,6 @@ func AssertEqString(t *testing.T, actual string, expected string, thing string) 
 	t.Error(briefStackTrace())
 }
 
-/*
-The function AssertEqSliceInt() is a helper function for the golang test package.
-It is syntax sugar for asserting that a given slice of integers matches an
-expected value.  When the assertion does not hold, it sends a message to the
-injected testing.T object which includes a simplified stack trace with line
-numbers. The function parameter 'thing' gets used in the message generated as a
-noun for the thing that is wrong.
-*/
 func AssertEqSliceInt(t *testing.T, actual []int, expected []int, thing string) {
 	act, _ := yaml.Marshal(actual)
 	actualStr := string(act)
@@ -58,14 +49,6 @@ func AssertEqSliceInt(t *testing.T, actual []int, expected []int, thing string) 
 	t.Error(briefStackTrace())
 }
 
-/*
-The function AssertEqSliceString() is a helper function for the golang test
-package.  It is syntax sugar for asserting that a given slice of strings matches
-an expected value.  When the assertion does not hold, it sends a message to the
-injected testing.T object which includes a simplified stack trace with line
-numbers. The function parameter 'thing' gets used in the message generated as a
-noun for the thing that is wrong.
-*/
 func AssertEqSliceString(t *testing.T, actual []string, expected []string,
 	thing string) {
 	act, _ := yaml.Marshal(actual)
@@ -79,14 +62,6 @@ func AssertEqSliceString(t *testing.T, actual []string, expected []string,
 	t.Error(briefStackTrace())
 }
 
-/*
-The function AssertStrContains is a helper function for the golang test package.
-It is syntax sugar for asserting that a given string contains a given sub string.
-When the assertion does not hold, it sends a message to the injected testing.T
-object which includes a simplified stack trace with line numbers. The function
-parameter 'thing' gets used in the message generated as a noun for the thing that
-is wrong.
-*/
 func AssertStrContains(t *testing.T, main string, sub string, thing string) {
 	if strings.Contains(main, sub) {
 		return
@@ -95,13 +70,7 @@ func AssertStrContains(t *testing.T, main string, sub string, thing string) {
 	t.Error(briefStackTrace())
 }
 
-/*
-The function AssertNilErr is a helper function for the golang test package.  It
-is syntax sugar for asserting that a given error value is nil.  When the
-assertion does not hold, it sends a message to the injected testing.T object
-which includes a simplified stack trace with line numbers. The function parameter
-'thing' gets used in the message generated as a noun for the thing that is wrong.
-*/
+// Ensure that the given error object is nil.
 func AssertNilErr(t *testing.T, err error, thing string) {
 	if err == nil {
 		return
@@ -110,14 +79,9 @@ func AssertNilErr(t *testing.T, err error, thing string) {
 	t.Error(briefStackTrace())
 }
 
-/*
-The function AssertErrGenerated is a helper function for the golang test package.
-It is syntax sugar for asserting that a given error value is non-nil and that the
-error message includes the given substring.  When the assertion does not hold, it
-sends a message to the injected testing.T object which includes a simplified
-stack trace with line numbers. The function parameter 'thing' gets used in the
-message generated as a noun for the thing that is wrong.
-*/
+// Ensure that the string returned by the given error's Error() method,
+// contains the given sub string. In other words - did the right error message
+// get produced.
 func AssertErrGenerated(t *testing.T, err error, substring string,
 	thing string) {
 	if err == nil {
@@ -131,13 +95,6 @@ func AssertErrGenerated(t *testing.T, err error, substring string,
 	}
 }
 
-/*
-The function AssertTrue is a helper function for the golang test package.  It
-is syntax sugar for asserting that a given bool value is true.  When the
-assertion does not hold, it sends a message to the injected testing.T object
-which includes a simplified stack trace with line numbers. The function parameter
-'thing' gets used in the message generated as a noun for the thing that is wrong.
-*/
 func AssertTrue(t *testing.T, shouldBeTrue bool, thing string) {
 	if shouldBeTrue == true {
 		return
@@ -147,12 +104,14 @@ func AssertTrue(t *testing.T, shouldBeTrue bool, thing string) {
 }
 
 func AssertFalse(t *testing.T, shouldBeFalse bool, thing string) {
-    shouldBeTrue := !shouldBeFalse
-    AssertTrue(t, shouldBeTrue, thing)
+	shouldBeTrue := !shouldBeFalse
+	AssertTrue(t, shouldBeTrue, thing)
 }
 
-// The function briefStackTrace() generates a stack trace and then reduces the
-// data therein to only the lines that include source code line numbers.
+/*
+The function briefStackTrace() generates a stack trace and then reduces the
+data therein to only the lines that include source code line numbers.
+*/
 func briefStackTrace() (briefTrace string) {
 	var buf = make([]byte, 10000) // has to be big enough
 	written := runtime.Stack(buf, false)
