@@ -19,10 +19,8 @@
         *  Timeout to ensure children in tree are in a sequence, and that they
            are kept in alpha order
         *  Skills seq from tree excl collapsed, with hier level
-        o  Move skill to diff part of hierachy
-            o  Anticipate with test
-            o  Test up
-            o  Case of add / rm child?
+        *  Move skill to diff part of hierachy
+        o  Case of addchild?
         o  Remove a skill / person
         o  Places that use append - look for init size
             o  Tried first example, but crashes on out of range exception.

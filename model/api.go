@@ -261,7 +261,7 @@ different position in the tree. The new parent given must be a skill node with
 the CATEGORY role. The following errors can be generated: UnknownSkill,
 IllegalWithRoot, and ParentNotCategory.
 */
-func (api *Api) RepParentSkill(toMove int, newParent int) (err error) {
+func (api *Api) ReParentSkill(toMove int, newParent int) (err error) {
 	if err = api.tweakParams(nil, &toMove); err != nil {
 		return
 	}
@@ -278,9 +278,10 @@ func (api *Api) RepParentSkill(toMove int, newParent int) (err error) {
 	if newParentSkill.Role != Category {
 		return errors.New(ParentNotCategory)
 	}
-	oldParentSkill.RemoveChild(toMove)
-	newParentSkill.AddChild(toMove)
+	oldParentSkill.removeChild(toMove)
+	newParentSkill.addChild(toMove)
 	childSkill.Parent = newParent
+    return
 }
 
 //--------------------------------------------------------------------------

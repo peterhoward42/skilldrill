@@ -139,7 +139,7 @@ func TestMoveSkillInTree(t *testing.T) {
 	err := api.ReParentSkill(4, 1)
 	testutil.AssertNilErr(t, err, "Re parenting skill")
 	testutil.AssertEqSliceInt(t, api.skillFromId[1].Children,
-		[]int{2, 4}, "Re parenting skill")
+		[]int{3, 4, 2}, "Re parenting skill")
 	testutil.AssertEqInt(t, api.skillFromId[4].Parent, 1,
 		"Re parenting skill")
 
@@ -265,6 +265,10 @@ func buildSimpleModel(t *testing.T) *Api {
 
 	err := api.CollapseSkill("fred.bloggs", skillAA)
 	testutil.AssertNilErr(t, err, "CollapseSkill during dev only")
+
+    //              A(1)
+    //        AA(3)      AB(2)
+    // AAA(4)
 
 	_ = skillAB
 
