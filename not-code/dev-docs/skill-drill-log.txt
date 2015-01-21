@@ -28,7 +28,9 @@
             *  Add remove unit test to both in and strin gset
             *  Is overwrite still called on sets? (yes)
             *  Back fit comments before checkin
-        o  Remove a skill
+        *  Remove a skill
+        o  Change semantics of remove fns to disallow removal of skills that a
+           person has
         o  Some api fns orphaned at end of module
         o  Api getting a bit big
 

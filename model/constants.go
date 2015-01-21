@@ -16,12 +16,14 @@ const (
 // These constants provide a set of human-readable error message strings, with
 // machine-readable names.
 const (
-	CategoryDisallowed = "Cannot give someone a CATEGORY skill."
-	IllegalWithRoot    = "Cannot be done with root skill."
-	ParentNotCategory  = "Parent must be a category node."
-	PersonExists       = "Person exists."
-	TooLong            = "String is too long."
-	UnknownParent      = "Unknown parent."
-	UnknownPerson      = "Person does not exist."
-	UnknownSkill       = "Skill does not exist."
+	CannotBestowCategory          = "Cannot give someone a CATEGORY skill."
+	CannotRemoveRootSkill         = "Cannot remove the root skill."
+	CannotRemoveSkillWithChildren = "Cannot remove skill with children"
+	IllegalWithRoot               = "Cannot be done with root skill."
+	ParentNotCategory             = "Parent must be a category node."
+	PersonExists                  = "Person exists."
+	TooLong                       = "String is too long."
+	UnknownParent                 = "Unknown parent."
+	UnknownPerson                 = "Person does not exist."
+	UnknownSkill                  = "Skill does not exist."
 )

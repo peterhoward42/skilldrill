@@ -105,6 +105,8 @@ not recognized.
 func (api *Api) AddSkill(role string, title string, desc string,
 	parent int) (uid int, err error) {
 
+	// Be sure to keep this symmetrical with RemoveSkill
+
 	// Sanitize parent except when adding root skill
 	if api.SkillRoot != -1 {
 		parentSkill, ok := api.skillFromId[parent]
@@ -147,7 +149,7 @@ func (api *Api) GivePersonSkill(email string, skillId int) (err error) {
 	}
 	foundSkill := api.skillFromId[skillId]
 	if foundSkill.Role == Category {
-		err = errors.New(CategoryDisallowed)
+		err = errors.New(CannotBestowCategory)
 		return
 	}
 	foundPerson := api.persFromMail[email]
@@ -198,14 +200,14 @@ func (api *Api) SkillWording(skillId int) (title string, desc string,
 /*
 The method PeopleWithSkill() provides a list of the people (email address) who
 hold the given skill. Can generate the following errors: UnknownSkill,
-CategoryDisallowed.
+CannotBestowCategory.
 */
 func (api *Api) PeopleWithSkill(skillId int) (emails []string, err error) {
 	if err = api.tweakParams(nil, &skillId); err != nil {
 		return
 	}
 	if api.skillFromId[skillId].Role == Category {
-		err = errors.New(CategoryDisallowed)
+		err = errors.New(CannotBestowCategory)
 		return
 	}
 	emails = api.SkillHoldings.PeopleWithSkill[skillId].AsSlice()
@@ -223,7 +225,7 @@ func (api *Api) PersonExists(email string) bool {
 /*
 The method PersonHasSkill() returns true if the given person is registered as
 having the given skill.  Can generate the following errors: UnknownSkill,
-UnknownPerson, CategoryDisallowed.
+UnknownPerson, CannotBestowCategory.
 */
 func (api *Api) PersonHasSkill(email string, skillId int) (
 	hasSkill bool, err error) {
@@ -231,7 +233,7 @@ func (api *Api) PersonHasSkill(email string, skillId int) (
 		return
 	}
 	if api.skillFromId[skillId].Role == Category {
-		err = errors.New(CategoryDisallowed)
+		err = errors.New(CannotBestowCategory)
 		return
 	}
 	sh := api.SkillHoldings
@@ -315,6 +317,40 @@ func (api *Api) RemovePerson(email string) (err error) {
 	delete(api.persFromMail, email)
 	api.SkillHoldings.UnRegisterPerson(*departingPerson)
 	delete(api.UiStates, email)
+	return
+}
+
+/*
+The RemoveSkill() method removes a skill from the model's hierachy of skills.
+It can generate the following errors: UnknownSkill,
+CannotRemoveSkillWithChildren, CannotRemoveRootSkill.
+*/
+func (api *Api) RemoveSkill(skillId int) (err error) {
+	// Be sure to keep this symmetrical with RemoveSkill
+	if err = api.tweakParams(nil, &skillId); err != nil {
+		return
+	}
+	// The order of the following 2 tests makes it easier to design tests.
+	if skillId == api.SkillRoot {
+		err = errors.New(CannotRemoveRootSkill)
+		return
+	}
+	departingSkill := api.skillFromId[skillId]
+	if len(departingSkill.Children) != 0 {
+		err = errors.New(CannotRemoveSkillWithChildren)
+		return
+	}
+	parentSkill := api.skillFromId[departingSkill.Parent]
+	parentSkill.removeChild(skillId)
+	oldList := api.Skills
+	api.Skills = []*skillNode{}
+	for _, incumbentSkill := range oldList {
+		if incumbentSkill != departingSkill {
+			api.Skills = append(api.Skills, incumbentSkill)
+		}
+	}
+	delete(api.skillFromId, skillId)
+	api.SkillHoldings.UnRegisterSkill(*departingSkill)
 	return
 }
 

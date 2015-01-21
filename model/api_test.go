@@ -88,7 +88,7 @@ func TestBestowCategorySkill(t *testing.T) {
 	skill, _ := api.AddSkill(Category, "", "", -1)
 	api.AddPerson("fred.bloggs")
 	err := api.GivePersonSkill("fred.bloggs", skill)
-	testutil.AssertErrGenerated(t, err, CategoryDisallowed,
+	testutil.AssertErrGenerated(t, err, CannotBestowCategory,
 		"Give someone a category not a skill")
 }
 
@@ -163,6 +163,29 @@ func TestRemovePerson(t *testing.T) {
 	testutil.AssertErrGenerated(t, err, UnknownPerson, "Remove Person")
 }
 
+func TestRemoveSkill(t *testing.T) {
+	api := buildSimpleModel(t)
+	// Try to remove a skill with children
+	err := api.RemoveSkill(3)
+	testutil.AssertErrGenerated(t, err, CannotRemoveSkillWithChildren,
+		"Remove Skill")
+	// No error generated for legitimate usage.
+	err = api.RemoveSkill(4)
+	testutil.AssertNilErr(t, err, "Remove Skill")
+	// Try to remove an unnkown skill
+	err = api.RemoveSkill(999)
+	testutil.AssertErrGenerated(t, err, UnknownSkill, "Remove Skill")
+	// Try to remove the root skill
+	err = api.RemoveSkill(1)
+	testutil.AssertErrGenerated(t, err, CannotRemoveRootSkill,
+		"Remove Skill")
+	// Check that the skill that was removed has been forgotten in every way
+	_, err = api.PeopleWithSkill(4)
+	testutil.AssertErrGenerated(t, err, UnknownSkill, "Remove Skill")
+	skills, _, err := api.EnumerateTree("fred.bloggs")
+	testutil.AssertEqSliceInt(t, skills, []int{1, 3, 2}, "Tree enumerator")
+}
+
 //-----------------------------------------------------------------------------
 // Exercise Queries
 //-----------------------------------------------------------------------------
@@ -198,7 +221,7 @@ func TestPeopleWithSkillQuery(t *testing.T) {
 		"People with skill getter")
 
 	emails, err = api.PeopleWithSkill(1)
-	testutil.AssertErrGenerated(t, err, CategoryDisallowed,
+	testutil.AssertErrGenerated(t, err, CannotBestowCategory,
 		"People with skill getter")
 }
 
@@ -224,7 +247,7 @@ func TestHasPersonSkillQuery(t *testing.T) {
 		"People with skill getter")
 
 	hasSkill, err = api.PersonHasSkill("fred.bloggs", 1)
-	testutil.AssertErrGenerated(t, err, CategoryDisallowed,
+	testutil.AssertErrGenerated(t, err, CannotBestowCategory,
 		"People with skill getter")
 }
 
