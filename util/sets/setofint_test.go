@@ -30,4 +30,11 @@ func TestSetOfInt(t *testing.T) {
 	set.Overwrite([]int{1, 2, 3})
 	testutil.AssertEqInt(t, len(set.data), 3, "length of set")
 	testutil.AssertTrue(t, set.Contains(1), "set contents")
+
+	// Check removal
+	set.Remove(2)
+	testutil.AssertEqInt(t, len(set.data), 2, "length of set")
+	testutil.AssertTrue(t, set.Contains(1), "set contents")
+	testutil.AssertFalse(t, set.Contains(2), "set contents")
+	testutil.AssertTrue(t, set.Contains(3), "set contents")
 }

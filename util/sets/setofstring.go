@@ -24,6 +24,11 @@ func (set *SetOfString) Add(str string) {
 	set.data[str] = true
 }
 
+// The function Remove(), removes the given value from the set.
+func (set *SetOfString) Remove(str string) {
+	delete(set.data, str)
+}
+
 // The function Contains() tests for the presence of the given value in
 // the set.
 func (set *SetOfString) Contains(str string) bool {

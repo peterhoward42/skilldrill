@@ -44,6 +44,18 @@ func (sh *skillHoldings) registerPerson(email string) {
 }
 
 /*
+The UnRegisterPerson method, removes all traces of the given person from the
+data that this class holds.
+*/
+func (sh *skillHoldings) UnRegisterPerson(toGo person) {
+	setOfSkills := sh.SkillsOfPerson[toGo.Email]
+	for _, skillId := range setOfSkills.AsSlice() {
+		sh.PeopleWithSkill[skillId].Remove(toGo.Email)
+	}
+	delete(sh.SkillsOfPerson, toGo.Email)
+}
+
+/*
 The method bind() adds the given skill to the set of skills held for the given
 person. The skill and the person are automatically registered if they have not
 been previously.  An error is generated if the skill is a CATEGORY.

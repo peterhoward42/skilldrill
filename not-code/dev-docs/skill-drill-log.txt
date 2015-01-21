@@ -13,24 +13,24 @@
         *  Lower case email
         *  Add in app state and user states
         *  Api to edit skill desc and title
-        *  Api to get desc / title with / without context or just that of parent.
+        *  Api to get desc / title with / without context or just that 
+           of parent.
         *  List emails of people with skill
         *  Has this user, this skill
         *  Timeout to ensure children in tree are in a sequence, and that they
            are kept in alpha order
         *  Skills seq from tree excl collapsed, with hier level
         *  Move skill to diff part of hierachy
-        o  Case of addchild?
-        o  Remove a skill / person
-        o  Places that use append - look for init size
-            o  Tried first example, but crashes on out of range exception.
-               Come back to later.
-            o  Modify:
-                o  skill node add child
-                o  skillwording method
-                o  lineage() close by
-                o  sets guid size
+        *  Case of addchild?
+        *  Remove a person
+            *  Start testing up
+            *  How prove has been lost to supplemental ds?
+            *  Add remove unit test to both in and strin gset
+            *  Is overwrite still called on sets? (yes)
+            *  Back fit comments before checkin
+        o  Remove a skill
         o  Some api fns orphaned at end of module
+        o  Api getting a bit big
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------

@@ -30,6 +30,11 @@ func (s *SetOfInt) Add(val int) {
 	s.data[val] = true
 }
 
+// The function Remove(), removes the given value from the set.
+func (set *SetOfInt) Remove(val int) {
+	delete(set.data, val)
+}
+
 // The function Contains() tests for the presence of the given value in
 // the set.
 func (s *SetOfInt) Contains(val int) bool {

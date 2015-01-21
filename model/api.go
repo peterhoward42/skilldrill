@@ -81,6 +81,7 @@ func (api *Api) AddPerson(email string) (err error) {
 	if ok {
 		return errors.New(PersonExists)
 	}
+	// be sure to keep this symmetrical with RemovePerson()
 	incomer := newPerson(email)
 	api.People = append(api.People, incomer)
 	api.persFromMail[email] = incomer
@@ -212,6 +213,14 @@ func (api *Api) PeopleWithSkill(skillId int) (emails []string, err error) {
 }
 
 /*
+The method PersonExists() returns true if the given person is registered.
+*/
+func (api *Api) PersonExists(email string) bool {
+	_, exists := api.persFromMail[email]
+	return exists
+}
+
+/*
 The method PersonHasSkill() returns true if the given person is registered as
 having the given skill.  Can generate the following errors: UnknownSkill,
 UnknownPerson, CategoryDisallowed.
@@ -281,6 +290,31 @@ func (api *Api) ReParentSkill(toMove int, newParent int) (err error) {
 	oldParentSkill.removeChild(toMove)
 	newParentSkill.addChild(toMove)
 	childSkill.Parent = newParent
+	return
+}
+
+/*
+The RemovePerson() method removes a previously registered person from the model
+in terms of the user name part of their email address. It is an error to pass
+in a person that does not exist in the model. The email address is coerced to
+lowercase.
+*/
+func (api *Api) RemovePerson(email string) (err error) {
+	if err = api.tweakParams(&email, nil); err != nil {
+		return
+	}
+	// be sure to keep this symmetrical with AddPerson()
+	departingPerson := api.persFromMail[email]
+	oldList := api.People
+	api.People = []*person{}
+	for _, incumbentPerson := range oldList {
+		if incumbentPerson != departingPerson {
+			api.People = append(api.People, incumbentPerson)
+		}
+	}
+	delete(api.persFromMail, email)
+	api.SkillHoldings.UnRegisterPerson(*departingPerson)
+	delete(api.UiStates, email)
 	return
 }
 

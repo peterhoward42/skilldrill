@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"github.com/peterhoward42/skilldrill/util/testutil"
 	"sort"
 	"strings"
@@ -60,7 +59,6 @@ func TestChildrenOrderedAlphabetically(t *testing.T) {
 	for _, child := range childIds {
 		titles = append(titles, api.skillFromId[child].Title)
 	}
-	fmt.Printf("\ntitles retrieved in test: %v\n", titles)
 	testutil.AssertTrue(t, sort.StringsAreSorted(titles),
 		"Children are not sorted.")
 }
@@ -154,6 +152,15 @@ func TestMoveSkillInTree(t *testing.T) {
 	api = buildSimpleModel(t)
 	err = api.ReParentSkill(3, 4)
 	testutil.AssertErrGenerated(t, err, ParentNotCategory, "Re parenting skill")
+}
+
+func TestRemovePerson(t *testing.T) {
+	api := buildSimpleModel(t)
+	err := api.RemovePerson("fred.bloggs")
+	testutil.AssertNilErr(t, err, "Remove Person")
+	testutil.AssertFalse(t, api.PersonExists("fred.bloggs"), "Remove Person")
+	err = api.RemovePerson("no suchperson")
+	testutil.AssertErrGenerated(t, err, UnknownPerson, "Remove Person")
 }
 
 //-----------------------------------------------------------------------------
