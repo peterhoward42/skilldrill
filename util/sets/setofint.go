@@ -35,6 +35,15 @@ func (set *SetOfInt) Remove(val int) {
 	delete(set.data, val)
 }
 
+// The function RemoveIfPresent(), removes the given value from the set if the
+// value is present, but does not object when it is not.
+func (set *SetOfInt) RemoveIfPresent(val int) {
+	if set.Contains(val) == false {
+		return
+	}
+	set.Remove(val)
+}
+
 // The function Contains() tests for the presence of the given value in
 // the set.
 func (s *SetOfInt) Contains(val int) bool {

@@ -185,7 +185,11 @@ func TestRemoveSkill(t *testing.T) {
 	testutil.AssertErrGenerated(t, err, CannotRemoveSkillHeld,
 		"Remove Skill")
 
-	// No error generated for legitimate usage.
+	// Before we test for legitimate usage, we will get john smith to collapse
+	// the tree node that is about to go, so that we can check that it no
+	// longer shows up in his collapsed skill node set.
+	err = api.CollapseSkill("john.smith", 2)
+	testutil.AssertNilErr(t, err, "Collapse Skill.")
 	err = api.RemoveSkill(2)
 	testutil.AssertNilErr(t, err, "Remove Skill")
 
@@ -193,7 +197,9 @@ func TestRemoveSkill(t *testing.T) {
 	_, err = api.PeopleWithSkill(2)
 	testutil.AssertErrGenerated(t, err, UnknownSkill, "Remove Skill")
 	skills, _, err := api.EnumerateTree("john.smith")
-	testutil.AssertEqSliceInt(t, skills, []int{1, 3, 4}, "Tree enumerator")
+	testutil.AssertEqSliceInt(t, skills, []int{1, 3, 4}, "Remove Skill")
+	testutil.AssertFalse(t,
+		api.UiStates["john.smith"].CollapsedNodes.Contains(2), "Remove Skill")
 }
 
 //-----------------------------------------------------------------------------

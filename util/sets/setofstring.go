@@ -29,6 +29,15 @@ func (set *SetOfString) Remove(str string) {
 	delete(set.data, str)
 }
 
+// The function RemoveIfPresent(), removes the given value from the set if the
+// value is present, but does not object when it is not.
+func (set *SetOfString) RemoveIfPresent(val string) {
+	if set.Contains(val) == false {
+		return
+	}
+	set.Remove(val)
+}
+
 // The function Contains() tests for the presence of the given value in
 // the set.
 func (set *SetOfString) Contains(str string) bool {

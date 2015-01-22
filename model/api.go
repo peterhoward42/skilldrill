@@ -267,6 +267,40 @@ func (api *Api) EnumerateTree(email string) (skills []int,
 //--------------------------------------------------------------------------
 
 /*
+The SetSkillTitle() method replaces the given skill's title with the text
+given. Can generate the following errors: SkillUnknown error, TooLong.
+*/
+func (api *Api) SetSkillTitle(skillId int, newTitle string) (err error) {
+	if err = api.tweakParams(nil, &skillId); err != nil {
+		return
+	}
+	skill := api.skillFromId[skillId]
+	if len(newTitle) > MaxSkillTitle {
+		err = errors.New(TooLong)
+		return
+	}
+	skill.Title = newTitle
+	return
+}
+
+/*
+The SetSkillDesc() method replaces the given skill's description with the text
+given. Can generate the following errors: SkillUnknown error, TooLong.
+*/
+func (api *Api) SetSkillDesc(skillId int, newDesc string) (err error) {
+	if err = api.tweakParams(nil, &skillId); err != nil {
+		return
+	}
+	if len(newDesc) > MaxSkillDesc {
+		err = errors.New(TooLong)
+		return
+	}
+	skill := api.skillFromId[skillId]
+	skill.Desc = newDesc
+	return
+}
+
+/*
 The method ReParentSkill() moves a skill node and all its children to a
 different position in the tree. The new parent given must be a skill node with
 the CATEGORY role. The following errors can be generated: UnknownSkill,
@@ -326,7 +360,7 @@ It can generate the following errors: UnknownSkill,
 CannotRemoveSkillWithChildren, CannotRemoveRootSkill. CannotRemoveSkillHeld.
 */
 func (api *Api) RemoveSkill(skillId int) (err error) {
-	// Be sure to keep this symmetrical with RemoveSkill
+	// Be sure to keep this symmetrical with AddSkill
 	if err = api.tweakParams(nil, &skillId); err != nil {
 		return
 	}
@@ -355,6 +389,10 @@ func (api *Api) RemoveSkill(skillId int) (err error) {
 		}
 	}
 	delete(api.skillFromId, skillId)
+	// fart for all people, remove this skillid from their collapsed nodes
+	for _, skillHolder := range api.People {
+		api.UiStates[skillHolder.Email].CollapsedNodes.RemoveIfPresent(skillId)
+	}
 	api.SkillHoldings.UnRegisterSkill(*departingSkill)
 	return
 }
@@ -418,38 +456,4 @@ func (api *Api) tweakParams(email *string, skillId *int) (err error) {
 // The method titleFromId() exists to satisfy the titleMapper interface.
 func (api *Api) titleFromId(skillUid int) (title string) {
 	return api.skillFromId[skillUid].Title
-}
-
-/*
-The SetSkillTitle() method replaces the given skill's title with the text
-given. Can generate the following errors: SkillUnknown error, TooLong.
-*/
-func (api *Api) SetSkillTitle(skillId int, newTitle string) (err error) {
-	if err = api.tweakParams(nil, &skillId); err != nil {
-		return
-	}
-	skill := api.skillFromId[skillId]
-	if len(newTitle) > MaxSkillTitle {
-		err = errors.New(TooLong)
-		return
-	}
-	skill.Title = newTitle
-	return
-}
-
-/*
-The SetSkillDesc() method replaces the given skill's description with the text
-given. Can generate the following errors: SkillUnknown error, TooLong.
-*/
-func (api *Api) SetSkillDesc(skillId int, newDesc string) (err error) {
-	if err = api.tweakParams(nil, &skillId); err != nil {
-		return
-	}
-	if len(newDesc) > MaxSkillDesc {
-		err = errors.New(TooLong)
-		return
-	}
-	skill := api.skillFromId[skillId]
-	skill.Desc = newDesc
-	return
 }

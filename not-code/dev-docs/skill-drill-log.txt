@@ -31,8 +31,15 @@
         *  Remove a skill
         *  Change semantics of remove fns to disallow removal of skills that a
            person has
-        o  Some api fns orphaned at end of module
-        o  Api getting a bit big
+        *  Some api fns orphaned at end of module
+        *  Api getting a bit big (it's ok)
+        *  Does remove person remove their user state? (yes)
+        *  Does remove skill purge that skill from collapsed records?
+        o  Rather than propogate - should we observe with callbacks?
+            o  Consider how would do, and if cleaner.
+            o  Consider performance implications of redundant firings.
+        o  Expand a skill tree node
+            o  Fold into collapse as boolean?
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
@@ -49,11 +56,8 @@ Model use cases
     *  From lifecycle
         *  Serialise whole model
         *  Build model from serialised
-    o  From admin
-        o  Move skill to diff part of hierachy
-        o  Rename a skill
+    *  From admin
+        *  Move skill to diff part of hierachy
+        *  Rename a skill
 -------------------------------------------------------------------------------
-State for one user
-    o  Which skill nodes are collapsed is sufficient setofint
-    o  States for all users - one of these in map per email
 -------------------------------------------------------------------------------

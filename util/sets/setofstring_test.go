@@ -37,4 +37,15 @@ func TestSetOfString(t *testing.T) {
 	testutil.AssertTrue(t, set.Contains("A"), "set contents")
 	testutil.AssertFalse(t, set.Contains("B"), "set contents")
 	testutil.AssertTrue(t, set.Contains("C"), "set contents")
+
+	// Check remove-if-present
+	set = NewSetOfString()
+	set.Add("A")
+	set.Add("B")
+	set.Add("C")
+	set.RemoveIfPresent("wontbethere")
+	testutil.AssertEqInt(t, len(set.AsSlice()), 3, "Remove if present.")
+	set.RemoveIfPresent("B")
+	testutil.AssertEqInt(t, len(set.AsSlice()), 2, "Remove if present.")
+	testutil.AssertFalse(t, set.Contains("B"), "Remove if present")
 }
