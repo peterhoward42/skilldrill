@@ -165,25 +165,35 @@ func TestRemovePerson(t *testing.T) {
 
 func TestRemoveSkill(t *testing.T) {
 	api := buildSimpleModel(t)
+
 	// Try to remove a skill with children
 	err := api.RemoveSkill(3)
 	testutil.AssertErrGenerated(t, err, CannotRemoveSkillWithChildren,
 		"Remove Skill")
-	// No error generated for legitimate usage.
-	err = api.RemoveSkill(4)
-	testutil.AssertNilErr(t, err, "Remove Skill")
+
 	// Try to remove an unnkown skill
 	err = api.RemoveSkill(999)
 	testutil.AssertErrGenerated(t, err, UnknownSkill, "Remove Skill")
+
 	// Try to remove the root skill
 	err = api.RemoveSkill(1)
 	testutil.AssertErrGenerated(t, err, CannotRemoveRootSkill,
 		"Remove Skill")
+
+	// Try to remove a skill that has people registered agains it
+	err = api.RemoveSkill(4)
+	testutil.AssertErrGenerated(t, err, CannotRemoveSkillHeld,
+		"Remove Skill")
+
+	// No error generated for legitimate usage.
+	err = api.RemoveSkill(2)
+	testutil.AssertNilErr(t, err, "Remove Skill")
+
 	// Check that the skill that was removed has been forgotten in every way
-	_, err = api.PeopleWithSkill(4)
+	_, err = api.PeopleWithSkill(2)
 	testutil.AssertErrGenerated(t, err, UnknownSkill, "Remove Skill")
-	skills, _, err := api.EnumerateTree("fred.bloggs")
-	testutil.AssertEqSliceInt(t, skills, []int{1, 3, 2}, "Tree enumerator")
+	skills, _, err := api.EnumerateTree("john.smith")
+	testutil.AssertEqSliceInt(t, skills, []int{1, 3, 4}, "Tree enumerator")
 }
 
 //-----------------------------------------------------------------------------

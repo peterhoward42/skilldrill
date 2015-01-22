@@ -29,7 +29,7 @@
             *  Is overwrite still called on sets? (yes)
             *  Back fit comments before checkin
         *  Remove a skill
-        o  Change semantics of remove fns to disallow removal of skills that a
+        *  Change semantics of remove fns to disallow removal of skills that a
            person has
         o  Some api fns orphaned at end of module
         o  Api getting a bit big
@@ -56,26 +56,4 @@ Model use cases
 State for one user
     o  Which skill nodes are collapsed is sufficient setofint
     o  States for all users - one of these in map per email
--------------------------------------------------------------------------------
-
-/*
-The method sortChildrenByTitle() does an in-place sort of the given node's
-children - in alphabetical order of title.
-*/
-func (parent *skillNode) sortChildrenByTitle() {
-	origPositions := map[string]int{}
-	titles := []string{}
-	for idx, skillId := range parent.children {
-        skill := api.
-		title := skill.Title
-		origPositions[title] = idx
-		titles = append(titles, title)
-	}
-	sortedTitles := sort.Strings(titles)
-	for _, title := range sortedTitles {
-		origPosn := origPositions[title]
-		sorted = append(sorted, unsorted[origPosn].Title)
-	}
-	return
-}
 -------------------------------------------------------------------------------

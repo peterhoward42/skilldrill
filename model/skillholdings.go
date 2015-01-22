@@ -60,6 +60,9 @@ The UnRegisterSkill method, removes all traces of the given skill from the
 data that this class holds.
 */
 func (sh *skillHoldings) UnRegisterSkill(toGo skillNode) {
+	// The Api has a poliy that prevents this being called when there
+	// are people registered with this skill, but we cope with that
+	// eventuality so the method remains coherent.
 	setOfPeople := sh.PeopleWithSkill[toGo.Uid]
 	for _, email := range setOfPeople.AsSlice() {
 		sh.SkillsOfPerson[email].Remove(toGo.Uid)

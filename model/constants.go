@@ -18,6 +18,7 @@ const (
 const (
 	CannotBestowCategory          = "Cannot give someone a CATEGORY skill."
 	CannotRemoveRootSkill         = "Cannot remove the root skill."
+	CannotRemoveSkillHeld         = "Cannot remove a skill that people have."
 	CannotRemoveSkillWithChildren = "Cannot remove skill with children"
 	IllegalWithRoot               = "Cannot be done with root skill."
 	ParentNotCategory             = "Parent must be a category node."

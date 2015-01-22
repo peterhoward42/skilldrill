@@ -323,14 +323,14 @@ func (api *Api) RemovePerson(email string) (err error) {
 /*
 The RemoveSkill() method removes a skill from the model's hierachy of skills.
 It can generate the following errors: UnknownSkill,
-CannotRemoveSkillWithChildren, CannotRemoveRootSkill.
+CannotRemoveSkillWithChildren, CannotRemoveRootSkill. CannotRemoveSkillHeld.
 */
 func (api *Api) RemoveSkill(skillId int) (err error) {
 	// Be sure to keep this symmetrical with RemoveSkill
 	if err = api.tweakParams(nil, &skillId); err != nil {
 		return
 	}
-	// The order of the following 2 tests makes it easier to design tests.
+	// The order of the following tests makes it easier to design tests.
 	if skillId == api.SkillRoot {
 		err = errors.New(CannotRemoveRootSkill)
 		return
@@ -340,6 +340,11 @@ func (api *Api) RemoveSkill(skillId int) (err error) {
 		err = errors.New(CannotRemoveSkillWithChildren)
 		return
 	}
+	if len(api.SkillHoldings.PeopleWithSkill[skillId].AsSlice()) != 0 {
+		err = errors.New(CannotRemoveSkillHeld)
+		return
+	}
+
 	parentSkill := api.skillFromId[departingSkill.Parent]
 	parentSkill.removeChild(skillId)
 	oldList := api.Skills
