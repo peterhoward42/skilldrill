@@ -389,9 +389,9 @@ func (api *Api) RemoveSkill(skillId int) (err error) {
 		}
 	}
 	delete(api.skillFromId, skillId)
-	// fart for all people, remove this skillid from their collapsed nodes
+	// For all people, remove this skillid from their collapsed nodes
 	for _, skillHolder := range api.People {
-		api.UiStates[skillHolder.Email].CollapsedNodes.RemoveIfPresent(skillId)
+		api.UiStates[skillHolder.Email].NotifySkillIsRemoved(skillId)
 	}
 	api.SkillHoldings.UnRegisterSkill(*departingSkill)
 	return

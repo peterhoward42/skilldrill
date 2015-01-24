@@ -2,47 +2,42 @@
                                     Skill Drill Log
 
 -------------------------------------------------------------------------------
-        *  Serialise
-        *  set classes move to lib
-        *  unit test for sets
-        *  Deserialise
-        *  Consider interplay and dupe with serialize and api tests
-        *  Use test assertions in older tests
-        *  Move to test util or util/testutil package, with maybe lib move too
-        *  Find how to fmt all or test all
-        *  Lower case email
-        *  Add in app state and user states
-        *  Api to edit skill desc and title
-        *  Api to get desc / title with / without context or just that 
-           of parent.
-        *  List emails of people with skill
-        *  Has this user, this skill
-        *  Timeout to ensure children in tree are in a sequence, and that they
-           are kept in alpha order
-        *  Skills seq from tree excl collapsed, with hier level
-        *  Move skill to diff part of hierachy
-        *  Case of addchild?
-        *  Remove a person
-            *  Start testing up
-            *  How prove has been lost to supplemental ds?
-            *  Add remove unit test to both in and strin gset
-            *  Is overwrite still called on sets? (yes)
-            *  Back fit comments before checkin
-        *  Remove a skill
-        *  Change semantics of remove fns to disallow removal of skills that a
-           person has
-        *  Some api fns orphaned at end of module
-        *  Api getting a bit big (it's ok)
-        *  Does remove person remove their user state? (yes)
-        *  Does remove skill purge that skill from collapsed records?
-        o  Rather than propogate - should we observe with callbacks?
-            o  Consider how would do, and if cleaner.
-            o  Consider performance implications of redundant firings.
-        o  Expand a skill tree node
-            o  Fold into collapse as boolean?
+o  Sense that got too complicated
+    *  Record smells
+    *  Consider remedies at concept level
+    *  Nail names of types and modules
+    o  Skeleton out modules with type structs only
 
 -------------------------------------------------------------------------------
+o  Record smells
+    o  Api part of model rather than separate from
+    o  Too many layers
+    o  Too much logic in API layer
+    o  Fragile to remember which objects might need changing when
+       skill or person added or removed.
+    o  Category and skill maybe should be different
+    o  Having to use Uid's too much internally, when pointers would be
+       better.
+    o  Drifted away from perfectly consistent naming conventions.
+    o  Too much volume of code given to error handling.
+    o  Having UXP mixed in with global data model.
+    o  Alpha ordering of children should be straightforward.
+    o  Tree is insufficiently first class.
 -------------------------------------------------------------------------------
+o  Remedies - conceptual
+    o  Have separate type for top model from api
+    o  Thin API and demand more autonomy from sub models.
+    o  When persons or skills are added or removed send alert message to
+       all potentially interested parties by treating them as a collection that
+       are obliged to support the alert interface.
+    o  Separate categories and skills.
+    o  Don't use Uid in any interfaces except those of API
+    o  Write naming rules in advance.
+    o  All errors would arise from programming errors, not user errors -
+       so log them and generate crash. Kinda must idiom.
+    o  Have first class skill tree type.
+    o  Separate UXP model into separate package.
+
 -------------------------------------------------------------------------------
 Model use cases
     *  From user actions
@@ -60,4 +55,17 @@ Model use cases
         *  Move skill to diff part of hierachy
         *  Rename a skill
 -------------------------------------------------------------------------------
+email and ids are plain types
+
+Custom types
+    External
+        ModelApi
+    Internal
+        model
+        skill
+        branch
+        skillHoldings
+
+    uiState
+    uiStateStore
 -------------------------------------------------------------------------------

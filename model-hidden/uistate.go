@@ -30,3 +30,7 @@ directly, so as to push responsibility for validating the skillNode externally.
 func (s *uiState) collapseNode(node *skillNode) {
 	s.CollapsedNodes.Add(node.Uid)
 }
+
+func (s *uiState) NotifySkillIsRemoved(skillId int) {
+	s.CollapsedNodes.RemoveIfPresent(skillId)
+}
