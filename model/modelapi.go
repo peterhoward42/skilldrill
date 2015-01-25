@@ -1,20 +1,20 @@
 package model
 
 type ModelApi struct {
-    impl *modelImpl
+	impl *modelImpl
 }
 
 func NewModelApi() *ModelApi {
-    return &ModelApi{
-        impl: newModelImpl(),
-    }
+	return &ModelApi{
+		impl: newModelImpl(),
+	}
 }
 
 func (api *ModelApi) AddPerson(emailName string) {
-    api.impl.addPerson(emailName)
+	api.impl.addPerson(emailName)
 }
 
-func (api *ModelApi) AddSkillNode(title string, description string, 
-    parent int) (uid int) {
-    return api.impl.addSkillNode(title, description, parent)
+func (api *ModelApi) AddSkillNode(title string, description string,
+	parent int) (uid int) {
+	return api.impl.addSkillNode(title, description, parent)
 }

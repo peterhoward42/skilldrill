@@ -29,7 +29,7 @@ func buildSimpleModel(t *testing.T) *ModelApi {
 	skillAAA, _ := api.AddSkillNode(Skill, "AAA", "AAA description", skillAA)
 	api.GivePersonSkill("fred.bloggs", skillAAA)
 
-    api.CollapseSkill("fred.bloggs", skillAA)
+	api.CollapseSkill("fred.bloggs", skillAA)
 
 	//              A(1)
 	//        AA(2)      AB(3)

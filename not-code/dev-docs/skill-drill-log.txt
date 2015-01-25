@@ -7,6 +7,9 @@ o  Sense that got too complicated
     *  Consider remedies at concept level
     *  Nail names of types and modules
     o  Skeleton out modules with type structs only
+        o  rename some modules
+        o  reinstate min error handling
+            o  survey which to retain
 
 -------------------------------------------------------------------------------
 o  Record smells
