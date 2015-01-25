@@ -13,6 +13,11 @@ func newHoldings() *holdings {
 }
 
 
-func (holdings *holdings) personAdded(emailName string) {
+func (holdings *holdings) addPerson(emailName string) {
     holdings.skillsOfPeople[emailName] = []*skillNode{}
 }
+
+func (holdings *holdings) notifySkillAdded(incomer *skillNode) {
+    holdings.peopleWithSkill[incomer] = []*string{}
+}
+

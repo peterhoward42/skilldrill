@@ -21,20 +21,16 @@ func newSkillTree() (*skillTree) {
     return sktr
 }
 
-func (tree *skillTree) addSkillNode(title string, desc description, 
-    parent int) (uid int) {
-    uid = tree.nextUid()
+func (tree *skillTree) addSkillNode(title string, desc string, 
+    parent int) (skillId int, skillNode *skillNode) {
+    skillId = tree.nextUid()
     incomer = &skillNode{title, desc, uid, nil, []*skillNode{}}
-    tree.nodeFromUid[uid] = incomer
+    tree.nodeFromUid[skillId] = incomer
     if parent == -1 {
         tree.head = incomer
         return
     }
     parentNode := tree.nodesFromUid[parent]
     parentNode.addChild(incomer)
-}
-
-// Satisfy required interfaces
-
-func (tree *skillTree) personAdded(emailName string) {
+    return skillId, incomer
 }

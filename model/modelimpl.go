@@ -4,7 +4,6 @@ type modelImpl struct {
     tree    *skillTree
     holdings *holdings
     uiStates *uiStates
-    observers []changeObserver
 }
 
 func newModelImpl() *modelImpl {
@@ -15,22 +14,17 @@ func newModelImpl() *modelImpl {
         tree:    tree,
         holdings: holdings,
         uiStates: uiStates,
-        observers: []changeObserver{tree, holdings, uiStates},
     }
 }
 
 func (impl *modelImpl) addPerson(emailName string) {
-    impl.propagatePersonAdded(emailName)
+    impl.holdings.addPerson(emailName)
+    impl.uiStates.notifyPersonAdded(emailName)
 }
 
 func (impl *modelImpl) addSkillNode(title string, 
-    description string, parent int) (uid int) {
-    skillNode := impl.tree.addSkillNode(title, description, parent)
-    impl.propagateSkillNodeAdded(skillNode)
-}
-
-func (impl *modelImpl) propagatePersonAdded(emailName string) {
-    for _, observer := range impl.observers {
-        observer.personAdded(emailName)
-    }
+    description string, parent int) (skillId int) {
+    skillId, skillNode := impl.tree.addSkillNode(title, description, parent)
+    impl.holdings.notifySkillAdded(skillNode)
+    return
 }

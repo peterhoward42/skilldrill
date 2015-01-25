@@ -16,11 +16,10 @@ type uiStates struct {
 
 func newUiStates() *uiStates {
     return &uiStates{
-        stateOfPerson: map[string]*uiState{},
+        statesOfPeople: map[string]*uiState{},
     }
 }
 
-// Mandated Interface
-func (states *uiStates) personAdded(emailName string) {
-    states.stateOfPerson[emailName] = newUiState()
+func (states *uiStates) notifyPersonAdded(emailName string) {
+    states.statesOfPeople[emailName] = newUiState()
 }
