@@ -7,7 +7,12 @@ type holdings struct {
 
 func newHoldings() *holdings {
     return &holdings{
-        skillsOfPeople: make(map[string][]*skillNode),
-        peopleWithSkill: make(map[*skillNode][]*string),
+        skillsOfPeople: map[string][]*skillNode{},
+        peopleWithSkill: map[*skillNode][]*string{},
     }
+}
+
+
+func (holdings *holdings) personAdded(emailName string) {
+    holdings.skillsOfPeople[emailName] = []*skillNode{}
 }
