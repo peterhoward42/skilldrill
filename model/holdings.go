@@ -29,7 +29,11 @@ func (holdings *holdings) personExists(emailName string) bool {
     return exists
 }
 
-func (holdings *holdings) skillExists(skillId int) bool {
-    _, exists := holdings.peopleWithSkill[skillId]
-    return exists
+func (holdings *holdings) givePersonSkill(skill *skillNode, emailName string) {
+    holdings.skillsOfPeople[emailName].Add(skill.uid)
+    holdings.peopleWithSkill[skill].Add(emailName)
+}
+
+func (holdings *holdings) someoneHasThisSkill(skill *skillNode) bool {
+    return len(holdings.peopleWithSkill[skill].AsSlice()) != 0
 }

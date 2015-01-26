@@ -6,7 +6,7 @@ type model struct {
 	uiStates *uiStates
 }
 
-func newModel() *modelImpl {
+func newModel() *model{
 	tree := newTree()
 	holdings := newHoldings()
 	uiStates := newUiStates()
@@ -30,12 +30,19 @@ func (model *model) addRootSkillNode(title string,
 	description string) (skillId int) {
     skillNode, skillId := model.tree.addRootSkillNode(title, description)
     model.holdings.notifySkillAdded(skillNode)
+    return
 }
 
 func (model *model) addChildSkillNode(title string,
 	description string, parent int) (skillId int) {
-    skillNode, skillId := model.tree.addChildSkillNode(title, description)
+    skillNode, skillId := model.tree.addChildSkillNode(title, 
+        description, parent)
     model.holdings.notifySkillAdded(skillNode)
+    return
+}
+
+func (model *model) givePersonSkill(skill *skillNode, emailName string) {
+    model.holdings.givePersonSkill(skill, emailName)
 }
 
 //---------------------------------------------------------------------------

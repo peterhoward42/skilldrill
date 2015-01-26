@@ -19,20 +19,22 @@ func newTree() *tree {
 //----------------------------------------------------------------------------
 
 func (tree *tree) addRootSkillNode(title string,
-	desc string) (skillId int, newNode *skillNode) {
+	desc string) (newNode *skillNode, skillId int) {
 	skillId = tree.nextUid()
 	newNode = newSkillNode(title, desc, skillId, nil)
 	tree.nodeFromUid[skillId] = newNode
 	tree.root = newNode
+    return
 }
 
 func (tree *tree) addChildSkillNode(title string, desc string,
-	parent int) (skillId int, newNode *skillNode) {
+	parent int) (newNode *skillNode, skillId int) {
 	skillId = tree.nextUid()
 	parentSkill := tree.nodeFromUid[parent]
 	newNode = newSkillNode(title, desc, skillId, parentSkill)
 	tree.nodeFromUid[skillId] = newNode
 	parentSkill.addChild(newNode)
+    return
 }
 
 //----------------------------------------------------------------------------

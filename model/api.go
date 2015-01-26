@@ -12,13 +12,15 @@ import (
 )
 
 /*
-The Api type exposes the exernal API to the model package. When pre existing
+The Api type exposes the exernal API to the model package. When pre-existing
 skill Uids or email addresses are used as parameters to the Api methods, these
-are validated at the Api level, so that the other modules can be simpler and
-clearer.
+(and similar validations) are checked at the Api level, so that the other
+modules can be simpler and clearer. When editing operations are being done,
+these will generally be delegated to the model object, where side effects are
+managed. But read-only access to the model's members, is permitted from the
+api.
 */
-type Api struct {
-	model *model
+type Api struct { model *model
 }
 
 func NewApi() *Api {
@@ -56,14 +58,36 @@ func (api *Api) AddSkillNode(title string, description string,
 		skillId = api.model.addRootSkillNode(title, description)
 		return
 	}
-	if api.model.holdings.skillExists(parent) == false {
+    var parentNode *skillNode;
+	if parentNode, exists := 
+            api.model.tree.nodeFromUid[parent]; exists == false {
 		err = errors.New(UnknownSkill)
         return
 	}
-	if api.model.tree.skillIsALeaf(parent) {
+	if api.model.holdings.someoneHasThisSkill(parentNode) {
 		err = errors.New(IllegalForLeaf)
         return
 	}
 	skillId = api.model.addChildSkillNode(title, description, parent)
 	return
+}
+
+/*
+The GivePersonSkill method registers the given person as having the given
+skill. You cannot assign skills in the tree that have children to people.
+Errors: UnknownSkill, UnknownPerson, DisallowedForAParent.
+*/
+func (api *Api) GivePersonSkill(emailName string, skillId int) (err error) {
+	if api.model.holdings.personExists(emailName) == false {
+		err = errors.New(UnknownPerson)
+        return
+	}
+    var skill *skillNode;
+	if skill, exists := 
+            api.model.tree.nodeFromUid[skillId]; exists == false {
+		err = errors.New(UnknownSkill)
+        return
+	}
+    api.model.givePersonSkill(skill, emailName)
+    return
 }
