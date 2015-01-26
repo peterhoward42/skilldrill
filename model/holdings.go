@@ -23,3 +23,8 @@ func (holdings *holdings) notifyPersonAdded(emailName string) {
 func (holdings *holdings) notifySkillAdded(incomer *skillNode) {
 	holdings.peopleWithSkill[incomer] = sets.NewSetOfString()
 }
+
+func (holdings *holdings) personExists(emailName string) bool {
+    _, exists := holdings.skillsOfPeople[emailName]
+    return exists
+}

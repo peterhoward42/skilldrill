@@ -17,10 +17,10 @@ func TestBasics(t *testing.T) {
 // Helper functions
 //-----------------------------------------------------------------------------
 
-func buildSimpleModel(t *testing.T) *ModelApi {
+func buildSimpleModel(t *testing.T) *Api {
 	// Don't change this ! - many tests are dependent on its behaviour and the
 	// UIDs generated for the skills added.
-	api := NewModelApi()
+	api := NewApi()
 	api.AddPerson("fred.bloggs")
 	api.AddPerson("john.smith")
 	skillA, _ := api.AddSkillNode("A title", "A description", -1)
