@@ -18,7 +18,7 @@ func newTree() *tree {
 // Add operations
 //----------------------------------------------------------------------------
 
-func (tree *skillTree) addRootSkillNode(title string,
+func (tree *tree) addRootSkillNode(title string,
 	desc string) (skillId int, newNode *skillNode) {
 	skillId = tree.nextUid()
 	newNode = newSkillNode(title, desc, skillId, nil)
@@ -26,7 +26,7 @@ func (tree *skillTree) addRootSkillNode(title string,
 	tree.root = newNode
 }
 
-func (tree *skillTree) addChildSkillNode(title string, desc string,
+func (tree *tree) addChildSkillNode(title string, desc string,
 	parent int) (skillId int, newNode *skillNode) {
 	skillId = tree.nextUid()
 	parentSkill := tree.nodeFromUid[parent]
@@ -39,7 +39,7 @@ func (tree *skillTree) addChildSkillNode(title string, desc string,
 // Query operations
 //----------------------------------------------------------------------------
 
-func (tree *skillTree) treeIsEmpty() bool {
+func (tree *tree) treeIsEmpty() bool {
     return tree.root == nil
 }
 
@@ -47,7 +47,7 @@ func (tree *skillTree) treeIsEmpty() bool {
 // Internal operations
 //----------------------------------------------------------------------------
 
-func (tree *skillTree) nextUid() int {
+func (tree *tree) nextUid() int {
 	tree.nextId += 1
 	return tree.nextId
 }

@@ -26,24 +26,21 @@ func (model *model) addPerson(emailName string) {
 	model.uiStates.notifyPersonAdded(emailName)
 }
 
-func (model *model) addSkillNode(title string,
+func (model *model) addRootSkillNode(title string,
+	description string) (skillId int) {
+    skillNode, skillId := model.tree.addRootSkillNode(title, description)
+    model.holdings.notifySkillAdded(skillNode)
+}
+
+func (model *model) addChildSkillNode(title string,
 	description string, parent int) (skillId int) {
-	skillId, skillNode := model.tree.addSkillNode(title, description, parent)
-	model.holdings.notifySkillAdded(skillNode)
-	return
+    skillNode, skillId := model.tree.addChildSkillNode(title, description)
+    model.holdings.notifySkillAdded(skillNode)
 }
 
 //---------------------------------------------------------------------------
 // Query operations
 //---------------------------------------------------------------------------
-
-func (model *model) personExists(emailName string) bool {
-    return model.holdings.personExists(emailName)
-}
-
-func (model *model) treeIsEmpty() bool {
-    return model.tree.isEmpty()
-}
 
 //---------------------------------------------------------------------------
 // Edit operations

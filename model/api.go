@@ -32,7 +32,7 @@ The AddPerson method adds a person to the model. A person is defined throughout
 the model by the name part of their email address. Errors: PersonExists.
 */
 func (api *Api) AddPerson(emailName string) (err error) {
-	if api.model.personExists(emailName) {
+	if api.model.holdings.personExists(emailName) {
 		err = errors.New(PersonExists)
         return
 	}
@@ -52,15 +52,15 @@ and children may not be added to it subsequently. Errors: UnknownSkill
 */
 func (api *Api) AddSkillNode(title string, description string,
 	parent int) (skillId int, err error) {
-	if api.model.treeIsEmpty() {
+	if api.model.tree.treeIsEmpty() {
 		skillId = api.model.addRootSkillNode(title, description)
 		return
 	}
-	if api.model.skillExists(parent) == false {
+	if api.model.holdings.skillExists(parent) == false {
 		err = errors.New(UnknownSkill)
         return
 	}
-	if api.model.skillIsALeaf(parent) {
+	if api.model.tree.skillIsALeaf(parent) {
 		err = errors.New(IllegalForLeaf)
         return
 	}

@@ -28,3 +28,8 @@ func (holdings *holdings) personExists(emailName string) bool {
     _, exists := holdings.skillsOfPeople[emailName]
     return exists
 }
+
+func (holdings *holdings) skillExists(skillId int) bool {
+    _, exists := holdings.peopleWithSkill[skillId]
+    return exists
+}
