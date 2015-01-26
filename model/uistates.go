@@ -1,13 +1,21 @@
 package model
 
+import (
+	"github.com/peterhoward42/skilldrill/util/sets"
+)
+
 type uiState struct {
-	collapsed []*skillNode
+	collapsed *sets.SetOfInt
 }
 
 func newUiState() *uiState {
 	return &uiState{
-		collapsed: []*skillNode{},
+		collapsed: sets.NewSetOfInt(),
 	}
+}
+
+func (state *uiState) toggleCollapsed(skill *skillNode) {
+	state.collapsed.TogglePresenceOf(skill.uid)
 }
 
 type uiStates struct {

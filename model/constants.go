@@ -5,7 +5,8 @@ package model
 const (
 	DisallowedForAParent  = "Illegal for node with children."
 	CannotRemoveSkillHeld = "Cannot remove a skill that people have."
-	IllegalForLeaf        = "Cannot add child to a <held> skill."
+	IllegalForHeldSkill   = "Cannot add child to a <held> skill."
+	IllegalWhenNoChildren = "Cannot do this to a skill without children."
 	IllegalWithRoot       = "Cannot be done with root skill."
 	PersonExists          = "Person exists."
 	UnknownPerson         = "Person does not exist."

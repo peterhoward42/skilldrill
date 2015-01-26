@@ -38,6 +38,16 @@ func (set *SetOfString) RemoveIfPresent(val string) {
 	set.Remove(val)
 }
 
+// The function TogglePresenceOf(), removes the given item if it is present,
+// or (inversely) adds it, if it is not.
+func (set *SetOfString) TogglePresenceOf(val string) {
+	if set.Contains(val) {
+		set.Remove(val)
+	} else {
+		set.Add(val)
+	}
+}
+
 // The function Contains() tests for the presence of the given value in
 // the set.
 func (set *SetOfString) Contains(str string) bool {

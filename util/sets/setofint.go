@@ -44,6 +44,16 @@ func (set *SetOfInt) RemoveIfPresent(val int) {
 	set.Remove(val)
 }
 
+// The function TogglePresenceOf(), removes the given item if it is present,
+// or (inversely) adds it, if it is not.
+func (set *SetOfInt) TogglePresenceOf(val int) {
+	if set.Contains(val) {
+		set.Remove(val)
+	} else {
+		set.Add(val)
+	}
+}
+
 // The function Contains() tests for the presence of the given value in
 // the set.
 func (s *SetOfInt) Contains(val int) bool {

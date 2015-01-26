@@ -48,4 +48,19 @@ func TestSetOfString(t *testing.T) {
 	set.RemoveIfPresent("B")
 	testutil.AssertEqInt(t, len(set.AsSlice()), 2, "Remove if present.")
 	testutil.AssertFalse(t, set.Contains("B"), "Remove if present")
+
+	// Check toggle presence of
+	set = NewSetOfString()
+	set.Add("A")
+	set.Add("B")
+	set.Add("C")
+	set.TogglePresenceOf("B")
+	testutil.AssertEqInt(t, len(set.AsSlice()), 2, "Toggle presence of.")
+	testutil.AssertFalse(t, set.Contains("B"), "Toggle presence of.")
+	set.TogglePresenceOf("B")
+	testutil.AssertEqInt(t, len(set.AsSlice()), 3, "Toggle presence of.")
+	testutil.AssertTrue(t, set.Contains("B"), "Toggle presence of.")
+	set.TogglePresenceOf("wontbethere")
+	testutil.AssertEqInt(t, len(set.AsSlice()), 4, "Toggle presence of.")
+	testutil.AssertTrue(t, set.Contains("wontbethere"), "Toggle presence of.")
 }

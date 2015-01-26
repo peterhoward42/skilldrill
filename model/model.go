@@ -6,7 +6,7 @@ type model struct {
 	uiStates *uiStates
 }
 
-func newModel() *model{
+func newModel() *model {
 	tree := newTree()
 	holdings := newHoldings()
 	uiStates := newUiStates()
@@ -28,21 +28,21 @@ func (model *model) addPerson(emailName string) {
 
 func (model *model) addRootSkillNode(title string,
 	description string) (skillId int) {
-    skillNode, skillId := model.tree.addRootSkillNode(title, description)
-    model.holdings.notifySkillAdded(skillNode)
-    return
+	skillNode, skillId := model.tree.addRootSkillNode(title, description)
+	model.holdings.notifySkillAdded(skillNode)
+	return
 }
 
 func (model *model) addChildSkillNode(title string,
 	description string, parent int) (skillId int) {
-    skillNode, skillId := model.tree.addChildSkillNode(title, 
-        description, parent)
-    model.holdings.notifySkillAdded(skillNode)
-    return
+	skillNode, skillId := model.tree.addChildSkillNode(title,
+		description, parent)
+	model.holdings.notifySkillAdded(skillNode)
+	return
 }
 
 func (model *model) givePersonSkill(skill *skillNode, emailName string) {
-    model.holdings.givePersonSkill(skill, emailName)
+	model.holdings.givePersonSkill(skill, emailName)
 }
 
 //---------------------------------------------------------------------------
@@ -50,5 +50,9 @@ func (model *model) givePersonSkill(skill *skillNode, emailName string) {
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-// Edit operations
+// UiState operations (in model space)
 //---------------------------------------------------------------------------
+
+func (model *model) toggleSkillCollapsed(emailName string, skill *skillNode) {
+	model.uiStates.stateOfPerson[emailName].toggleCollapsed(skill)
+}

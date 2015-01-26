@@ -10,6 +10,8 @@ o  Sense that got too complicated
         *  rename some modules
         *  reinstate min error handling
         *  split node and tree
+        *  compile up
+        o  add tests for toggle presence of
 
 -------------------------------------------------------------------------------
 o  Record smells

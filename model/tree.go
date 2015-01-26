@@ -24,7 +24,7 @@ func (tree *tree) addRootSkillNode(title string,
 	newNode = newSkillNode(title, desc, skillId, nil)
 	tree.nodeFromUid[skillId] = newNode
 	tree.root = newNode
-    return
+	return
 }
 
 func (tree *tree) addChildSkillNode(title string, desc string,
@@ -34,7 +34,7 @@ func (tree *tree) addChildSkillNode(title string, desc string,
 	newNode = newSkillNode(title, desc, skillId, parentSkill)
 	tree.nodeFromUid[skillId] = newNode
 	parentSkill.addChild(newNode)
-    return
+	return
 }
 
 //----------------------------------------------------------------------------
@@ -42,7 +42,12 @@ func (tree *tree) addChildSkillNode(title string, desc string,
 //----------------------------------------------------------------------------
 
 func (tree *tree) treeIsEmpty() bool {
-    return tree.root == nil
+	return tree.root == nil
+}
+
+func (tree *tree) skillExists(skillId int) bool {
+	_, exists := tree.nodeFromUid[skillId]
+	return exists
 }
 
 //----------------------------------------------------------------------------

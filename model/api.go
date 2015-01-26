@@ -8,7 +8,7 @@ methods belonging to the Api type.
 package model
 
 import (
-    "errors"
+	"errors"
 )
 
 /*
@@ -20,7 +20,8 @@ these will generally be delegated to the model object, where side effects are
 managed. But read-only access to the model's members, is permitted from the
 api.
 */
-type Api struct { model *model
+type Api struct {
+	model *model
 }
 
 func NewApi() *Api {
@@ -29,6 +30,10 @@ func NewApi() *Api {
 	}
 }
 
+//----------------------------------------------------------------------------
+// Add methods
+//----------------------------------------------------------------------------
+
 /*
 The AddPerson method adds a person to the model. A person is defined throughout
 the model by the name part of their email address. Errors: PersonExists.
@@ -36,10 +41,10 @@ the model by the name part of their email address. Errors: PersonExists.
 func (api *Api) AddPerson(emailName string) (err error) {
 	if api.model.holdings.personExists(emailName) {
 		err = errors.New(PersonExists)
-        return
+		return
 	}
 	api.model.addPerson(emailName)
-    return
+	return
 }
 
 /*
@@ -58,15 +63,14 @@ func (api *Api) AddSkillNode(title string, description string,
 		skillId = api.model.addRootSkillNode(title, description)
 		return
 	}
-    var parentNode *skillNode;
-	if parentNode, exists := 
-            api.model.tree.nodeFromUid[parent]; exists == false {
+	if api.model.tree.skillExists(parent) == false {
 		err = errors.New(UnknownSkill)
-        return
+		return
 	}
+	parentNode := api.model.tree.nodeFromUid[parent]
 	if api.model.holdings.someoneHasThisSkill(parentNode) {
-		err = errors.New(IllegalForLeaf)
-        return
+		err = errors.New(IllegalForHeldSkill)
+		return
 	}
 	skillId = api.model.addChildSkillNode(title, description, parent)
 	return
@@ -80,14 +84,42 @@ Errors: UnknownSkill, UnknownPerson, DisallowedForAParent.
 func (api *Api) GivePersonSkill(emailName string, skillId int) (err error) {
 	if api.model.holdings.personExists(emailName) == false {
 		err = errors.New(UnknownPerson)
-        return
+		return
 	}
-    var skill *skillNode;
-	if skill, exists := 
-            api.model.tree.nodeFromUid[skillId]; exists == false {
+	if api.model.tree.skillExists(skillId) == false {
 		err = errors.New(UnknownSkill)
-        return
+		return
 	}
-    api.model.givePersonSkill(skill, emailName)
-    return
+	skill := api.model.tree.nodeFromUid[skillId]
+	api.model.givePersonSkill(skill, emailName)
+	return
+}
+
+//----------------------------------------------------------------------------
+// UiState editing (in model space)
+//----------------------------------------------------------------------------
+
+/*
+The ToggleSkillCollapsed method marks the given skill in the tree as being
+collapsed for the given person. (or vice versa depending on the current state).
+It is illegal to call it on a node with no children. Errors: UnknownSkill,
+UnknownPerson, IllegalWhenNoChildren
+*/
+func (api *Api) ToggleSkillCollapsed(
+	emailName string, skillId int) (err error) {
+	if api.model.holdings.personExists(emailName) == false {
+		err = errors.New(UnknownPerson)
+		return
+	}
+	if api.model.tree.skillExists(skillId) == false {
+		err = errors.New(UnknownSkill)
+		return
+	}
+	skill := api.model.tree.nodeFromUid[skillId]
+	if skill.hasChildren() == false {
+		err = errors.New(IllegalWhenNoChildren)
+		return
+	}
+	api.model.toggleSkillCollapsed(emailName, skill)
+	return
 }

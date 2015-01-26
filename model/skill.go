@@ -39,3 +39,7 @@ func (parent *skillNode) addChild(newChild *skillNode) {
 		parent.children = append(parent.children, title2Node[title])
 	}
 }
+
+func (skill *skillNode) hasChildren() bool {
+	return len(skill.children) > 0
+}

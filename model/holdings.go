@@ -25,15 +25,15 @@ func (holdings *holdings) notifySkillAdded(incomer *skillNode) {
 }
 
 func (holdings *holdings) personExists(emailName string) bool {
-    _, exists := holdings.skillsOfPeople[emailName]
-    return exists
+	_, exists := holdings.skillsOfPeople[emailName]
+	return exists
 }
 
 func (holdings *holdings) givePersonSkill(skill *skillNode, emailName string) {
-    holdings.skillsOfPeople[emailName].Add(skill.uid)
-    holdings.peopleWithSkill[skill].Add(emailName)
+	holdings.skillsOfPeople[emailName].Add(skill.uid)
+	holdings.peopleWithSkill[skill].Add(emailName)
 }
 
 func (holdings *holdings) someoneHasThisSkill(skill *skillNode) bool {
-    return len(holdings.peopleWithSkill[skill].AsSlice()) != 0
+	return len(holdings.peopleWithSkill[skill].AsSlice()) != 0
 }
