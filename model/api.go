@@ -123,3 +123,33 @@ func (api *Api) ToggleSkillCollapsed(
 	api.model.toggleSkillCollapsed(emailName, skill)
 	return
 }
+
+//----------------------------------------------------------------------------
+// Queries
+//----------------------------------------------------------------------------
+
+/*
+The EnumerateTree method provides a linear sequence of TreeDisplayItem which
+can be used to used to render the skill tree. It is personalised to a given
+emailName, and will have omitted the children of any skill nodes the person has
+collapsed.  Errors: UnknownPerson
+*/
+func (api *Api) EnumerateTree(emailName string) (
+    displayRows []TreeDisplayItem, err error) {
+	if api.model.holdings.personExists(emailName) == false {
+		err = errors.New(UnknownPerson)
+		return
+	}
+    displayRows = api.model.enumerateTree(emailName)
+    return
+}
+
+
+
+
+
+
+
+
+
+

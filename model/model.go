@@ -49,6 +49,21 @@ func (model *model) givePersonSkill(skill *skillNode, emailName string) {
 // Query operations
 //---------------------------------------------------------------------------
 
+/*
+The EnumerateTree method provides a linear sequence of TreeDisplayItem which
+can be used to used to render the skill tree. It is personalised to a given
+emailName, and will have omitted the children of any skill nodes the person has
+collapsed.
+
+I have created this intermediate, pass-through wrapper in case it is needed to
+inject additional data sources downstream.
+*/
+func (model *model) EnumerateTree(emailName string) (
+    displayRows []TreeDisplayItem) {
+    collapsed := model.uiStates[emailName].collapsed
+    return = api.model.tree.enumerateTree(collapsed)
+}
+
 //---------------------------------------------------------------------------
 // UiState operations (in model space)
 //---------------------------------------------------------------------------

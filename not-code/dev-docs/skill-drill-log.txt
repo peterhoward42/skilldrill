@@ -6,12 +6,17 @@ o  Sense that got too complicated
     *  Record smells
     *  Consider remedies at concept level
     *  Nail names of types and modules
-    o  Skeleton out modules with type structs only
+    *  Skeleton out modules with type structs only
         *  rename some modules
         *  reinstate min error handling
         *  split node and tree
         *  compile up
-        o  add tests for toggle presence of
+        *  add tests for toggle presence of
+        o  test build simple model with new and necessary queries
+            *  return skillids from build simple model
+            o  build up most obvious tests from build process
+        o  test err production
+        o  add tests for additional use cases
 
 -------------------------------------------------------------------------------
 o  Record smells
