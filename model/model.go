@@ -1,5 +1,17 @@
 package model
 
+/*
+The model type is the tip of the modelling pyramid and contains a set of
+subsidiary models - like one to model the skill hiearchy, another to model who
+holds which skill etc. The type provides methods for CRUD operations like
+adding a person or allocating a skill to a person. The model implements its
+methods for the most part by delegating smaller operations to the subsidiary
+models.  It is the model that is responsible for propogating changes between
+the subsidiary models, so that the subsidiary models in turn can have minimal
+scope and coupling. The model methods do NOT check the legitimacy of the
+parameters provided and will panic if they are wrong. For example if an email
+address provided is one that is known to the system.
+*/
 type model struct {
 	tree     *tree
 	holdings *holdings
@@ -49,6 +61,18 @@ func (model *model) givePersonSkill(skill *skillNode, emailName string) {
 // Query operations
 //---------------------------------------------------------------------------
 
+func (model *model) personExists(emailName string) bool {
+	return model.holdings.personExists(emailName)
+}
+
+func (model *model) skillExists(skillId int) bool {
+	return model.holdings.skillExists(model.tree.nodeFromUid[skillId])
+}
+
+func (model *model) titleOfSkill(skillId int) (title string) {
+	return model.tree.titleOfSkill(skillId)
+}
+
 /*
 The EnumerateTree method provides a linear sequence of TreeDisplayItem which
 can be used to used to render the skill tree. It is personalised to a given
@@ -57,12 +81,12 @@ collapsed.
 
 I have created this intermediate, pass-through wrapper in case it is needed to
 inject additional data sources downstream.
-*/
 func (model *model) EnumerateTree(emailName string) (
-    displayRows []TreeDisplayItem) {
-    collapsed := model.uiStates[emailName].collapsed
-    return = api.model.tree.enumerateTree(collapsed)
+	displayRows []TreeDisplayItem) {
+	collapsed := model.uiStates[emailName].collapsed
+	return api.model.tree.enumerateTree(collapsed)
 }
+*/
 
 //---------------------------------------------------------------------------
 // UiState operations (in model space)

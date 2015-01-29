@@ -4,6 +4,10 @@ import (
 	"github.com/peterhoward42/skilldrill/util/sets"
 )
 
+/*
+The holdings type holds which people have which skill and offers CRUD
+operations on this data.
+*/
 type holdings struct {
 	skillsOfPeople  map[string]*sets.SetOfInt
 	peopleWithSkill map[*skillNode]*sets.SetOfString
@@ -26,6 +30,11 @@ func (holdings *holdings) notifySkillAdded(incomer *skillNode) {
 
 func (holdings *holdings) personExists(emailName string) bool {
 	_, exists := holdings.skillsOfPeople[emailName]
+	return exists
+}
+
+func (holdings *holdings) skillExists(skillNode *skillNode) bool {
+	_, exists := holdings.peopleWithSkill[skillNode]
 	return exists
 }
 

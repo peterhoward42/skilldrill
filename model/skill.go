@@ -4,6 +4,10 @@ import (
 	"sort"
 )
 
+/*
+The skillNode holds information about one skill, in terms of a title, a
+description and references to its parent and children.
+*/
 type skillNode struct {
 	title    string
 	desc     string

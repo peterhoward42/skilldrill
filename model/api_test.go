@@ -9,20 +9,18 @@ import (
 // The basics - smoke tests.
 //-----------------------------------------------------------------------------
 
-func TestBasics(t *testing.T) {
+func TestTrivial(t *testing.T) {
 	api, skillIds := buildSimpleModel(t)
-    _ = api
-    _ = skillIds
-}
-
-func TestSimpleContent(t *testing.T) {
-	api, skillIds := buildSimpleModel(t)
-    testutil.AssertTrue(t, api.model.holdings.personExists(
-                "fred.bloggs"), "Content correct.")
-    skillIds, depths, fredHas := api.EnumerateTree("fred.bloggs")
-    testutil.AssertEqInt(t, len(skillIds), 3, "tree data")
-
-    _ = skillIds
+	testutil.AssertTrue(t, api.PersonExists("fred.bloggs"), "Person exists")
+	testutil.AssertEqInt(t, len(skillIds), 4, "Number of skills")
+	skillAB := skillIds[2]
+	testutil.AssertTrue(t, api.SkillExists(skillAB), "Skill exists")
+	title, err := api.TitleOfSkill(skillAB),
+	testutil.AssertEqString(t, title, "wontbethis", "Title is right")
+	testutil.AssertTrue(t, api.PersonHasSkill(skillAB,
+		"fred.bloggs"), "Person has skill")
+	testutil.AssertFalse(t, api.PersonHasSkill(skillAB,
+		"john.smith"), "Person has skill")
 }
 
 //-----------------------------------------------------------------------------

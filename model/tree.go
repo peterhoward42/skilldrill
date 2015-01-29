@@ -1,5 +1,13 @@
 package model
 
+/*
+The tree type owns the storage of the skill nodes and their tree-like topology.
+The skills themselves are modelled by the closely-couple skillNode type, and
+each skill node individually contains references to its parent and children.
+However the only object that knows which is the skill at the root of the tree
+is this one, and all the logic that deals with the tree-like topology belongs
+in this tree type.
+*/
 type tree struct {
 	root        *skillNode
 	nodeFromUid map[int]*skillNode
@@ -50,21 +58,23 @@ func (tree *tree) skillExists(skillId int) bool {
 	return exists
 }
 
+func (tree *tree) titleOfSkill(skillId int) (title string) {
+	return tree.nodeFromUid[skillId].title
+}
+
 /*
-The EnumerateTree method provides a linear sequence of TreeDisplayItem which
-can be used to used to render the skill tree. It is personalised to a given
-emailName, and will have omitted the children of any skill nodes the person has
-collapsed.
-*/
+The EnumerateTree method provides a linear sequence of skillIds in the order
+needed to render the tree hierachy.  It is personalised to a given emailName,
+and will have omitted the children of any skill nodes the person has collapsed.
 func (tree *tree) EnumerateTree(collapsedNodes []*skillNode) (
-    displayRows []TreeDisplayItem) {
-    displayRows = []TreeDisplayItem{}
+    skillIds []skillNode) {
+    skillIds = []int
     // Use recursive walker
     depth := 0
     addRowsRecursively(tree.root, depth, &displayRows)
     return
 }
-`
+*/
 
 //----------------------------------------------------------------------------
 // Internal operations
@@ -75,7 +85,8 @@ func (tree *tree) nextUid() int {
 	return tree.nextId
 }
 
-func (tree *tree) addRowsRecursively(startNode *skillNode, 
+/*
+func (tree *tree) addRowsRecursively(startNode *skillNode,
     depth int, rows *[]TreeDisplayItem) {
     *rows = append(*rows, tree.makeOneRow(startNode, depth)
     newDepth := depth + 1
@@ -88,3 +99,4 @@ func (tree *tree) makeOneRow(skill *skillNode, depth int) (
     row *TreeDisplayItem) {
     fart got to here
 }
+*/

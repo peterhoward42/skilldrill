@@ -12,13 +12,11 @@ import (
 )
 
 /*
-The Api type exposes the exernal API to the model package. When pre-existing
-skill Uids or email addresses are used as parameters to the Api methods, these
-(and similar validations) are checked at the Api level, so that the other
-modules can be simpler and clearer. When editing operations are being done,
-these will generally be delegated to the model object, where side effects are
-managed. But read-only access to the model's members, is permitted from the
-api.
+The Api type exposes the exernal API to the model package. In most cases, the
+api methods are simple wrappers to sister methods in the model type which take
+care of validating the input parameters like email names and skill Uids. This
+frees all the other modules from checking method parameters, and thus keeps
+them simpler.
 */
 type Api struct {
 	model *model
@@ -128,28 +126,35 @@ func (api *Api) ToggleSkillCollapsed(
 // Queries
 //----------------------------------------------------------------------------
 
+func (api *Api) PersonExists(emailName string) bool {
+    return api.model.personExists(emailName)
+}
+
+func (api *Api) SkillExists(skillId int) bool {
+    return api.model.skillExists(skillId)
+}
+
+func (api *Api) TitleOfSkill(skillId int) (title string, err error) {
+	if api.model.tree.skillExists(skillId) == false {
+		err = errors.New(UnknownSkill)
+		return
+	}
+    title = api.model.titleOfSkill(skillId)
+    return
+}
+
 /*
 The EnumerateTree method provides a linear sequence of TreeDisplayItem which
 can be used to used to render the skill tree. It is personalised to a given
 emailName, and will have omitted the children of any skill nodes the person has
 collapsed.  Errors: UnknownPerson
-*/
 func (api *Api) EnumerateTree(emailName string) (
-    displayRows []TreeDisplayItem, err error) {
+	displayRows []TreeDisplayItem, err error) {
 	if api.model.holdings.personExists(emailName) == false {
 		err = errors.New(UnknownPerson)
 		return
 	}
-    displayRows = api.model.enumerateTree(emailName)
-    return
+	displayRows = api.model.enumerateTree(emailName)
+	return
 }
-
-
-
-
-
-
-
-
-
-
+*/
