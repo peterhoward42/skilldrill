@@ -11,21 +11,14 @@ import (
 
 func TestTrivial(t *testing.T) {
 	api, skillIds := buildSimpleModel(t)
-	//skillA := skillIds[0]
-	//skillAA := skillIds[1]
-	skillAB := skillIds[2]
-	skillAAA := skillIds[3]
-
-
-
 	testutil.AssertTrue(t, api.PersonExists("fred.bloggs"), "Person exists")
 	testutil.AssertEqInt(t, len(skillIds), 4, "Number of skills")
-	testutil.AssertTrue(t, api.SkillExists(skillAB), "Skill exists")
-	title, _ := api.TitleOfSkill(skillAB)
+	testutil.AssertTrue(t, api.SkillExists(skillIds["skillAB"]), "Skill exists")
+	title, _ := api.TitleOfSkill(skillIds["skillAB"])
 	testutil.AssertEqString(t, title, "AB", "Title is right")
-    hasSkill, _ := api.PersonHasSkill(skillAAA, "fred.bloggs")
+	hasSkill, _ := api.PersonHasSkill(skillIds["skillAAA"], "fred.bloggs")
 	testutil.AssertTrue(t, hasSkill, "Person has skill")
-    hasSkill, _ = api.PersonHasSkill(skillAAA, "john.smith")
+	hasSkill, _ = api.PersonHasSkill(skillIds["skillAAA"], "john.smith")
 	testutil.AssertFalse(t, hasSkill, "Person has skill")
 }
 
@@ -33,25 +26,27 @@ func TestTrivial(t *testing.T) {
 // Helper functions
 //-----------------------------------------------------------------------------
 
-func buildSimpleModel(t *testing.T) (api *Api, skillIds []int) {
+func buildSimpleModel(t *testing.T) (api *Api, skillIds map[string]int) {
 	// Don't change this ! - many tests are dependent on its behaviour and the
 	// UIDs generated for the skills added.
 	api = NewApi()
 	api.AddPerson("fred.bloggs")
 	api.AddPerson("john.smith")
-	skillA, _ := api.AddSkillNode("A title", "A description", -1)
-	skillAA, _ := api.AddSkillNode("AA", "AA description", skillA)
-	skillAB, _ := api.AddSkillNode("AB", "AB description", skillA)
-	skillAAA, _ := api.AddSkillNode("AAA", "AAA description", skillAA)
-	api.GivePersonSkill("fred.bloggs", skillAAA)
+	skillIds = map[string]int{}
+	skillIds["skillA"], _ = api.AddSkillNode("A title", "A description", -1)
+	skillIds["skillAA"], _ = api.AddSkillNode("AA", "AA description",
+	    	skillIds["skillA"])
+	skillIds["skillAB"], _ = api.AddSkillNode("AB", "AB description",
+	    skillIds["skillA"])
+	skillIds["skillAAA"], _ = api.AddSkillNode("AAA", "AAA description",
+	    skillIds["skillAA"])
+	api.GivePersonSkill("fred.bloggs", skillIds["skillAAA"])
 
-	api.ToggleSkillCollapsed("fred.bloggs", skillAA)
+	api.ToggleSkillCollapsed("fred.bloggs", skillIds["skillAA"])
 
 	//              A(1)
 	//        AA(2)      AB(3)
 	// AAA(4)
 
-	_ = skillAB
-
-	return api, []int{skillA, skillAA, skillAB, skillAAA}
+	return api, skillIds
 }

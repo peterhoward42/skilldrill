@@ -16,10 +16,13 @@ o  Sense that got too complicated
             *  return skillids from build simple model
             o  build up most obvious tests from build process
                 *  switch to eclipse env
-                o  api should call only model fns incl comment
-                o  does eclipse run gocode now?
-                o  what is go fix?
-                o  buildSimple should return ds not slice
+                *  does eclipse run gocode now?
+                *  api should call only model fns incl comment
+                *  uninstall / reinstall gocode with windows build variant
+                   to see if stops crashing / hanging
+                *  buildSimple should return ds not slice
+                o  log into project now in eclipse
+                o  what test next?
 
         o  test err production
         o  add tests for additional use cases
