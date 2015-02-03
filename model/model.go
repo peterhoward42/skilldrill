@@ -61,6 +61,9 @@ func (model *model) givePersonSkill(skill *skillNode, emailName string) {
 // Query operations
 //---------------------------------------------------------------------------
 
+func (model *model) treeIsEmpty() bool {
+	return model.tree.treeIsEmpty()
+}
 func (model *model) personExists(emailName string) bool {
 	return model.holdings.personExists(emailName)
 }
@@ -69,10 +72,21 @@ func (model *model) skillExists(skillId int) bool {
 	return model.holdings.skillExists(model.tree.nodeFromUid[skillId])
 }
 
+
+func (model *model) skillNode(skillId int) (skillNode *skillNode) {
+	return model.tree.nodeFromUid[skillId]
+}
+
+
 func (model *model) personHasSkill(skillId int, email string) (
     hasSkilll bool) {
     return model.holdings.personHasSkill(
         model.tree.nodeFromUid[skillId], email)
+}
+    
+    
+func (model *model) someoneHasThisSkill(skillNode *skillNode) bool {
+	return model.holdings.someoneHasThisSkill(skillNode)
 }
 
 func (model *model) titleOfSkill(skillId int) (title string) {

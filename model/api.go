@@ -37,7 +37,7 @@ The AddPerson method adds a person to the model. A person is defined throughout
 the model by the name part of their email address. Errors: PersonExists.
 */
 func (api *Api) AddPerson(emailName string) (err error) {
-	if api.model.holdings.personExists(emailName) {
+	if api.model.personExists(emailName) {
 		err = errors.New(PersonExists)
 		return
 	}
@@ -57,16 +57,16 @@ and children may not be added to it subsequently. Errors: UnknownSkill
 */
 func (api *Api) AddSkillNode(title string, description string,
 	parent int) (skillId int, err error) {
-	if api.model.tree.treeIsEmpty() {
+	if api.model.treeIsEmpty() {
 		skillId = api.model.addRootSkillNode(title, description)
 		return
 	}
-	if api.model.tree.skillExists(parent) == false {
+	if api.model.skillExists(parent) == false {
 		err = errors.New(UnknownSkill)
 		return
 	}
-	parentNode := api.model.tree.nodeFromUid[parent]
-	if api.model.holdings.someoneHasThisSkill(parentNode) {
+	parentNode := api.model.skillNode(parent)
+	if api.model.someoneHasThisSkill(parentNode) {
 		err = errors.New(IllegalForHeldSkill)
 		return
 	}
@@ -80,15 +80,15 @@ skill. You cannot assign skills in the tree that have children to people.
 Errors: UnknownSkill, UnknownPerson, DisallowedForAParent.
 */
 func (api *Api) GivePersonSkill(emailName string, skillId int) (err error) {
-	if api.model.holdings.personExists(emailName) == false {
+	if api.model.personExists(emailName) == false {
 		err = errors.New(UnknownPerson)
 		return
 	}
-	if api.model.tree.skillExists(skillId) == false {
+	if api.model.skillExists(skillId) == false {
 		err = errors.New(UnknownSkill)
 		return
 	}
-	skill := api.model.tree.nodeFromUid[skillId]
+	skill := api.model.skillNode(skillId)
 	api.model.givePersonSkill(skill, emailName)
 	return
 }
@@ -105,15 +105,15 @@ UnknownPerson, IllegalWhenNoChildren
 */
 func (api *Api) ToggleSkillCollapsed(
 	emailName string, skillId int) (err error) {
-	if api.model.holdings.personExists(emailName) == false {
+	if api.model.personExists(emailName) == false {
 		err = errors.New(UnknownPerson)
 		return
 	}
-	if api.model.tree.skillExists(skillId) == false {
+	if api.model.skillExists(skillId) == false {
 		err = errors.New(UnknownSkill)
 		return
 	}
-	skill := api.model.tree.nodeFromUid[skillId]
+	skill := api.model.skillNode(skillId)
 	if skill.hasChildren() == false {
 		err = errors.New(IllegalWhenNoChildren)
 		return
@@ -135,7 +135,7 @@ func (api *Api) SkillExists(skillId int) bool {
 }
 
 func (api *Api) TitleOfSkill(skillId int) (title string, err error) {
-	if api.model.tree.skillExists(skillId) == false {
+	if api.model.skillExists(skillId) == false {
 		err = errors.New(UnknownSkill)
 		return
 	}
@@ -144,7 +144,7 @@ func (api *Api) TitleOfSkill(skillId int) (title string, err error) {
 }
 
 func (api *Api) PersonHasSkill(skillId int, email string) (
-    hasSkill bool, err error) {
+	hasSkill bool, err error) {
 	if api.model.skillExists(skillId) == false {
 		err = errors.New(UnknownSkill)
 		return
@@ -153,8 +153,8 @@ func (api *Api) PersonHasSkill(skillId int, email string) (
 		err = errors.New(UnknownPerson)
 		return
 	}
-    hasSkill = api.model.personHasSkill(skillId, email)
-    return
+	hasSkill = api.model.personHasSkill(skillId, email)
+	return
 }
 
 /*
