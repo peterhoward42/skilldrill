@@ -15,6 +15,7 @@ o  Sense that got too complicated
         o  test build simple model with new and necessary queries
             *  return skillids from build simple model
             o  build up most obvious tests from build process
+                o  api should call only model fns incl comment
         o  test err production
         o  add tests for additional use cases
 

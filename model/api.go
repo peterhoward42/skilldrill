@@ -127,11 +127,11 @@ func (api *Api) ToggleSkillCollapsed(
 //----------------------------------------------------------------------------
 
 func (api *Api) PersonExists(emailName string) bool {
-    return api.model.personExists(emailName)
+	return api.model.personExists(emailName)
 }
 
 func (api *Api) SkillExists(skillId int) bool {
-    return api.model.skillExists(skillId)
+	return api.model.skillExists(skillId)
 }
 
 func (api *Api) TitleOfSkill(skillId int) (title string, err error) {
@@ -139,8 +139,21 @@ func (api *Api) TitleOfSkill(skillId int) (title string, err error) {
 		err = errors.New(UnknownSkill)
 		return
 	}
-    title = api.model.titleOfSkill(skillId)
-    return
+	title = api.model.titleOfSkill(skillId)
+	return
+}
+
+func (api *Api) PersonHasSkill(skillId int, email string) (
+    hasSkilll bool, err error) {
+	if api.model.skillExists(skillId) == false {
+		err = errors.New(UnknownSkill)
+		return
+	}
+	if api.model.personExists(emailName) == false {
+		err = errors.New(UnknownPerson)
+		return
+	}
+    return api.model.personHasSkill(skillId, email)
 }
 
 /*

@@ -15,7 +15,7 @@ func TestTrivial(t *testing.T) {
 	testutil.AssertEqInt(t, len(skillIds), 4, "Number of skills")
 	skillAB := skillIds[2]
 	testutil.AssertTrue(t, api.SkillExists(skillAB), "Skill exists")
-	title, err := api.TitleOfSkill(skillAB),
+	title, err := api.TitleOfSkill(skillAB)
 	testutil.AssertEqString(t, title, "wontbethis", "Title is right")
 	testutil.AssertTrue(t, api.PersonHasSkill(skillAB,
 		"fred.bloggs"), "Person has skill")
