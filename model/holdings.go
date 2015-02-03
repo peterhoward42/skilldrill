@@ -38,6 +38,11 @@ func (holdings *holdings) skillExists(skillNode *skillNode) bool {
 	return exists
 }
 
+func (holdings *holdings) personHasSkill(skillNode *skillNode, email string) (
+    hasSkill bool) {
+    return holdings.skillsOfPeople[email].Contains(skillNode.uid)
+}
+
 func (holdings *holdings) givePersonSkill(skill *skillNode, emailName string) {
 	holdings.skillsOfPeople[emailName].Add(skill.uid)
 	holdings.peopleWithSkill[skill].Add(emailName)

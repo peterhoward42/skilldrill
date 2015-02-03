@@ -144,16 +144,17 @@ func (api *Api) TitleOfSkill(skillId int) (title string, err error) {
 }
 
 func (api *Api) PersonHasSkill(skillId int, email string) (
-    hasSkilll bool, err error) {
+    hasSkill bool, err error) {
 	if api.model.skillExists(skillId) == false {
 		err = errors.New(UnknownSkill)
 		return
 	}
-	if api.model.personExists(emailName) == false {
+	if api.model.personExists(email) == false {
 		err = errors.New(UnknownPerson)
 		return
 	}
-    return api.model.personHasSkill(skillId, email)
+    hasSkill = api.model.personHasSkill(skillId, email)
+    return
 }
 
 /*

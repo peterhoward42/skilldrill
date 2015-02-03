@@ -15,7 +15,9 @@ o  Sense that got too complicated
         o  test build simple model with new and necessary queries
             *  return skillids from build simple model
             o  build up most obvious tests from build process
+                o  switch to eclipse env
                 o  api should call only model fns incl comment
+                o  buildSimple should return ds not slice
         o  test err production
         o  add tests for additional use cases
 

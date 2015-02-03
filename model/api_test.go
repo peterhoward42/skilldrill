@@ -11,16 +11,22 @@ import (
 
 func TestTrivial(t *testing.T) {
 	api, skillIds := buildSimpleModel(t)
+	//skillA := skillIds[0]
+	//skillAA := skillIds[1]
+	skillAB := skillIds[2]
+	skillAAA := skillIds[3]
+
+
+
 	testutil.AssertTrue(t, api.PersonExists("fred.bloggs"), "Person exists")
 	testutil.AssertEqInt(t, len(skillIds), 4, "Number of skills")
-	skillAB := skillIds[2]
 	testutil.AssertTrue(t, api.SkillExists(skillAB), "Skill exists")
-	title, err := api.TitleOfSkill(skillAB)
-	testutil.AssertEqString(t, title, "wontbethis", "Title is right")
-	testutil.AssertTrue(t, api.PersonHasSkill(skillAB,
-		"fred.bloggs"), "Person has skill")
-	testutil.AssertFalse(t, api.PersonHasSkill(skillAB,
-		"john.smith"), "Person has skill")
+	title, _ := api.TitleOfSkill(skillAB)
+	testutil.AssertEqString(t, title, "AB", "Title is right")
+    hasSkill, _ := api.PersonHasSkill(skillAAA, "fred.bloggs")
+	testutil.AssertTrue(t, hasSkill, "Person has skill")
+    hasSkill, _ = api.PersonHasSkill(skillAAA, "john.smith")
+	testutil.AssertFalse(t, hasSkill, "Person has skill")
 }
 
 //-----------------------------------------------------------------------------

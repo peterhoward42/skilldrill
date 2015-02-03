@@ -69,6 +69,12 @@ func (model *model) skillExists(skillId int) bool {
 	return model.holdings.skillExists(model.tree.nodeFromUid[skillId])
 }
 
+func (model *model) personHasSkill(skillId int, email string) (
+    hasSkilll bool) {
+    return model.holdings.personHasSkill(
+        model.tree.nodeFromUid[skillId], email)
+}
+
 func (model *model) titleOfSkill(skillId int) (title string) {
 	return model.tree.titleOfSkill(skillId)
 }
