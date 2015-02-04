@@ -92,12 +92,15 @@ func (model *model) titleOfSkill(skillId int) (title string) {
 
 /*
 The EnumerateTree method provides a linear sequence of the skill Uids which
-can be used essentiall as an iteratorto used to render the skill tree. Separate
-query methods are available to get the extra data that might be needed for
-each row - like for example its depth in the tree.
+can be used essentiall as an iteratorto used to render the skill tree. It is
+personalised to a particular person in the sense that it will exclude skill
+nodes that that person has collapsed in the (abstract) gui. Separate query 
+methods are available to get the extra data that might be needed for each
+row - like for example its depth in the tree.
 */
-func (model *model) enumerateTree() (skillSeq []int) {
-	return model.tree.enumerateTree()
+func (model *model) enumerateTree(email string) (skillSeq []int) {
+    blacklist := model.uiStates.stateOfPerson[email].collapsed
+	return model.tree.enumerateTree(blacklist)
 }
 
 //---------------------------------------------------------------------------

@@ -27,6 +27,7 @@ o  Sense that got too complicated
                    *  tweak names in enumerate fn to make clearer getting skillid list back
                    *  get to work again
                    o  what about collapsing?
+                      o  inject excluding these (and children) param
                 o  test error production?
         o  serialise test
         o  add tests for additional use cases

@@ -24,15 +24,14 @@ func TestSimpleErrorFreeUse(t *testing.T) {
 
 func TestEnumerateTree(t *testing.T) {
 	api, _ := buildSimpleModel(t)
-	skillSeq := api.EnumerateTree()
-	testutil.AssertEqInt(t, len(skillSeq), 4, "TestEnumerateTree")
-	expected := []string{"A title", "AA", "AAA", "AB"}
+	skillSeq := api.EnumerateTree("fred.bloggs")
+	expected := []string{"A title", "AA", "AB"}
+	testutil.AssertEqInt(t, len(skillSeq), len(expected), "TestEnumerateTree")
 	for idx, skillId := range skillSeq {
 		receivedTitle, _ := api.TitleOfSkill(skillId)
 		testutil.AssertEqString(t, receivedTitle, expected[idx],
-		    "TestEnumerateTree")
+			"TestEnumerateTree")
 	}
-
 }
 
 //-----------------------------------------------------------------------------

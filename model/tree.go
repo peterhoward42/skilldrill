@@ -1,5 +1,9 @@
 package model
 
+import (
+	"github.com/peterhoward42/skilldrill/util/sets"
+)
+
 /*
 The tree type owns the storage of the skill nodes and their tree-like topology.
 The skills themselves are modelled by the closely-couple skillNode type, and
@@ -64,13 +68,15 @@ func (tree *tree) titleOfSkill(skillId int) (title string) {
 
 /*
 The EnumerateTree method provides a linear sequence of the skill Uids which
-can be used essentiall as an iteratorto used to render the skill tree. Separate
-query methods are available to get the extra data that might be needed for
-each row - like for example its depth in the tree.
+can be used essentiall as an iteratorto used to render the skill tree. The
+blacklist specifies which skillIds you want to exclude, and this is taken to
+mean their children also. Separate query methods are available to get the
+extra data that might be needed for each row - like for example its depth in
+the tree.
 */
-func (tree *tree) enumerateTree() (skillSeq []int) {
-    skillSeq = []int{}
-	tree.addRowsRecursively(&skillSeq, tree.root)
+func (tree *tree) enumerateTree(blacklist *sets.SetOfInt) (skillSeq []int) {
+	skillSeq = []int{}
+	tree.addRowsRecursively(&skillSeq, tree.root, blacklist)
 	return
 }
 
@@ -83,10 +89,13 @@ func (tree *tree) nextUid() int {
 	return tree.nextId
 }
 
-
-func (tree *tree) addRowsRecursively(skillSeq *[]int, startNode *skillNode) {
-    *skillSeq = append(*skillSeq, startNode.uid)
-    for _, child := range startNode.children {
-        tree.addRowsRecursively(skillSeq, child)
-    }
+func (tree *tree) addRowsRecursively(skillSeq *[]int, startNode *skillNode,
+	blacklist *sets.SetOfInt) {
+	*skillSeq = append(*skillSeq, startNode.uid)
+	if blacklist.Contains(startNode.uid) {
+		return
+	}
+	for _, child := range startNode.children {
+		tree.addRowsRecursively(skillSeq, child, blacklist)
+	}
 }
