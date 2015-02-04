@@ -25,7 +25,7 @@ o  Sense that got too complicated
                 o  enumerate nodes from tree incl those collapsed as side
                    effect
                    *  tweak names in enumerate fn to make clearer getting skillid list back
-                   o  get to work again
+                   *  get to work again
                    o  what about collapsing?
                 o  test error production?
         o  serialise test

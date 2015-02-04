@@ -26,6 +26,13 @@ func TestEnumerateTree(t *testing.T) {
 	api, _ := buildSimpleModel(t)
 	skillSeq := api.EnumerateTree()
 	testutil.AssertEqInt(t, len(skillSeq), 4, "TestEnumerateTree")
+	expected := []string{"A title", "AA", "AAA", "AB"}
+	for idx, skillId := range skillSeq {
+		receivedTitle, _ := api.TitleOfSkill(skillId)
+		testutil.AssertEqString(t, receivedTitle, expected[idx],
+		    "TestEnumerateTree")
+	}
+
 }
 
 //-----------------------------------------------------------------------------
@@ -41,11 +48,11 @@ func buildSimpleModel(t *testing.T) (api *Api, skillIds map[string]int) {
 	skillIds = map[string]int{}
 	skillIds["skillA"], _ = api.AddSkillNode("A title", "A description", -1)
 	skillIds["skillAA"], _ = api.AddSkillNode("AA", "AA description",
-	    	skillIds["skillA"])
+		skillIds["skillA"])
 	skillIds["skillAB"], _ = api.AddSkillNode("AB", "AB description",
-	    skillIds["skillA"])
+		skillIds["skillA"])
 	skillIds["skillAAA"], _ = api.AddSkillNode("AAA", "AAA description",
-	    skillIds["skillAA"])
+		skillIds["skillAA"])
 	api.GivePersonSkill("fred.bloggs", skillIds["skillAAA"])
 
 	api.ToggleSkillCollapsed("fred.bloggs", skillIds["skillAA"])
