@@ -34,6 +34,15 @@ func TestEnumerateTree(t *testing.T) {
 	}
 }
 
+func TestCollapseNodeToggles(t *testing.T) {
+    api, skills := buildSimpleModel(t)
+    skillAA := skills["aa"]
+    // buildSimpleModel leaves AA in a collapsed state
+    api.ToggleSkillCollapsed("fred.bloggs", skillAA)
+	isCollapsed, _ := api.IsCollapsed("fred.bloggs", skillAA)
+	testutil.AssertFalse(t, isCollapsed, "TestCollapseNode")
+}
+
 //-----------------------------------------------------------------------------
 // Helper functions
 //-----------------------------------------------------------------------------

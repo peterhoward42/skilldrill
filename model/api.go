@@ -157,11 +157,21 @@ func (api *Api) PersonHasSkill(skillId int, email string) (
 	return
 }
 
+func (api *Api) IsCollapsed(email string, skillId int) (
+	collapsed bool, err error) {
+	if api.model.personExists(email) == false {
+		err = errors.New(UnknownPerson)
+		return
+	}
+	collapsed = api.model.isCollapsed(email, skillId)
+	return
+}
+
 /*
 The EnumerateTree method provides a linear sequence of the skill Uids which
 can be used essentiall as an iteratorto used to render the skill tree. It is
 personalised to a particular person in the sense that it will exclude skill
-nodes that that person has collapsed in the (abstract) gui. Separate query 
+nodes that that person has collapsed in the (abstract) gui. Separate query
 methods are available to get the extra data that might be needed for each
 row - like for example its depth in the tree.
 */

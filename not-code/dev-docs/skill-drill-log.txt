@@ -22,12 +22,11 @@ o  Sense that got too complicated
                    to see if stops crashing / hanging
                 *  buildSimple should return ds not slice
                 *  log into project now in eclipse
-                o  enumerate nodes from tree incl those collapsed as side
+                *  enumerate nodes from tree incl those collapsed as side
                    effect
                    *  tweak names in enumerate fn to make clearer getting skillid list back
                    *  get to work again
-                   o  what about collapsing?
-                      o  inject excluding these (and children) param
+                   *  what about collapsing?
                 o  test error production?
         o  serialise test
         o  add tests for additional use cases
