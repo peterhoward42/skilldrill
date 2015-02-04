@@ -161,16 +161,9 @@ func (api *Api) PersonHasSkill(skillId int, email string) (
 The EnumerateTree method provides a linear sequence of the skill Uids which
 can be used essentiall as an iterator to used to render the skill tree. Separate
 query methods are available to get the extra data that might be needed for
-each row - like for example its depth in the tree. It is personalised to a
-given emailName, and will have omitted the children of any skill nodes the
-person has collapsed.  Errors: UnknownPerson
+each row - like for example its depth in the tree.
 */
-func (api *Api) EnumerateTree(emailName string) (
-	treeRows []int, err error) {
-	if api.model.holdings.personExists(emailName) == false {
-		err = errors.New(UnknownPerson)
-		return
-	}
-	displayRows = api.model.enumerateTree(emailName)
+func (api *Api) EnumerateTree() (skillSeq []int) {
+	skillSeq = api.model.enumerateTree()
 	return
 }

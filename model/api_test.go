@@ -23,9 +23,9 @@ func TestSimpleErrorFreeUse(t *testing.T) {
 }
 
 func TestEnumerateTree(t *testing.T) {
-	api, skillIds := buildSimpleModel(t)
-	treeRows, err := api.EnumerateTree("fred.bloggs")
-	testutil.AssertEqInt(t, len(treeRows), 3, "TestEnumerateTree")
+	api, _ := buildSimpleModel(t)
+	skillSeq := api.EnumerateTree()
+	testutil.AssertEqInt(t, len(skillSeq), 4, "TestEnumerateTree")
 }
 
 //-----------------------------------------------------------------------------

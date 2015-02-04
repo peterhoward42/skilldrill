@@ -24,7 +24,9 @@ o  Sense that got too complicated
                 *  log into project now in eclipse
                 o  enumerate nodes from tree incl those collapsed as side
                    effect
-                   o  tweak names in enumerate fn to make clearer getting skillid list back
+                   *  tweak names in enumerate fn to make clearer getting skillid list back
+                   o  get to work again
+                   o  what about collapsing?
                 o  test error production?
         o  serialise test
         o  add tests for additional use cases

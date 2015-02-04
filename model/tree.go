@@ -66,12 +66,12 @@ func (tree *tree) titleOfSkill(skillId int) (title string) {
 The EnumerateTree method provides a linear sequence of the skill Uids which
 can be used essentiall as an iteratorto used to render the skill tree. Separate
 query methods are available to get the extra data that might be needed for
-each row - like for example its depth in the tree. It is personalised to a
-given emailName, and will have omitted the children of any skill nodes the
-person has collapsed.  Errors: UnknownPerson
+each row - like for example its depth in the tree.
 */
-func (tree *treel) enumerateTree(emailName string) (treeRows []int) {
-	return tree.addRowsRecursively(&treeRows, tree.root)
+func (tree *tree) enumerateTree() (skillSeq []int) {
+    skillSeq = []int{}
+	tree.addRowsRecursively(&skillSeq, tree.root)
+	return
 }
 
 //----------------------------------------------------------------------------
@@ -84,9 +84,9 @@ func (tree *tree) nextUid() int {
 }
 
 
-func (tree *tree) addRowsRecursively(treeRows *[]int, startNode *skillNode) {
-    *treeRows = append(*treeRows, startNode.skillUid)
+func (tree *tree) addRowsRecursively(skillSeq *[]int, startNode *skillNode) {
+    *skillSeq = append(*skillSeq, startNode.uid)
     for _, child := range startNode.children {
-        tree.addRowsRecursively(treeRows, child)
+        tree.addRowsRecursively(skillSeq, child)
     }
 }
