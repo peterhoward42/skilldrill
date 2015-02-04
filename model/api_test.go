@@ -9,7 +9,7 @@ import (
 // The basics - smoke tests.
 //-----------------------------------------------------------------------------
 
-func TestTrivial(t *testing.T) {
+func TestSimpleErrorFreeUse(t *testing.T) {
 	api, skillIds := buildSimpleModel(t)
 	testutil.AssertTrue(t, api.PersonExists("fred.bloggs"), "Person exists")
 	testutil.AssertEqInt(t, len(skillIds), 4, "Number of skills")
@@ -20,6 +20,12 @@ func TestTrivial(t *testing.T) {
 	testutil.AssertTrue(t, hasSkill, "Person has skill")
 	hasSkill, _ = api.PersonHasSkill(skillIds["skillAAA"], "john.smith")
 	testutil.AssertFalse(t, hasSkill, "Person has skill")
+}
+
+func TestEnumerateTree(t *testing.T) {
+	api, skillIds := buildSimpleModel(t)
+	treeRows, err := api.EnumerateTree("fred.bloggs")
+	testutil.AssertEqInt(t, len(treeRows), 3, "TestEnumerateTree")
 }
 
 //-----------------------------------------------------------------------------

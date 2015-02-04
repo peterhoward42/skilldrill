@@ -72,19 +72,16 @@ func (model *model) skillExists(skillId int) bool {
 	return model.holdings.skillExists(model.tree.nodeFromUid[skillId])
 }
 
-
 func (model *model) skillNode(skillId int) (skillNode *skillNode) {
 	return model.tree.nodeFromUid[skillId]
 }
 
-
 func (model *model) personHasSkill(skillId int, email string) (
-    hasSkilll bool) {
-    return model.holdings.personHasSkill(
-        model.tree.nodeFromUid[skillId], email)
+	hasSkilll bool) {
+	return model.holdings.personHasSkill(
+		model.tree.nodeFromUid[skillId], email)
 }
-    
-    
+
 func (model *model) someoneHasThisSkill(skillNode *skillNode) bool {
 	return model.holdings.someoneHasThisSkill(skillNode)
 }
@@ -94,19 +91,16 @@ func (model *model) titleOfSkill(skillId int) (title string) {
 }
 
 /*
-The EnumerateTree method provides a linear sequence of TreeDisplayItem which
-can be used to used to render the skill tree. It is personalised to a given
-emailName, and will have omitted the children of any skill nodes the person has
-collapsed.
-
-I have created this intermediate, pass-through wrapper in case it is needed to
-inject additional data sources downstream.
-func (model *model) EnumerateTree(emailName string) (
-	displayRows []TreeDisplayItem) {
-	collapsed := model.uiStates[emailName].collapsed
-	return api.model.tree.enumerateTree(collapsed)
-}
+The EnumerateTree method provides a linear sequence of the skill Uids which
+can be used essentiall as an iteratorto used to render the skill tree. Separate
+query methods are available to get the extra data that might be needed for
+each row - like for example its depth in the tree. It is personalised to a
+given emailName, and will have omitted the children of any skill nodes the
+person has collapsed.  Errors: UnknownPerson
 */
+func (model *model) enumerateTree(emailName string) (treeRows []int) {
+	return model.tree.enumerateTree(emailName)
+}
 
 //---------------------------------------------------------------------------
 // UiState operations (in model space)

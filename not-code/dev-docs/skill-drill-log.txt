@@ -21,10 +21,12 @@ o  Sense that got too complicated
                 *  uninstall / reinstall gocode with windows build variant
                    to see if stops crashing / hanging
                 *  buildSimple should return ds not slice
-                o  log into project now in eclipse
-                o  what test next?
-
-        o  test err production
+                *  log into project now in eclipse
+                o  enumerate nodes from tree incl those collapsed as side
+                   effect
+                   o  tweak names in enumerate fn to make clearer getting skillid list back
+                o  test error production?
+        o  serialise test
         o  add tests for additional use cases
 
 -------------------------------------------------------------------------------
